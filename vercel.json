@@ -3,7 +3,7 @@
   "rewrites": [
     {
       "source": "/api/chat",
-      "destination": "/api/claude.js"
+      "destination": "/api/chat.js"
     }
   ]
 }
