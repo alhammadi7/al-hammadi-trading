@@ -231,6 +231,7 @@ const S = {
   lang: 'ar'
 };
 
+// قاموس الترجمة الشامل
 const translations = {
   en: {
     logoSub: "Professional Trading System",
@@ -312,6 +313,23 @@ const translations = {
   }
 };
 
+// وظيفة تبديل الثيم (مصلحة)
+function toggleTheme() {
+  const html = document.documentElement;
+  const current = html.getAttribute('data-theme');
+  const next = current === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', next);
+  
+  const btn = document.getElementById('themeBtn');
+  if (S.lang === 'ar') {
+    btn.textContent = next === 'dark' ? '☀️ نهاري' : '🌙 ليلي';
+  } else {
+    btn.textContent = next === 'dark' ? '☀️ Day' : '🌙 Night';
+  }
+  setTimeout(buildCharts, 150); [cite: 54]
+}
+
+// وظيفة تبديل اللغة (مصلحة)
 function toggleLang() {
   S.lang = S.lang === 'ar' ? 'en' : 'ar';
   const html = document.documentElement;
@@ -319,71 +337,67 @@ function toggleLang() {
   html.setAttribute('dir', S.lang === 'ar' ? 'rtl' : 'ltr');
   document.getElementById('langBtn').textContent = S.lang === 'ar' ? 'EN' : 'عربي';
   
-  // تحديث كل النصوص التي تملك data-key
   document.querySelectorAll('[data-key]').forEach(el => {
     const key = el.getAttribute('data-key');
     if (translations[S.lang][key]) {
       el.textContent = translations[S.lang][key];
     }
   });
-  updateMacro(); // تحديث التوقعات باللغة الجديدة
+  updateMacro();
 }
 
+// وظيفة التنقل بين الصفحات (مصلحة)
+function showPage(name, el) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active')); [cite: 58]
+  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active')); [cite: 58]
+  
+  const targetPage = document.getElementById('page-' + name);
+  if (targetPage) {
+    targetPage.classList.add('active'); [cite: 58]
+  }
+  
+  if (el) el.classList.add('active'); [cite: 58]
+  
+  if (name === 'journal') { renderJournal(); buildCharts(); } [cite: 58]
+  if (name === 'report') updateReport(); [cite: 58]
+}
+
+// دالة الاتصال بالـ AI
+async function callClaude(messages, maxTokens = 1000) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: maxTokens, messages }) [cite: 59]
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || `HTTP ${res.status}`); [cite: 60, 61]
+  }
+  const data = await res.json();
+  return data.content?.map(c => c.text || '').join('') || ''; [cite: 61]
+}
+
+// جلب الأخبار (محدثة)
 async function fetchAINews() {
   const fed = document.getElementById('fedPolicy').value;
   const risk = document.getElementById('riskApp').value;
   const session = document.getElementById('session').value;
-  const dxy = document.getElementById('dxyStr').value;
   
-  document.getElementById('newsLoading').style.display = 'flex';
-  document.getElementById('newsContainer').innerHTML = '';
+  const loading = document.getElementById('newsLoading');
+  const container = document.getElementById('newsContainer');
+  
+  if(loading) loading.style.display = 'flex'; [cite: 63]
+  if(container) container.innerHTML = ''; [cite: 63]
   
   try {
-    const prompt = `أنت محلل مالي خبير. بناءً على: Fed=${fed}, Risk=${risk}, Session=${session}, DXY=${dxy}. 
-    اجلب أهم 4 أخبار اقتصادية عالمية حقيقية ومحدثة من مصادر موثوقة (مثل Bloomberg, Investing).
-    أجب بتنسيق JSON فقط:
-    {"summary": "ملخص السوق"، "news": [{"title": "العنوان"، "impact": "high/medium/low", "body": "التفاصيل"، "assets": ["XAUUSD"]}]} 
-    اجعل اللغة مطابقة لـ: ${S.lang}`;
+    const prompt = `أنت محلل اقتصادي متخصص. السياق: Fed=${fed||'غير محدد'} | Risk=${risk||'غير محدد'} | Session=${session}.
+أنشئ تقرير أخبار السوق بلغة: ${S.lang === 'ar' ? 'العربية' : 'English'}. أجب بـ JSON فقط:
+{"summary":"ملخص السوق","news":[{"title":"عنوان","impact":"high|medium|low","body":"تفاصيل","assets":["EURUSD"]}]}`; [cite: 64]
 
-    const text = await callClaude([{ role:'user', content: prompt }]);
-    const clean = text.replace(/```json|```/g,'').trim();
-    const parsed = JSON.parse(clean);
+    const text = await callClaude([{ role:'user', content: prompt }]); [cite: 64]
+    const clean = text.replace(/
+http://googleusercontent.com/immersive_entry_chip/0
     
-    // عرض الأخبار وتحديث قسم التوقعات بناءً على الرد
-    renderNews(parsed);
-    renderExpectations(parsed); 
-  } catch(e) {
-    document.getElementById('newsContainer').innerHTML = `<div style="color:var(--red2)">Error: ${e.message}</div>`;
-  }
-  document.getElementById('newsLoading').style.display = 'none';
-}
-
-function renderNews(data) {
-  let html = `<div style="padding:10px; border-radius:8px; background:var(--accent3); color:var(--accent2); margin-bottom:10px">💡 ${data.summary}</div>`;
-  data.news.forEach(n => {
-    const colorClass = n.impact === 'high' ? 'bg-r' : (n.impact === 'medium' ? 'bg-a' : 'bg-b');
-    html += `
-      <div style="padding:10px; background:var(--surface2); border:1px solid var(--border); border-radius:8px; margin-bottom:8px">
-        <div class="flex justify-b items-c">
-          <strong style="font-size:0.85rem">${n.title}</strong>
-          <span class="bg ${colorClass}">${n.impact.toUpperCase()}</span>
-        </div>
-        <p style="font-size:0.75rem; color:var(--text2); margin-top:5px">${n.body}</p>
-      </div>`;
-  });
-  document.getElementById('newsContainer').innerHTML = html;
-}
-
-function renderExpectations(data) {
-  // دالة ذكية لتحديث توقعات الأصول بناءً على تحليل الـ AI للأخبار
-  const container = document.getElementById('macroExpect');
-  // منطق برمجي بسيط أو نطلب من الـ AI إدراج التوقعات ضمن الـ JSON
-  if (data.expectations) {
-     // كود عرض التوقعات
-  }
-}
-
-// ... بقية الوظائف الأساسية من الكود الأصلي ...
 </script>
 </body>
 </html>
