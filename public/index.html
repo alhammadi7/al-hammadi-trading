@@ -178,7 +178,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   </div>
   <div style="display:flex;gap:6px;flex-shrink:0;">
     <button class="ctrl-btn" onclick="toggleLang()" id="langBtn">EN</button>
-    <button class="ctrl-btn" onclick="toggleTheme()" id="themeBtn" data-key="themeBtn">☀️ نهاري</button>
+    <button class="ctrl-btn" onclick="toggleTheme()" id="themeBtn" data-key="themeDay">☀️ نهاري</button>
   </div>
 </header>
 
@@ -193,15 +193,15 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 
 <main class="main">
 
-<!-- MACRO SCAN PAGE -->
+<!-- MACRO SCAN -->
 <div id="page-macro" class="page active">
-  <div class="st"><span data-key="macroScanTitle">📡 Macro Scan</span> <span class="st-badge" data-key="macroScanBadge">أسبوعي / يومي</span></div>
+  <div class="st"><span data-key="navMacro">📡 Macro Scan</span> <span class="st-badge" data-key="macroBadge">أسبوعي / يومي</span></div>
   <div class="g3 mb">
     <div class="card">
       <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="envSettings">إعدادات البيئة</span></div></div>
       <div class="ig"><label class="il" data-key="fedPolicy">سياسة الفائدة — Fed</label><select class="sf" id="fedPolicy" onchange="updateMacro()"><option value="" data-key="choose">اختر...</option><option value="hike" data-key="hike">رفع ↑ Hawkish</option><option value="hold" data-key="hold">ثبات ⟷ Hold</option><option value="cut" data-key="cut">خفض ↓ Dovish</option></select></div>
       <div class="ig"><label class="il" data-key="ecbPolicy">سياسة الفائدة — ECB</label><select class="sf" id="ecbPolicy" onchange="updateMacro()"><option value="" data-key="choose">اختر...</option><option value="hike" data-key="hike">رفع ↑</option><option value="hold" data-key="hold">ثبات ⟷</option><option value="cut" data-key="cut">خفض ↓</option></select></div>
-      <div class="ig"><label class="il" data-key="riskAppetite">شهية المخاطرة</label><select class="sf" id="riskApp" onchange="updateMacro()"><option value="" data-key="choose">اختر...</option><option value="on" data-key="riskOn">Risk-On — شهية عالية</option><option value="off" data-key="riskOff">Risk-Off — نفور</option><option value="neutral" data-key="neutralText">محايدة</option></select></div>
+      <div class="ig"><label class="il" data-key="riskApp">شهية المخاطرة</label><select class="sf" id="riskApp" onchange="updateMacro()"><option value="" data-key="choose">اختر...</option><option value="on" data-key="riskOn">Risk-On — شهية عالية</option><option value="off" data-key="riskOff">Risk-Off — نفور</option><option value="neutral" data-key="neutralText">محايدة</option></select></div>
       <div class="ig"><label class="il" data-key="dxyStrength">قوة الدولار DXY</label><select class="sf" id="dxyStr" onchange="updateMacro()"><option value="" data-key="choose">اختر...</option><option value="strong" data-key="strong">قوي</option><option value="weak" data-key="weak">ضعيف</option><option value="neutral" data-key="neutralText">محايد</option></select></div>
       <div class="ig"><label class="il" data-key="currentSession">الجلسة الحالية</label><select class="sf" id="session"><option value="asian" data-key="tokyo">آسيوية - Tokyo</option><option value="london" data-key="london">لندن - London Open</option><option value="ny" data-key="ny">نيويورك - NY Session</option><option value="overlap" data-key="overlap">Overlap London/NY</option></select></div>
       <button class="btn btn-gold w100 mt" onclick="fetchAINews()" data-key="updateAINews">🤖 تحديث الأخبار بالـ AI</button>
@@ -217,7 +217,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
     </div>
   </div>
   <div class="card mb">
-    <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="marketFilter">اختيار الأسواق — فلترة الفرص</span></div></div>
+    <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="selectMarkets">اختيار الأسواق — فلترة الفرص</span></div></div>
     <div class="section-cat" data-key="usdMajor">عملات مع الدولار USD</div>
     <div class="pairs-grid">
       <div class="pair-chip" onclick="togglePair(this,'EURUSD')"><span class="pair-name">EUR/USD</span><span class="pair-cat">Major</span></div>
@@ -263,9 +263,9 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   </div>
 </div>
 
-<!-- PRE-TRADE PAGE -->
+<!-- PRE-TRADE -->
 <div id="page-precheck" class="page">
-  <div class="st"><span data-key="preTradeTitle">✅ ما قبل الصفقة</span> <span class="st-badge" data-key="preTradeBadge">Checklist كامل</span></div>
+  <div class="st"><span data-key="navPrecheck">✅ ما قبل الصفقة</span> <span class="st-badge" data-key="preTradeBadge">Checklist كامل</span></div>
   <div class="g2">
     <div>
       <div class="card mb">
@@ -301,19 +301,38 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
           <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check1">بيئة السوق محددة</strong> <span data-key="check1Desc">— Risk-On/Off واضح</span></div></div>
           <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check2">لا خبر قوي الآن</strong> <span data-key="check2Desc">— تجنب 30 دقيقة قبل/بعد</span></div></div>
           <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check3">DXY يدعم الاتجاه</strong></div></div>
-          <!-- More items were in your original code; users can re-check them -->
+          <div class="section-cat">— STRUCTURE &amp; BIAS —</div>
+          <div class="ci" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Daily Bias واضح</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>H4 يتوافق مع Daily</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>200 MA يدعم الـ Bias</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>50 MA يدعم الـ Bias</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>HH/HL يتشكل</strong> <span>للـ Buy / LH/LL للـ Sell</span></div></div>
+          <div class="section-cat">— ENTRY QUALITY —</div>
+          <div class="ci" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Setup واضح (أحد النماذج الخمسة)</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Confirmation Candle</strong> <span>— Engulfing / Pin Bar</span></div></div>
+          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>مستوى قوي</strong> <span>— S/R أو Order Block</span></div></div>
+          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>ATR / Volatility كافية</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Confluence</strong> <span>— تقاطع S/R + MA + Pattern</span></div></div>
+          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Session مناسبة</strong> <span>— London/NY أقوى</span></div></div>
+          <div class="section-cat">— RISK MANAGEMENT —</div>
+          <div class="ci" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>SL وراء Structure / Swing</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>RR ≥ 2:1</strong> <span>— الصفقة تستاهل</span></div></div>
+          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Risk ≤ 1% من الحساب</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Daily Loss &lt; 2%</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>لا Correlation تعارض</strong></div></div>
+          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>حالتك النفسية مستقرة</strong></div></div>
         </div>
         <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)">
-            <div class="flex items-c justify-b mb05"><span class="fs07 text-m" data-key="tradeScore">Score الصفقة</span><span id="scoreLabel" class="mono fw7">0/33</span></div>
-            <div class="pb"><div class="pf" id="scoreProg" style="width:0%;background:linear-gradient(90deg,var(--red),var(--accent),var(--green))"></div></div>
-            <div id="scoreDecision" style="margin-top:7px;font-size:.8rem;text-align:center;padding:8px;border-radius:8px"></div>
+          <div class="flex items-c justify-b mb05"><span class="fs07 text-m" data-key="tradeScore">Score الصفقة</span><span id="scoreLabel" class="mono fw7">0/33</span></div>
+          <div class="pb"><div class="pf" id="scoreProg" style="width:0%;background:linear-gradient(90deg,var(--red),var(--accent),var(--green))"></div></div>
+          <div id="scoreDecision" style="margin-top:7px;font-size:.8rem;text-align:center;padding:8px;border-radius:8px"></div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-<!-- RISK CALC PAGE -->
+<!-- RISK CALC -->
 <div id="page-risk" class="page">
   <div class="st"><span data-key="riskCalcTitle">💰 حاسبة الريسك الاحترافية</span></div>
   <div class="g2">
@@ -330,29 +349,43 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
         <div class="ig"><label class="il" data-key="entryLabel">سعر الدخول</label><input type="number" class="if" id="entryP" value="1.0850" step="0.00001" oninput="calcRisk()"></div>
         <div class="ig"><label class="il" data-key="slLabel">Stop Loss</label><input type="number" class="if" id="slP" value="1.0820" step="0.00001" oninput="calcRisk()"></div>
       </div>
+      <div style="padding:9px 11px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);font-size:.76rem;color:var(--text2)">💡 <strong>الـ TP يُحسب أوتوماتيك</strong> بناءً على RR 2:1 و3:1 و4:1</div>
     </div>
     <div>
-        <div class="card mb">
-            <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="calcResults">نتائج الحساب</span></div></div>
-            <div class="rr">
-              <div class="rr-row"><span class="rr-label" data-key="riskAmtRes">مبلغ الريسك</span><span class="rr-value v-ok" id="r-riskAmt">$100</span></div>
-              <div class="rr-row"><span class="rr-label" data-key="riskPctRes">نسبة الريسك</span><span class="rr-value" id="r-riskPct">1%</span></div>
-              <div class="rr-row"><span class="rr-label" data-key="slPipsRes">حجم الـ SL (نقاط)</span><span class="rr-value" id="r-slPips">—</span></div>
-              <div class="rr-row"><span class="rr-label" data-key="lotRes">اللوت الموصى</span><span class="rr-value v-ok" id="r-lot">—</span></div>
-              <div style="height:1px;background:var(--border);margin:6px 0"></div>
-              <div class="rr-row"><span class="rr-label">Stop Loss</span><span class="rr-value v-bad" id="r-sl">—</span></div>
-              <div class="rr-row"><span class="rr-label">🎯 TP1 (2R)</span><span class="rr-value v-ok" id="r-tp1">—</span></div>
-              <div class="rr-row"><span class="rr-label">🎯 TP2 (3R)</span><span class="rr-value v-ok" id="r-tp2">—</span></div>
-              <div class="rr-row"><span class="rr-label">🎯 TP3 (4R)</span><span class="rr-value v-ok" id="r-tp3">—</span></div>
-            </div>
+      <div class="card mb">
+        <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="calcResults">نتائج الحساب</span></div></div>
+        <div class="rr">
+          <div class="rr-row"><span class="rr-label" data-key="riskAmtRes">مبلغ الريسك</span><span class="rr-value v-ok" id="r-riskAmt">$100</span></div>
+          <div class="rr-row"><span class="rr-label" data-key="riskPctRes">نسبة الريسك</span><span class="rr-value" id="r-riskPct">1%</span></div>
+          <div class="rr-row"><span class="rr-label" data-key="slPipsRes">حجم الـ SL (نقاط)</span><span class="rr-value" id="r-slPips">—</span></div>
+          <div class="rr-row"><span class="rr-label" data-key="lotRes">اللوت الموصى</span><span class="rr-value v-ok" id="r-lot">—</span></div>
+          <div style="height:1px;background:var(--border);margin:6px 0"></div>
+          <div class="rr-row"><span class="rr-label">Stop Loss</span><span class="rr-value v-bad" id="r-sl">—</span></div>
+          <div class="rr-row"><span class="rr-label">🎯 TP1 (2R) — اغلق 50%</span><span class="rr-value v-ok" id="r-tp1">—</span></div>
+          <div class="rr-row"><span class="rr-label">🎯 TP2 (3R) — اغلق 25%</span><span class="rr-value v-ok" id="r-tp2">—</span></div>
+          <div class="rr-row"><span class="rr-label">🎯 TP3 (4R)</span><span class="rr-value v-ok" id="r-tp3">—</span></div>
+          <div style="height:1px;background:var(--border);margin:6px 0"></div>
+          <div class="rr-row"><span class="rr-label">ربح عند TP1</span><span class="rr-value v-ok" id="r-p1">—</span></div>
+          <div class="rr-row"><span class="rr-label">ربح عند TP2</span><span class="rr-value v-ok" id="r-p2">—</span></div>
+          <div class="rr-row"><span class="rr-label">ربح عند TP3</span><span class="rr-value v-ok" id="r-p3">—</span></div>
         </div>
+      </div>
+      <div class="card">
+        <div class="ch"><div class="ch-title"><span class="gem"></span>قواعد إدارة الصفقة</div></div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <div style="padding:8px 11px;border-radius:8px;background:var(--surface2);border:1px solid var(--border)"><div class="fs07 text-a fw7 mb05">📍 عند 1R</div><div class="fs08 text-m">حرّك SL إلى نقطة الدخول</div></div>
+          <div style="padding:8px 11px;border-radius:8px;background:rgba(29,184,122,.05);border:1px solid rgba(29,184,122,.2)"><div class="fs07 fw7 mb05" style="color:var(--green2)">✅ عند TP1 (2R)</div><div class="fs08 text-m">اغلق 50% | حرّك SL لـ +0.5R</div></div>
+          <div style="padding:8px 11px;border-radius:8px;background:var(--surface2);border:1px solid var(--border)"><div class="fs07 text-a fw7 mb05">🎯 عند TP2 (3R)</div><div class="fs08 text-m">اغلق 25% | اتركها حتى TP3</div></div>
+          <div style="padding:8px 11px;border-radius:8px;background:rgba(224,60,60,.05);border:1px solid rgba(224,60,60,.15)"><div class="fs07 fw7 mb05" style="color:var(--red2)">🚫 حدود صارمة</div><div class="fs08 text-m">Daily Max: 2% | Weekly Max: 5%</div></div>
+        </div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- CHART ANALYSIS PAGE -->
+<!-- CHART ANALYSIS -->
 <div id="page-chart" class="page">
-  <div class="st"><span data-key="chartAnalysis">📸 تحليل الشارت — AI متخصص</span></div>
+  <div class="st"><span data-key="navChart">📸 تحليل الشارت — AI متخصص</span></div>
   <div class="g2">
     <div>
       <div class="card mb">
@@ -360,61 +393,143 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
         <div class="upload-zone" id="uploadZone" onclick="document.getElementById('fileInput').click()" ondragover="event.preventDefault();this.classList.add('drag')" ondrop="handleDrop(event)" ondragleave="this.classList.remove('drag')">
           <div style="font-size:2rem;margin-bottom:5px">📊</div>
           <div class="fs08 text-m" data-key="uploadClick">اضغط لاختيار صورة</div>
+          <div class="fs07 text-m mt05">PNG / JPG — Screenshot من TradingView</div>
         </div>
         <input type="file" id="fileInput" accept="image/*" multiple onchange="handleFiles(event)">
         <div class="upload-grid" id="uploadGrid"></div>
       </div>
       <div class="card">
         <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="contextTitle">سياق الصفقة</span></div></div>
-        <div class="ig"><label class="il" data-key="contextInputLabel">الأصل والـ Timeframe</label><input type="text" class="if" id="chartCtx" placeholder="EURUSD — H1"></div>
+        <div class="ig"><label class="il" data-key="contextInputLabel">الأصل والـ Timeframe</label><input type="text" class="if" id="chartCtx" placeholder="مثال: XAUUSD — D1 / H4 / H1"></div>
+        <div class="ig"><label class="il">الـ Bias الحالي</label><select class="sf" id="chartBias"><option value="long">Long — أبحث عن شراء</option><option value="short">Short — أبحث عن بيع</option><option value="neutral">Neutral — محتاج رأي AI</option></select></div>
+        <div class="ig"><label class="il">سؤالك أو ملاحظاتك</label><textarea class="tf" id="chartQ" placeholder="مثال: هل هذا Break & Retest صحيح؟ وين أضع الـ SL؟"></textarea></div>
         <button class="btn btn-gold w100" onclick="analyzeChart()" id="analyzeBtn" data-key="analyzeBtn">🤖 تحليل الشارت</button>
       </div>
     </div>
-    <div id="chartAIContainer">
+    <div>
+      <div class="card" style="position:sticky;top:112px">
+        <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="aiAnalysisTitle">تحليل الـ AI المتخصص</span></div></div>
         <div id="chartLoading" class="loading" style="display:none"><div class="spinner"></div><span data-key="aiAnalysisLoading">Claude يحلل الشارت...</span></div>
-        <div id="chartAIBox" class="ai-box"><div class="ai-head"><div class="ai-pulse"></div><span data-key="aiAnalysisTitle">تحليل Claude التداولي</span></div><div class="ai-body" id="chartAIText"></div></div>
+        <div id="chartAIBox" class="ai-box"><div class="ai-head"><div class="ai-pulse"></div>تحليل Claude التداولي</div><div class="ai-body" id="chartAIText"></div></div>
+        <div class="trade-detail" id="tradeDetailCard" style="display:none">
+          <div class="flex items-c justify-b mb05"><span class="fs07 fw7 text-a">تفاصيل الصفقة المقترحة</span><span id="tdDirection" class="bg"></span></div>
+          <div class="td-grid">
+            <div class="td-item"><div class="tdi-label">الدخول</div><div class="tdi-value text-a" id="td-entry">—</div></div>
+            <div class="td-item"><div class="tdi-label">Stop Loss</div><div class="tdi-value text-r" id="td-sl">—</div></div>
+            <div class="td-item"><div class="tdi-label">TP1 (2R)</div><div class="tdi-value text-g" id="td-tp1">—</div></div>
+            <div class="td-item"><div class="tdi-label">TP2 (3R)</div><div class="tdi-value text-g" id="td-tp2">—</div></div>
+            <div class="td-item"><div class="tdi-label">TP3 (4R)</div><div class="tdi-value text-g" id="td-tp3">—</div></div>
+            <div class="td-item"><div class="tdi-label">Setup</div><div class="tdi-value text-a fs08" id="td-setup">—</div></div>
+          </div>
+        </div>
+        <div id="chartPlaceholder" style="text-align:center;padding:3rem;color:var(--text3)"><div style="font-size:2.5rem;margin-bottom:10px">🔍</div><div class="fs08">ارفع شارت واضغط تحليل</div></div>
+      </div>
     </div>
   </div>
 </div>
 
-<!-- JOURNAL PAGE -->
+<!-- JOURNAL -->
 <div id="page-journal" class="page">
-  <div class="st"><span data-key="journalTitle">📓 Trade Journal</span></div>
-  <div class="card mb">
-    <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="addEntryTitle">تسجيل صفقة جديدة</span></div></div>
-    <div style="display:grid;grid-template-columns:repeat(3, 1fr);gap:10px">
-        <div class="ig"><label class="il">Date</label><input type="date" class="if" id="j-date"></div>
-        <div class="ig"><label class="il">Asset</label><input type="text" class="if" id="j-asset" placeholder="EURUSD"></div>
-        <div class="ig"><label class="il">R Score</label><input type="number" class="if" id="j-r" placeholder="+2 or -1"></div>
+  <div class="st"><span data-key="navJournal">📓 Trade Journal</span></div>
+  <div class="g4 mb">
+    <div class="sc"><div class="sc-label">Win Rate</div><div class="sc-value text-g" id="j-wr">0%</div></div>
+    <div class="sc"><div class="sc-label">Average R</div><div class="sc-value" id="j-avgr">0.0R</div></div>
+    <div class="sc"><div class="sc-label">Expectancy</div><div class="sc-value" id="j-exp">0.0R</div></div>
+    <div class="sc"><div class="sc-label">Total R</div><div class="sc-value" id="j-totalr">0.0R</div></div>
+  </div>
+  <div class="g31 mb">
+    <div class="card">
+      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="addEntryTitle">تسجيل صفقة جديدة</span></div></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">
+        <div class="ig"><label class="il">التاريخ</label><input type="date" class="if" id="j-date"></div>
+        <div class="ig"><label class="il">الأصل</label><input type="text" class="if" id="j-asset" placeholder="EURUSD"></div>
+        <div class="ig"><label class="il">الاتجاه</label><select class="sf" id="j-dir"><option value="long">LONG</option><option value="short">SHORT</option></select></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+        <div class="ig"><label class="il">Setup</label><select class="sf" id="j-setup"><option>Break &amp; Retest</option><option>Liquidity Sweep</option><option>Trend Continuation</option><option>Order Block</option><option>FVG / Imbalance</option></select></div>
+        <div class="ig"><label class="il">Session</label><select class="sf" id="j-session"><option>London</option><option>New York</option><option>Asian</option><option>Overlap</option></select></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">
+        <div class="ig"><label class="il">الدخول</label><input type="number" class="if" id="j-entry" step="0.00001"></div>
+        <div class="ig"><label class="il">SL</label><input type="number" class="if" id="j-sl" step="0.00001"></div>
+        <div class="ig"><label class="il">TP</label><input type="number" class="if" id="j-tp" step="0.00001"></div>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
+        <div class="ig"><label class="il">النتيجة (R)</label><input type="number" class="if" id="j-r" step="0.1" placeholder="+2 or -1"></div>
+        <div class="ig"><label class="il">الحالة</label><select class="sf" id="j-outcome"><option value="win">✅ Win</option><option value="loss">❌ Loss</option><option value="be">⟷ BE</option><option value="open">🔓 Open</option></select></div>
+      </div>
+      <div class="ig"><label class="il">الملاحظات والأخطاء</label><textarea class="tf" id="j-notes" placeholder="هل اتبعت الخطة؟ الأخطاء؟ الدرس؟"></textarea></div>
+      <button class="btn btn-gold w100" onclick="addEntry()" data-key="addTradeBtn">+ إضافة الصفقة</button>
     </div>
-    <button class="btn btn-gold w100 mt" onclick="addEntry()" data-key="addTradeBtn">+ إضافة الصفقة</button>
+    <div>
+      <div class="card mb"><div class="ch"><div class="ch-title"><span class="gem"></span>منحنى الرأس المال</div></div><div class="chart-wrap"><canvas id="equityChart"></canvas></div></div>
+      <div class="card"><div class="ch"><div class="ch-title"><span class="gem"></span>توزيع النتائج</div></div><div class="chart-wrap"><canvas id="distChart"></canvas></div></div>
+    </div>
   </div>
   <div class="card">
-    <table class="jt"><thead><tr><th data-key="tableAsset">الأصل</th><th data-key="tableR">R</th></tr></thead><tbody id="jBody"></tbody></table>
+    <div class="ch"><div class="ch-title"><span class="gem"></span>سجل الصفقات</div><button class="btn btn-ghost" style="font-size:.7rem;padding:4px 9px" onclick="exportCSV()">📥 CSV</button></div>
+    <div class="table-wrap"><table class="jt"><thead><tr><th>التاريخ</th><th>الأصل</th><th>الاتجاه</th><th>Setup</th><th>Session</th><th>الدخول</th><th>SL</th><th>TP</th><th>الحالة</th><th>R</th><th>ملاحظات</th><th></th></tr></thead><tbody id="jBody"></tbody></table></div>
   </div>
 </div>
 
-<!-- REPORT PAGE -->
+<!-- WEEKLY REPORT -->
 <div id="page-report" class="page">
-    <div class="st"><span data-key="reportTitle">📊 التقرير الأسبوعي</span></div>
+  <div class="st"><span data-key="navReport">📊 التقرير الأسبوعي</span></div>
+  <div class="g2 mb">
     <div class="card">
-        <div class="ch"><div class="ch-title"><span data-key="genReport">إنشاء التقرير بالـ AI</span></div></div>
-        <button class="btn btn-gold w100" onclick="genReport()" data-key="genReportBtn">📊 إنشاء التقرير الأسبوعي</button>
+      <div class="ch"><div class="ch-title"><span class="gem"></span>إحصائيات الأسبوع</div></div>
+      <div style="display:flex;flex-direction:column;gap:5px">
+        <div class="rr-row"><span class="rr-label">Win Rate</span><span class="rr-value v-ok" id="rw-wr">0%</span></div>
+        <div class="rr-row"><span class="rr-label">Total Trades</span><span class="rr-value" id="rw-t">0</span></div>
+        <div class="rr-row"><span class="rr-label">Avg R/Trade</span><span class="rr-value" id="rw-avg">0R</span></div>
+        <div class="rr-row"><span class="rr-label">Total R</span><span class="rr-value" id="rw-tr">0R</span></div>
+        <div class="rr-row"><span class="rr-label">Best Setup</span><span class="rr-value text-a" id="rw-best">—</span></div>
+      </div>
+      <div class="chart-wrap mt"><canvas id="setupChart"></canvas></div>
     </div>
+    <div class="card">
+      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="genReport">إنشاء التقرير بالـ AI</span></div></div>
+      <div class="ig"><label class="il">ملاحظاتك عن الأسبوع</label><textarea class="tf" id="weekNotes" placeholder="اللي شغل، اللي ما شغل..." style="min-height:90px"></textarea></div>
+      <div class="ig"><label class="il">هدفك للأسبوع القادم</label><input type="text" class="if" id="weekGoal" placeholder="مثال: تحسين تطبيق Liquidity Sweep"></div>
+      <button class="btn btn-gold w100" onclick="genReport()" data-key="genReportBtn">📊 إنشاء التقرير الأسبوعي</button>
+      <div id="reportLoading" class="loading" style="display:none"><div class="spinner"></div>AI يحلل أسبوعك...</div>
+    </div>
+  </div>
+  <div id="reportBox" class="ai-box mb"><div class="ai-head"><div class="ai-pulse"></div>تقرير الأسبوع من Claude</div><div class="ai-body" id="reportText"></div></div>
 </div>
 
-<!-- CHAT PAGE -->
+<!-- AI CHAT -->
 <div id="page-chat" class="page">
-    <div class="st" data-key="chatTitle">💬 المساعد الذكي</div>
+  <div class="st"><span data-key="navChat">💬 المساعد الذكي</span></div>
+  <div class="g13">
+    <div>
+      <div class="card mb">
+        <div class="ch"><div class="ch-title"><span class="gem"></span>أسئلة شائعة</div></div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما الفرق بين Break and Retest و Liquidity Sweep؟')">🔁 Break & Retest vs Liquidity Sweep؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أحدد الـ Bias الصحيح على D1 و H4؟')">📊 كيف أحدد الـ Bias الصحيح؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('متى أحرك الـ Stop Loss لـ Break-even؟')">📍 متى أحرك SL لـ Break-even؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أتعامل مع سلسلة الخسائر المتتالية نفسياً؟')">🧠 كيف أتعامل مع الخسائر المتتالية؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما أهم الأخطاء التي يقع فيها المتداول المبتدئ؟')">⚠️ أهم أخطاء المتداول المبتدئ؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أقرأ Market Structure على التشارت؟')">🏗️ كيف أقرأ Market Structure؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما الفرق بين Trading Sessions وأيها أفضل؟')">⏰ أفضل Session للتداول؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما هو Order Block وكيف أستخدمه في التداول؟')">🧲 ما هو Order Block؟</button>
+        </div>
+      </div>
+    </div>
     <div class="card">
+      <div class="ch"><div class="ch-title"><span class="gem"></span>المحادثة مع Claude</div><button class="btn btn-ghost" style="font-size:.7rem;padding:4px 9px" onclick="clearChat()">مسح</button></div>
       <div class="chat-wrap">
-        <div class="chat-area" id="chatArea"></div>
+        <div class="chat-area" id="chatArea">
+          <div class="msg ai"><strong>مرحباً!</strong> أنا مساعدك التداولي لنظام Al Hammadi Trading.<br>اسألني أي شيء عن التداول، التحليل الفني، أو إدارة المخاطر.</div>
+        </div>
         <div class="chat-input-row">
           <input type="text" class="if" id="chatInput" placeholder="اكتب سؤالك هنا..." onkeydown="if(event.key==='Enter')sendChat()">
           <button class="btn btn-gold" onclick="sendChat()">⬆</button>
         </div>
       </div>
     </div>
+  </div>
 </div>
 
 </main>
@@ -423,12 +538,13 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 const API_URL = '/api/chat';
 
 const S = {
-  lang: 'ar',
   bias: null,
+  selectedPairs: new Set(),
+  uploadedImages: [],
   journal: JSON.parse(localStorage.getItem('aht_journal_v3') || '[]'),
   chatHistory: [],
-  uploadedImages: [],
-  charts: {}
+  charts: {},
+  lang: 'ar'
 };
 
 const translations = {
@@ -441,12 +557,13 @@ const translations = {
     navJournal: "📓 Journal",
     navReport: "📊 Report",
     navChat: "💬 Assistant",
-    themeBtn: "☀️ Day",
-    macroScanTitle: "📡 Macro Scan",
-    macroScanBadge: "Weekly / Daily",
+    themeDay: "☀️ Day",
+    themeNight: "🌙 Night",
+    macroScan: "📡 Macro Scan",
+    macroBadge: "Weekly / Daily",
     envSettings: "Environment Settings",
-    fedPolicy: "Interest Rate — Fed",
-    ecbPolicy: "Interest Rate — ECB",
+    fedPolicy: "Fed Policy",
+    ecbPolicy: "ECB Policy",
     riskAppetite: "Risk Appetite",
     dxyStrength: "DXY Strength",
     currentSession: "Current Session",
@@ -459,23 +576,23 @@ const translations = {
     neutralText: "Neutral",
     strong: "Strong",
     weak: "Weak",
-    tokyo: "Tokyo",
-    london: "London",
-    ny: "New York",
+    tokyo: "Tokyo Session",
+    london: "London Session",
+    ny: "NY Session",
     overlap: "Overlap",
     updateAINews: "🤖 AI Update News",
-    todayNews: "Today's News",
+    todayNews: "Market News",
     aiFetching: "AI Fetching...",
-    clickUpdate: "Update News by AI",
+    clickUpdate: "Click to Update AI News",
     assetExpect: "Asset Outlook",
     completeSettings: "Complete settings to see predictions",
-    marketFilter: "Market Filter",
+    selectMarkets: "Market Selection",
     usdMajor: "USD Majors",
     eurCross: "EUR Crosses",
     jpyCross: "JPY Crosses",
-    metalsCrypto: "Metals / Crypto / Indices",
-    preTradeTitle: "✅ Pre-Trade Checklist",
-    preTradeBadge: "Full",
+    metalsCrypto: "Metals / Indices / Crypto",
+    preTradeTitle: "✅ Pre-Trade",
+    preTradeBadge: "Full Checklist",
     biasSection: "Directional Bias",
     assetLabel: "Asset",
     ma200Label: "Price vs 200 MA",
@@ -491,25 +608,25 @@ const translations = {
     biasWarning: "⚠️ Bias conflict with Structure!",
     setupModel: "Entry Setup",
     setup1: "🔁 Break & Retest",
-    setup1Desc: " - Break + Retest",
+    setup1Desc: " - Break + Retest + Rejection",
     setup2: "🎯 Liquidity Sweep",
-    setup2Desc: " - Fake breakout",
+    setup2Desc: " - Fake breakout + Reversal",
     setup3: "📊 Trend Continuation",
-    setup3Desc: " - Clear trend",
+    setup3Desc: " - Clear trend + Pullback",
     setup4: "🧲 Order Block",
-    setup4Desc: " - OB Entry",
+    setup4Desc: " - Entry from OB + Conf",
     setup5: "🔀 FVG / Imbalance",
-    setup5Desc: " - Fair Value Gap",
-    fullChecklist: "Checklist Score",
+    setup5Desc: " - Fair Value Gap entry",
+    fullChecklist: "Full Checklist Score",
     macroLayer: "-- MACRO LAYER --",
     check1: "Market Environment",
-    check1Desc: " - Risk On/Off",
+    check1Desc: " - Risk On/Off clear",
     check2: "No Major News",
-    check2Desc: " - Clear 30m window",
+    check2Desc: " - Avoid 30m before/after",
     check3: "DXY Alignment",
     tradeScore: "Trade Score",
     riskCalcTitle: "💰 Risk Calculator",
-    tradeInputs: "Inputs",
+    tradeInputs: "Trade Inputs",
     capitalLabel: "Account Capital ($)",
     riskPctLabel: "Risk %",
     riskDollarLabel: "Risk $",
@@ -519,21 +636,21 @@ const translations = {
     shortTrade: "SHORT - Sell",
     entryLabel: "Entry Price",
     slLabel: "Stop Loss",
-    calcResults: "Results",
+    calcResults: "Calculation Results",
     riskAmtRes: "Risk Amount",
     riskPctRes: "Risk %",
     slPipsRes: "SL Pips",
     lotRes: "Recommended Lot",
     chartAnalysis: "📸 AI Chart Analysis",
-    uploadTitle: "Upload Screenshot",
-    uploadClick: "Click to upload",
+    uploadTitle: "Upload Chart",
+    uploadClick: "Click to upload image",
     contextTitle: "Context",
     contextInputLabel: "Asset & Timeframe",
-    analyzeBtn: "🤖 Analyze",
+    analyzeBtn: "🤖 Analyze Chart",
     aiAnalysisLoading: "Claude analyzing...",
-    aiAnalysisTitle: "AI Analysis",
+    aiAnalysisTitle: "Claude Analysis",
     journalTitle: "📓 Trade Journal",
-    addEntryTitle: "Log New Trade",
+    addEntryTitle: "Add New Trade",
     addTradeBtn: "+ Add Trade",
     tableAsset: "Asset",
     tableR: "R",
@@ -551,9 +668,10 @@ const translations = {
     navJournal: "📓 الجورنال",
     navReport: "📊 التقرير الأسبوعي",
     navChat: "💬 المساعد",
-    themeBtn: "☀️ نهاري",
-    macroScanTitle: "📡 ماكرو سكان",
-    macroScanBadge: "أسبوعي / يومي",
+    themeDay: "☀️ نهاري",
+    themeNight: "🌙 ليلي",
+    macroScan: "📡 ماكرو سكان",
+    macroBadge: "أسبوعي / يومي",
     envSettings: "إعدادات البيئة",
     fedPolicy: "سياسة الفائدة — Fed",
     ecbPolicy: "سياسة الفائدة — ECB",
@@ -569,191 +687,550 @@ const translations = {
     neutralText: "محايدة",
     strong: "قوي",
     weak: "ضعيف",
-    tokyo: "طوكيو",
-    london: "لندن",
-    ny: "نيويورك",
-    overlap: "تداخل",
+    tokyo: "آسيوية - Tokyo",
+    london: "لندن - London Open",
+    ny: "نيويورك - NY Session",
+    overlap: "Overlap London/NY",
     updateAINews: "🤖 تحديث الأخبار بالـ AI",
     todayNews: "أخبار السوق اليوم",
     aiFetching: "AI يجلب الأخبار...",
     clickUpdate: "اضغط تحديث الأخبار بالـ AI",
     assetExpect: "توقعات الأصول",
     completeSettings: "أكمل الإعدادات لتظهر التوقعات",
-    marketFilter: "اختيار الأسواق — فلترة الفرص",
-    usdMajor: "عملات الدولار الرئيسية",
-    eurCross: "تقاطعات اليورو",
-    jpyCross: "تقاطعات الين",
+    selectMarkets: "اختيار الأسواق — فلترة الفرص",
+    usdMajor: "عملات مع الدولار USD",
+    eurCross: "عملات مع اليورو EUR",
+    jpyCross: "عملات مع الين JPY",
     metalsCrypto: "معادن / مؤشرات / كريبتو",
     preTradeTitle: "✅ ما قبل الصفقة",
     preTradeBadge: "Checklist كامل",
-    biasSection: "الاتجاه - Bias",
+    biasSection: "الاتجاه — Directional Bias",
     assetLabel: "الأصل",
-    ma200Label: "السعر مقابل 200 MA",
-    above200: "فوق 200 MA",
-    below200: "تحت 200 MA",
-    onMA: "على المتوسط - انتظر",
-    ma50Label: "السعر مقابل 50 MA",
+    ma200Label: "موقع السعر من 200 MA",
+    above200: "فوق 200 MA ← BUY Bias",
+    below200: "تحت 200 MA ← SELL Bias",
+    onMA: "على المتوسط — لا تدخل",
+    ma50Label: "موقع السعر من 50 MA",
     above50: "فوق 50 MA",
     below50: "تحت 50 MA",
     neutralRSI: "محايد 40-60",
-    osRSI: "تشبع بيع < 30",
-    obRSI: "تشبع شراء > 70",
-    biasWarning: "⚠️ تعارض الاتجاه مع البنية!",
-    setupModel: "نموذج الدخول",
+    osRSI: "Oversold — تحت 30",
+    obRSI: "Overbought — فوق 70",
+    biasWarning: "⚠️ تعارض بين الـ Bias والـ Structure! راجع تحليلك.",
+    setupModel: "نموذج الدخول — Setup",
     setup1: "🔁 Break & Retest",
-    setup1Desc: " - كسر + إعادة اختبار",
+    setup1Desc: " — كسر مستوى قوي + رجوع + رفض",
     setup2: "🎯 Liquidity Sweep",
-    setup2Desc: " - سحب سيولة + انعكاس",
+    setup2Desc: " — كسر وهمي + رجوع سريع",
     setup3: "📊 Trend Continuation",
-    setup3Desc: " - استمرار اتجاه",
+    setup3Desc: " — Trend واضح + Pullback",
     setup4: "🧲 Order Block",
-    setup4Desc: " - دخول من منطقة OB",
+    setup4Desc: " — دخول من OB + تأكيد",
     setup5: "🔀 FVG / Imbalance",
-    setup5Desc: " - فجوة سعرية عادلة",
-    fullChecklist: "نقاط التشيك-لست",
-    macroLayer: "-- طبقة الماكرو --",
-    check1: "بيئة السوق",
-    check1Desc: " - وضوح Risk On/Off",
-    check2: "لا توجد أخبار كبرى",
-    check2Desc: " - تجنب وقت الخبر",
-    check3: "محاذاة DXY",
+    setup5Desc: " — دخول من Fair Value Gap",
+    fullChecklist: "Checklist الكامل",
+    macroLayer: "— MACRO LAYER —",
+    check1: "بيئة السوق محددة",
+    check1Desc: "— Risk-On/Off واضح",
+    check2: "لا خبر قوي الآن",
+    check2Desc: "— تجنب 30 دقيقة قبل/بعد",
+    check3: "DXY يدعم الاتجاه",
     tradeScore: "Score الصفقة",
-    riskCalcTitle: "💰 حاسبة الريسك",
+    riskCalcTitle: "💰 حاسبة الريسك الاحترافية",
     tradeInputs: "مدخلات الصفقة",
-    capitalLabel: "رأس المال ($)",
-    riskPctLabel: "نسبة المخاطرة %",
-    riskDollarLabel: "مبلغ المخاطرة $",
+    capitalLabel: "رأس المال الكلي ($)",
+    riskPctLabel: "الريسك %",
+    riskDollarLabel: "أو الريسك $",
     assetTypeLabel: "نوع الأصل",
-    tradeDirLabel: "الاتجاه",
-    longTrade: "شراء - Long",
-    shortTrade: "بيع - Short",
+    tradeDirLabel: "اتجاه الصفقة",
+    longTrade: "LONG — شراء",
+    shortTrade: "SHORT — بيع",
     entryLabel: "سعر الدخول",
-    slLabel: "وقف الخسارة",
-    calcResults: "النتائج",
-    riskAmtRes: "مبلغ المخاطرة",
-    riskPctRes: "النسبة",
-    slPipsRes: "نقاط وقف الخسارة",
-    lotRes: "اللوت المقترح",
-    chartAnalysis: "📸 تحليل الشارت - AI",
-    uploadTitle: "رفع الشارت",
-    uploadClick: "اضغط لرفع الصورة",
-    contextTitle: "السياق",
-    contextInputLabel: "الأصل والإطار الزمني",
+    slLabel: "Stop Loss",
+    calcResults: "نتائج الحساب",
+    riskAmtRes: "مبلغ الريسك",
+    riskPctRes: "نسبة الريسك",
+    slPipsRes: "حجم الـ SL (نقاط)",
+    lotRes: "اللوت الموصى",
+    chartAnalysis: "📸 تحليل الشارت — AI متخصص",
+    uploadTitle: "رفع الشارت (حتى 6 صور)",
+    uploadClick: "اضغط لاختيار صورة",
+    contextTitle: "سياق الصفقة",
+    contextInputLabel: "الأصل والـ Timeframe",
     analyzeBtn: "🤖 تحليل الشارت",
-    aiAnalysisLoading: "Claude يحلل...",
-    aiAnalysisTitle: "تحليل كلود",
-    journalTitle: "📓 سجل الصفقات",
-    addEntryTitle: "صفقة جديدة",
-    addTradeBtn: "+ إضافة",
-    tableAsset: "الأصل",
-    tableR: "R",
+    aiAnalysisLoading: "Claude يحلل الشارت...",
+    aiAnalysisTitle: "تحليل Claude التداولي",
+    journalTitle: "📓 Trade Journal",
+    addEntryTitle: "تسجيل صفقة جديدة",
+    addTradeBtn: "+ إضافة الصفقة",
     reportTitle: "📊 التقرير الأسبوعي",
-    genReport: "تقرير AI",
-    genReportBtn: "📊 إنشاء تقرير",
+    genReport: "إنشاء التقرير بالـ AI",
+    genReportBtn: "📊 إنشاء التقرير الأسبوعي",
     chatTitle: "💬 المساعد الذكي"
   }
 };
 
+function toggleTheme() {
+  const html = document.documentElement;
+  const t = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  html.setAttribute('data-theme', t);
+  const btn = document.getElementById('themeBtn');
+  btn.textContent = t === 'dark' ? (S.lang === 'ar' ? '☀️ نهاري' : '☀️ Day') : (S.lang === 'ar' ? '🌙 ليلي' : '🌙 Night');
+  setTimeout(buildCharts, 150);
+}
+
 function toggleLang() {
   S.lang = S.lang === 'ar' ? 'en' : 'ar';
-  document.documentElement.setAttribute('lang', S.lang);
-  document.documentElement.setAttribute('dir', S.lang === 'ar' ? 'rtl' : 'ltr');
+  const html = document.documentElement;
+  html.setAttribute('lang', S.lang);
+  html.setAttribute('dir', S.lang === 'ar' ? 'ltr' : 'rtl');
   document.getElementById('langBtn').textContent = S.lang === 'ar' ? 'EN' : 'عربي';
   
   document.querySelectorAll('[data-key]').forEach(el => {
     const key = el.getAttribute('data-key');
-    if (translations[S.lang][key]) el.textContent = translations[S.lang][key];
+    if (translations[S.lang][key]) el.innerHTML = translations[S.lang][key]; // Using innerHTML to preserve spans inside
   });
-}
 
-function toggleTheme() {
-  const html = document.documentElement;
-  const current = html.getAttribute('data-theme');
-  const target = current === 'dark' ? 'light' : 'dark';
-  html.setAttribute('data-theme', target);
+  const btn = document.getElementById('themeBtn');
+  const t = html.getAttribute('data-theme');
+  btn.textContent = t === 'dark' ? (S.lang === 'ar' ? '☀️ نهاري' : '☀️ Day') : (S.lang === 'ar' ? '🌙 ليلي' : '🌙 Night');
+  
+  updateMacro();
 }
 
 function showPage(name, el) {
   document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
-  const page = document.getElementById('page-' + name);
-  if(page) page.classList.add('active');
-  if(el) el.classList.add('active');
-  if(name === 'journal') renderJournal();
+  document.getElementById('page-' + name).classList.add('active');
+  if (el) el.classList.add('active');
+  if (name === 'journal') { renderJournal(); buildCharts(); }
+  if (name === 'report') updateReport();
 }
 
-// Risk Calc Logic
-function syncRisk(from) {
-  const cap = parseFloat(document.getElementById('capital').value) || 0;
-  if (from === 'pct') {
-    const p = parseFloat(document.getElementById('riskPct').value) || 0;
-    document.getElementById('riskDollar').value = (cap * p / 100).toFixed(2);
-  } else {
-    const d = parseFloat(document.getElementById('riskDollar').value) || 0;
-    document.getElementById('riskPct').value = (d / cap * 100).toFixed(2);
-  }
-  calcRisk();
-}
-
-function calcRisk() {
-  const cap = parseFloat(document.getElementById('capital').value) || 0;
-  const pct = parseFloat(document.getElementById('riskPct').value) || 1;
-  const entry = parseFloat(document.getElementById('entryP').value) || 0;
-  const sl = parseFloat(document.getElementById('slP').value) || 0;
-  const riskAmt = cap * pct / 100;
-  const diff = Math.abs(entry - sl);
-  document.getElementById('r-riskAmt').textContent = '$' + riskAmt.toFixed(2);
-  document.getElementById('r-riskPct').textContent = pct.toFixed(2) + '%';
-  // Simplified calculation for demo
-  document.getElementById('r-slPips').textContent = (diff * 10000).toFixed(1);
-}
-
-// Journal logic
-function addEntry() {
-    const asset = document.getElementById('j-asset').value;
-    const rValue = parseFloat(document.getElementById('j-r').value) || 0;
-    if(!asset) return;
-    S.journal.push({asset, r: rValue});
-    localStorage.setItem('aht_journal_v3', JSON.stringify(S.journal));
-    renderJournal();
-}
-
-function renderJournal() {
-    const body = document.getElementById('jBody');
-    if (!body) return;
-    body.innerHTML = S.journal.length ? S.journal.map(e => `<tr><td>${e.asset}</td><td class="${e.r>=0?'text-g':'text-r'}">${e.r}R</td></tr>`).join('') : '<tr><td colspan="2" style="text-align:center">لا يوجد بيانات</td></tr>';
-}
-
-// AI Calls
 async function callClaude(messages, maxTokens = 1000) {
   const res = await fetch(API_URL, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ model: 'claude-3-5-sonnet-20240620', max_tokens: maxTokens, messages })
   });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || `HTTP ${res.status}`);
+  }
   const data = await res.json();
   return data.content?.map(c => c.text || '').join('') || '';
 }
 
 async function fetchAINews() {
-  const loading = document.getElementById('newsLoading');
-  const container = document.getElementById('newsContainer');
-  loading.style.display = 'flex';
-  container.innerHTML = '';
+  const fed = document.getElementById('fedPolicy').value;
+  const risk = document.getElementById('riskApp').value;
+  const session = document.getElementById('session').value;
+  const today = new Date().toLocaleDateString(S.lang === 'ar' ? 'ar-SA' : 'en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  
+  document.getElementById('newsLoading').style.display = 'flex';
+  document.getElementById('newsContainer').innerHTML = '';
+  
   try {
-    const text = await callClaude([{ role:'user', content:`أعطني أخبار السوق الحالية للسوق العالمي بتنسيق JSON: {"summary":"...", "news":[{"title":"...", "body":"..."}]}` }]);
-    const parsed = JSON.parse(text.replace(/```json|```/g,'').trim());
-    container.innerHTML = `<div>${parsed.summary}</div>` + parsed.news.map(n => `<div class="card mt">${n.title}: ${n.body}</div>`).join('');
-  } catch(e) { container.innerHTML = 'Error fetching news'; }
-  loading.style.display = 'none';
+    const text = await callClaude([{ role:'user', content:`أنت محلل اقتصادي متخصص. اليوم: ${today}. السياق: Fed=${fed||'غير محدد'} | Risk=${risk||'غير محدد'} | Session=${session}.
+أنشئ تقرير أخبار السوق باللغة ${S.lang === 'ar' ? 'العربية' : 'الإنجليزية'}. أجب بـ JSON فقط بلا نص خارجه:
+{"summary":"ملخص بيئة السوق وتوقعات الأصول في جملتين","news":[{"title":"عنوان","impact":"high|medium|low","body":"تفاصيل وتأثير على الأسواق","assets":["EURUSD"]}]}` }]);
+    const clean = text.replace(/```json|```/g,'').trim();
+    const parsed = JSON.parse(clean);
+    document.getElementById('newsTS').textContent = new Date().toLocaleTimeString(S.lang === 'ar' ? 'ar' : 'en');
+    
+    const impMap = S.lang === 'ar' ? {high:'عالي',medium:'متوسط',low:'منخفض'} : {high:'High',medium:'Medium',low:'Low'};
+    let html = `<div style="padding:8px 10px;border-radius:8px;background:var(--accent3);border:1px solid rgba(201,168,76,.2);font-size:.79rem;color:var(--accent2);margin-bottom:9px">💡 ${parsed.summary||''}</div>`;
+    
+    (parsed.news||[]).forEach(n => {
+      const ic = n.impact==='high'?'bg-r':n.impact==='medium'?'bg-a':'bg-b';
+      html += `<div style="padding:9px 11px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);margin-bottom:5px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:7px">
+          <span style="font-size:.81rem;font-weight:600">${n.title}</span>
+          <span class="bg ${ic}" style="font-size:.65rem;flex-shrink:0">${impMap[n.impact]||n.impact}</span>
+        </div>
+        <div style="font-size:.76rem;color:var(--text2);margin-top:4px;line-height:1.5">${n.body}</div>
+        ${n.assets?.length?`<div style="margin-top:4px;display:flex;gap:4px;flex-wrap:wrap">${n.assets.map(a=>`<span class="bg bg-b" style="font-size:.65rem">${a}</span>`).join('')}</div>`:''}
+      </div>`;
+    });
+    document.getElementById('newsContainer').innerHTML = html;
+    updateMacro();
+  } catch(e) {
+    document.getElementById('newsContainer').innerHTML = `<div style="color:var(--red2);font-size:.8rem;padding:1rem">Error: ${e.message}</div>`;
+  }
+  document.getElementById('newsLoading').style.display = 'none';
 }
 
-async function analyzeChart() {
-    // Implement chart analysis logic here similar to previous snippets
+function updateMacro() {
+  const fed = document.getElementById('fedPolicy').value;
+  const ecb = document.getElementById('ecbPolicy').value;
+  const risk = document.getElementById('riskApp').value;
+  const dxy = document.getElementById('dxyStr').value;
+  if (!fed && !risk && !dxy) return;
+  const G='var(--green2)',R='var(--red2)',A='var(--accent2)';
+  const items = [
+    gold(fed,risk,dxy,G,R,A), indices(fed,risk,G,R,A), crypto(risk,G,R,A),
+    eurusd(fed,ecb,dxy,G,R,A), gbpusd(dxy,G,R,A), usdjpy(fed,risk,dxy,G,R,A)
+  ];
+  document.getElementById('macroExpect').innerHTML = items.map(i =>
+    `<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 9px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);margin-bottom:5px">
+      <span style="font-size:.82rem">${i.a}</span>
+      <div style="text-align:${S.lang === 'ar' ? 'left' : 'right'}"><div style="color:${i.c};font-weight:800;font-size:.82rem">${i.o}</div><div style="font-size:.68rem;color:var(--text3)">${i.n}</div></div>
+    </div>`).join('');
 }
 
-// Init
-document.addEventListener('DOMContentLoaded', () => {
+const gold=(f,r,d,G,R,A)=>r==='off'?{a:'🥇 XAU/USD',o:'📈 Bullish',n:S.lang==='ar'?'Risk-Off = ملاذ آمن':'Risk-Off = Safe Haven',c:G}:d==='strong'&&f==='hike'?{a:'🥇 XAU/USD',o:'📉 Bearish',n:S.lang==='ar'?'DXY قوي + فائدة مرتفعة':'Strong DXY + High Rates',c:R}:d==='weak'?{a:'🥇 XAU/USD',o:'📈 Bullish',n:S.lang==='ar'?'DXY ضعيف':'Weak DXY',c:G}:{a:'🥇 XAU/USD',o:'⟷ Mixed',n:S.lang==='ar'?'بيئة مختلطة':'Mixed Env',c:A};
+const indices=(f,r,G,R,A)=>r==='on'&&(f==='cut'||f==='hold')?{a:'📊 US100',o:'📈 Bullish',n:S.lang==='ar'?'Risk-On + سيولة':'Risk-On + Liquidity',c:G}:r==='off'||f==='hike'?{a:'📊 US100',o:'📉 Bearish',n:'Risk-Off',c:R}:{a:'📊 US100',o:'⟷ Neutral',n:S.lang==='ar'?'انتظر تأكيد':'Wait for confirmation',c:A};
+const crypto=(r,G,R,A)=>r==='on'?{a:'₿ BTC/USD',o:'📈 Bullish',n:'Risk-On',c:G}:r==='off'?{a:'₿ BTC/USD',o:'📉 Bearish',n:'Risk-Off',c:R}:{a:'₿ BTC/USD',o:'⟷ Neutral',n:S.lang==='ar'?'تابع DXY':'Watch DXY',c:A};
+const eurusd=(f,e,d,G,R,A)=>f==='hike'&&e!=='hike'?{a:'💱 EUR/USD',o:'📉 Bearish',n:S.lang==='ar'?'Fed أقوى من ECB':'Fed stronger than ECB',c:R}:e==='hike'&&f!=='hike'?{a:'💱 EUR/USD',o:'📈 Bullish',n:S.lang==='ar'?'ECB أقوى':'ECB Stronger',c:G}:d==='strong'?{a:'💱 EUR/USD',o:'📉 Bearish',n:S.lang==='ar'?'DXY قوي':'Strong DXY',c:R}:d==='weak'?{a:'💱 EUR/USD',o:'📈 Bullish',n:S.lang==='ar'?'DXY ضعيف':'Weak DXY',c:G}:{a:'💱 EUR/USD',o:'⟷ Neutral',n:S.lang==='ar'?'تابع Structure':'Watch Structure',c:A};
+const gbpusd=(d,G,R,A)=>d==='strong'?{a:'💷 GBP/USD',o:'📉 Bearish',n:S.lang==='ar'?'DXY قوي':'Strong DXY',c:R}:d==='weak'?{a:'💷 GBP/USD',o:'📈 Bullish',n:S.lang==='ar'?'DXY ضعيف':'Weak DXY',c:G}:{a:'💷 GBP/USD',o:'⟷ Neutral',n:S.lang==='ar'?'تابع BoE':'Watch BoE',c:A};
+const usdjpy=(f,r,d,G,R,A)=>f==='hike'||d==='strong'?{a:'🇯🇵 USD/JPY',o:'📈 Bullish',n:S.lang==='ar'?'USD قوي':'Strong USD',c:G}:r==='off'?{a:'🇯🇵 USD/JPY',o:'📉 Bearish',n:S.lang==='ar'?'JPY ملاذ آمن':'JPY Safe Haven',c:R}:{a:'🇯🇵 USD/JPY',o:'⟷ Neutral',n:S.lang==='ar'?'تابع BoJ':'Watch BoJ',c:A};
+
+function togglePair(el, p) {
+  el.classList.toggle('sel');
+  S.selectedPairs.has(p)?S.selectedPairs.delete(p):S.selectedPairs.add(p);
+  const w=[];
+  if((S.selectedPairs.has('EURUSD')&&S.selectedPairs.has('GBPUSD'))||(S.selectedPairs.has('EURUSD')&&S.selectedPairs.has('AUDUSD'))) w.push(S.lang==='ar'?'عدة عملات مرتبطة بالدولار — تحقق من الـ Exposure':'Multiple USD pairs — Check Exposure');
+  if((S.selectedPairs.has('EURUSD')||S.selectedPairs.has('GBPUSD'))&&S.selectedPairs.has('XAUUSD')) w.push(S.lang==='ar'?'EUR/GBP + Gold كلها عكس DXY':'EUR/GBP + Gold are against DXY');
+  if(S.selectedPairs.has('BTCUSD')&&S.selectedPairs.has('US100')) w.push(S.lang==='ar'?'BTC + US100 مترابطان في Risk-On':'BTC + US100 correlated in Risk-On');
+  const box=document.getElementById('corrWarn');
+  box.style.display=w.length?'flex':'none';
+  document.getElementById('corrText').textContent=w.join(' | ');
+}
+
+function setBias(b){
+  S.bias=b;
+  document.querySelectorAll('.bb').forEach(btn=>{btn.classList.remove('active');if(btn.classList.contains(b))btn.classList.add('active');});
+  chkBias();
+}
+function chkBias(){
+  const daily=document.getElementById('dailyStr').value;
+  const ma=document.getElementById('ma200').value;
+  const w=document.getElementById('biasWarn');
+  let c=false;
+  if(S.bias==='long'&&(daily==='bearish'||ma==='below'))c=true;
+  if(S.bias==='short'&&(daily==='bullish'||ma==='above'))c=true;
+  w.style.display=c?'block':'none';
+}
+function tc(el){el.classList.toggle('checked');updateScore();}
+function updateScore(){
+  const items=document.querySelectorAll('#checkList .ci');
+  let score=0,total=0;
+  items.forEach(i=>{const w=parseInt(i.dataset.w||1);total+=w;if(i.classList.contains('checked'))score+=w;});
+  const pct=Math.round(score/total*100);
+  document.getElementById('scoreLabel').textContent=`${score}/${total}`;
+  document.getElementById('scoreProg').style.width=pct+'%';
+  const ring=document.getElementById('scoreRing');
+  const col=pct>=80?'var(--green)':pct>=60?'var(--accent)':'var(--red)';
+  ring.style.background=`conic-gradient(${col} ${pct}%,var(--surface3) 0%)`;
+  document.getElementById('scoreNum').textContent=pct;
+  const dec=document.getElementById('scoreDecision');
+  if(pct>=80){dec.style.background='rgba(29,184,122,.1)';dec.style.color='var(--green2)';dec.textContent=S.lang==='ar'?'✅ صفقة قوية — الشروط مكتملة':'✅ Strong Trade — Criteria Met';}
+  else if(pct>=60){dec.style.background='rgba(201,168,76,.1)';dec.style.color='var(--accent2)';dec.textContent=S.lang==='ar'?'⚠️ صفقة متوسطة — أعد التقييم':'⚠️ Average Trade — Re-evaluate';}
+  else{dec.style.background='rgba(224,60,60,.08)';dec.style.color='var(--red2)';dec.textContent=S.lang==='ar'?'❌ لا تدخل — Setup غير مكتمل':'❌ Do NOT enter — Setup incomplete';}
+}
+function selModel(n){document.getElementById('m'+n).classList.toggle('checked');}
+
+function syncRisk(from){
+  const cap=parseFloat(document.getElementById('capital').value)||0;
+  if(from==='pct'){const p=parseFloat(document.getElementById('riskPct').value)||0;document.getElementById('riskDollar').value=(cap*p/100).toFixed(2);}
+  else{const d=parseFloat(document.getElementById('riskDollar').value)||0;document.getElementById('riskPct').value=(d/cap*100).toFixed(2);}
+  calcRisk();
+}
+function calcRisk(){
+  const cap=parseFloat(document.getElementById('capital').value)||0;
+  const pct=parseFloat(document.getElementById('riskPct').value)||1;
+  const entry=parseFloat(document.getElementById('entryP').value)||0;
+  const sl=parseFloat(document.getElementById('slP').value)||0;
+  const asset=document.getElementById('assetType').value;
+  const dir=document.getElementById('tradeDir').value;
+  const riskAmt=cap*pct/100;
+  document.getElementById('riskDollar').value=riskAmt.toFixed(2);
+  const diff=Math.abs(entry-sl);
+  const isLong=dir==='long';
+  const pipVal={forex_major:10,forex_yen:9.4,gold:10,indices_usd:1,btc:1,eth:1,oil:10}[asset]||10;
+  let pipDiff=asset==='forex_major'?diff*10000:asset==='forex_yen'?diff*100:diff;
+  const lot=pipDiff>0?riskAmt/(pipDiff*pipVal):0;
+  const dec=asset==='forex_major'||asset==='forex_yen'?5:2;
+  const tp1=isLong?entry+diff*2:entry-diff*2;
+  const tp2=isLong?entry+diff*3:entry-diff*3;
+  const tp3=isLong?entry+diff*4:entry-diff*4;
+  document.getElementById('r-riskAmt').textContent='$'+riskAmt.toFixed(2);
+  document.getElementById('r-riskAmt').className='rr-value '+(pct<=1?'v-ok':pct<=2?'v-warn':'v-bad');
+  document.getElementById('r-riskPct').textContent=pct.toFixed(2)+'%';
+  document.getElementById('r-slPips').textContent=pipDiff.toFixed(1);
+  document.getElementById('r-lot').textContent=lot.toFixed(3)+' lots';
+  document.getElementById('r-sl').textContent=sl.toFixed(dec);
+  document.getElementById('r-tp1').textContent=tp1.toFixed(dec);
+  document.getElementById('r-tp2').textContent=tp2.toFixed(dec);
+  document.getElementById('r-tp3').textContent=tp3.toFixed(dec);
+  document.getElementById('r-p1').textContent='+$'+(riskAmt*2).toFixed(2);
+  document.getElementById('r-p2').textContent='+$'+(riskAmt*3).toFixed(2);
+  document.getElementById('r-p3').textContent='+$'+(riskAmt*4).toFixed(2);
+}
+
+function handleDrop(e){e.preventDefault();document.getElementById('uploadZone').classList.remove('drag');Array.from(e.dataTransfer.files).forEach(processFile);}
+function handleFiles(e){Array.from(e.target.files).forEach(processFile);}
+function processFile(file){
+  if(!file.type.startsWith('image/')||S.uploadedImages.length>=6)return;
+  const reader=new FileReader();
+  reader.onload=ev=>{S.uploadedImages.push({base64:ev.target.result.split(',')[1],type:file.type,name:file.name});renderUploadGrid();};
+  reader.readAsDataURL(file);
+}
+function renderUploadGrid(){
+  document.getElementById('uploadGrid').innerHTML=S.uploadedImages.map((img,i)=>`
+    <div class="upload-thumb"><img src="data:${img.type};base64,${img.base64}" alt="${img.name}">
+    <button class="rm-btn" onclick="S.uploadedImages.splice(${i},1);renderUploadGrid()">✕</button></div>`).join('');
+}
+
+async function analyzeChart(){
+  if(!S.uploadedImages.length){alert(S.lang==='ar'?'ارفع شارت أولاً':'Upload chart first');return;}
+  const ctx=document.getElementById('chartCtx').value;
+  const bias=document.getElementById('chartBias').value;
+  const q=document.getElementById('chartQ').value;
+  const btn=document.getElementById('analyzeBtn');
+  btn.disabled=true;
+  document.getElementById('chartLoading').style.display='flex';
+  document.getElementById('chartPlaceholder').style.display='none';
+  document.getElementById('chartAIBox').classList.remove('show');
+  document.getElementById('tradeDetailCard').style.display='none';
+  
+  const prompt= S.lang === 'ar' ? 
+`أنت محلل تداول خبير متخصص في Price Action و Smart Money Concepts.
+${S.uploadedImages.length>1?`لديك ${S.uploadedImages.length} صور من timeframes مختلفة.`:''}
+السياق: ${ctx||'غير محدد'} | Bias: ${bias} | سؤال: ${q||'تحليل شامل'}
+نظام التداول: Break&Retest | Liquidity Sweep | Trend Continuation | Order Block | FVG | Risk: TP1=2R TP2=3R TP3=4R
+
+حلل وأجب:
+**1. Market Structure** — وصف دقيق للـ Structure
+**2. Directional Bias** — هل الشارت يدعم الـ Bias؟
+**3. Key Levels** — أهم S/R و Order Blocks و FVG
+**4. Setup المتاح** — أي نموذج؟ وصفه بدقة
+**5. تفاصيل الصفقة:**
+   - الدخول: [السعر]
+   - Stop Loss: [السعر] — السبب
+   - TP1 (2R): [السعر]
+   - TP2 (3R): [السعر]
+   - TP3 (4R): [السعر]
+**6. تحذيرات وملاحظات**
+**7. الحكم النهائي:** ✅ ادخل | ⏳ انتظر | ❌ لا تدخل` : 
+`You are an expert trading analyst specializing in Price Action and Smart Money Concepts.
+Context: ${ctx||'N/A'} | Bias: ${bias} | Question: ${q||'Full analysis'}
+Trading System: Break&Retest | Liquidity Sweep | Trend Continuation | Order Block | FVG | Risk: TP1=2R TP2=3R TP3=4R
+
+Analyze and answer:
+**1. Market Structure**
+**2. Directional Bias**
+**3. Key Levels** — S/R, Order Blocks, FVG
+**4. Available Setup**
+**5. Trade Details:**
+   - Entry: [Price]
+   - Stop Loss: [Price] — Reason
+   - TP1 (2R): [Price]
+   - TP2 (3R): [Price]
+   - TP3 (4R): [Price]
+**6. Warnings & Notes**
+**7. Final Verdict:** ✅ Enter | ⏳ Wait | ❌ Do not enter`;
+
+  try{
+    const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      model:'claude-3-5-sonnet-20240620',max_tokens:1000,
+      messages:[{role:'user',content:[
+        ...S.uploadedImages.map(img=>({type:'image',source:{type:'base64',media_type:img.type,data:img.base64}})),
+        {type:'text',text:prompt}
+      ]}]
+    })});
+    if(!res.ok){const e=await res.json();throw new Error(e.error||'API Error');}
+    const data=await res.json();
+    const text=data.content?.map(c=>c.text||'').join('')||'لم أستطع التحليل.';
+    document.getElementById('chartAIText').innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    document.getElementById('chartAIBox').classList.add('show');
+    extractTrade(text,bias);
+  }catch(e){
+    document.getElementById('chartAIText').textContent='خطأ: '+e.message;
+    document.getElementById('chartAIBox').classList.add('show');
+  }
+  document.getElementById('chartLoading').style.display='none';
+  btn.disabled=false;
+}
+
+function extractTrade(text,bias){
+  const em=text.match(/(?:الدخول|Entry)[:\s]+([0-9]+\.?[0-9]*)/i);
+  const sm=text.match(/(?:Stop Loss|SL)[:\s]+([0-9]+\.?[0-9]*)/i);
+  const t1=text.match(/(?:TP1)[:\s]+([0-9]+\.?[0-9]*)/i);
+  const t2=text.match(/(?:TP2)[:\s]+([0-9]+\.?[0-9]*)/i);
+  const t3=text.match(/(?:TP3)[:\s]+([0-9]+\.?[0-9]*)/i);
+  if(em||sm){
+    document.getElementById('tradeDetailCard').style.display='block';
+    document.getElementById('td-entry').textContent=em?em[1]:'—';
+    document.getElementById('td-sl').textContent=sm?sm[1]:'—';
+    document.getElementById('td-tp1').textContent=t1?t1[1]:'—';
+    document.getElementById('td-tp2').textContent=t2?t2[1]:'—';
+    document.getElementById('td-tp3').textContent=t3?t3[1]:'—';
+    const d=document.getElementById('tdDirection');
+    d.textContent=bias==='long'?'LONG':bias==='short'?'SHORT':'—';
+    d.className='bg '+(bias==='long'?'bg-g':'bg-r');
+    const maps=[['Break','Break & Retest'],['Liquidity','Liquidity Sweep'],['Order Block','Order Block'],['FVG','FVG'],['Trend','Trend Continuation']];
+    let setup='—';for(const[k,v]of maps){if(text.includes(k)){setup=v;break;}}
+    document.getElementById('td-setup').textContent=setup;
+  }
+}
+
+function addEntry(){
+  const e={id:Date.now(),date:document.getElementById('j-date').value,asset:document.getElementById('j-asset').value,dir:document.getElementById('j-dir').value,setup:document.getElementById('j-setup').value,session:document.getElementById('j-session').value,entry:document.getElementById('j-entry').value,sl:document.getElementById('j-sl').value,tp:document.getElementById('j-tp').value,r:parseFloat(document.getElementById('j-r').value)||0,outcome:document.getElementById('j-outcome').value,notes:document.getElementById('j-notes').value};
+  S.journal.unshift(e);save();renderJournal();buildCharts();
+  ['j-entry','j-sl','j-tp','j-r','j-notes'].forEach(id=>document.getElementById(id).value='');
+}
+function delEntry(id){S.journal=S.journal.filter(e=>e.id!==id);save();renderJournal();buildCharts();}
+function save(){localStorage.setItem('aht_journal_v3',JSON.stringify(S.journal));}
+function renderJournal(){
+  const closed=S.journal.filter(e=>e.outcome!=='open');
+  const wins=closed.filter(e=>e.outcome==='win');
+  const losses=closed.filter(e=>e.outcome==='loss');
+  const wr=closed.length?Math.round(wins.length/closed.length*100):0;
+  const totalR=S.journal.reduce((s,e)=>s+e.r,0);
+  const avgR=closed.length?totalR/closed.length:0;
+  const avgW=wins.length?wins.reduce((s,e)=>s+e.r,0)/wins.length:0;
+  const avgL=losses.length?Math.abs(losses.reduce((s,e)=>s+e.r,0)/losses.length):0;
+  const exp=(wr/100*avgW)-((1-wr/100)*avgL);
+  document.getElementById('j-wr').textContent=wr+'%';
+  document.getElementById('j-wr').className='sc-value '+(wr>=50?'text-g':'text-r');
+  document.getElementById('j-avgr').textContent=avgR.toFixed(2)+'R';
+  document.getElementById('j-avgr').className='sc-value '+(avgR>=0?'text-g':'text-r');
+  document.getElementById('j-exp').textContent=isNaN(exp)?'—':exp.toFixed(2)+'R';
+  document.getElementById('j-totalr').textContent=(totalR>=0?'+':'')+totalR.toFixed(2)+'R';
+  document.getElementById('j-totalr').className='sc-value '+(totalR>=0?'text-g':'text-r');
+  const outMap={win:'<span class="bg bg-g">✅ Win</span>',loss:'<span class="bg bg-r">❌ Loss</span>',be:'<span class="bg bg-a">⟷ BE</span>',open:'<span class="bg bg-b">🔓 Open</span>'};
+  const body=document.getElementById('jBody');
+  if(!S.journal.length){body.innerHTML=`<tr><td colspan="12" style="text-align:center;color:var(--text3);padding:2rem">${S.lang==='ar'?'لا توجد صفقات':'No trades found'}</td></tr>`;return;}
+  body.innerHTML=S.journal.map(e=>`<tr>
+    <td class="text-m fs07">${e.date}</td><td><strong>${e.asset}</strong></td>
+    <td><span class="bg ${e.dir==='long'?'bg-g':'bg-r'}">${e.dir==='long'?'LONG':'SHORT'}</span></td>
+    <td class="fs07 text-m">${e.setup}</td><td class="fs07 text-m">${e.session||'—'}</td>
+    <td class="mono fs07">${e.entry}</td><td class="mono fs07 text-r">${e.sl}</td><td class="mono fs07 text-g">${e.tp}</td>
+    <td>${outMap[e.outcome]||''}</td>
+    <td class="mono fw7 ${e.r>0?'text-g':e.r<0?'text-r':'text-m'}">${e.r>0?'+':''}${e.r}R</td>
+    <td class="text-m" style="font-size:.72rem;max-width:100px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${e.notes}</td>
+    <td><button onclick="delEntry(${e.id})" style="background:none;border:none;cursor:pointer;color:var(--text3)">🗑</button></td>
+  </tr>`).join('');
+}
+function exportCSV(){
+  const h='Date,Asset,Direction,Setup,Session,Entry,SL,TP,Outcome,R,Notes';
+  const r=S.journal.map(e=>[e.date,e.asset,e.dir,e.setup,e.session,e.entry,e.sl,e.tp,e.outcome,e.r,e.notes].map(v=>`"${v||''}"`).join(','));
+  const csv=[h,...r].join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download='AlHammadi_Journal.csv';a.click();
+}
+
+function cc(){const s=getComputedStyle(document.documentElement);return{green:'#1db87a',red:'#e03c3c',gold:'#c9a84c',blue:'#3b7fd4',text:s.getPropertyValue('--text3').trim(),grid:s.getPropertyValue('--border').trim()};}
+function buildCharts(){buildEquity();buildDist();buildSetup();}
+function buildEquity(){
+  const c=document.getElementById('equityChart');if(!c)return;
+  if(S.charts.eq)S.charts.eq.destroy();
+  const C=cc();const labels=[],data=[];let cum=0;
+  [...S.journal].reverse().forEach((e,i)=>{cum+=e.r;labels.push(e.asset||`#${i+1}`);data.push(parseFloat(cum.toFixed(2)));});
+  if(!labels.length){labels.push('Start');data.push(0);}
+  const col=cum>=0?C.green:C.red;
+  S.charts.eq=new Chart(c,{type:'line',data:{labels,datasets:[{label:'Cumulative R',data,borderColor:col,backgroundColor:cum>=0?'rgba(29,184,122,.08)':'rgba(224,60,60,.08)',borderWidth:2,fill:true,tension:.4,pointRadius:3,pointBackgroundColor:col}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:C.text,font:{size:9},maxTicksLimit:8},grid:{color:C.grid}},y:{ticks:{color:C.text,font:{size:9}},grid:{color:C.grid}}}}});
+}
+function buildDist(){
+  const c=document.getElementById('distChart');if(!c)return;
+  if(S.charts.dist)S.charts.dist.destroy();
+  const C=cc();
+  const w=S.journal.filter(e=>e.outcome==='win').length,l=S.journal.filter(e=>e.outcome==='loss').length,b=S.journal.filter(e=>e.outcome==='be').length,o=S.journal.filter(e=>e.outcome==='open').length;
+  S.charts.dist=new Chart(c,{type:'doughnut',data:{labels:['Win','Loss','BE','Open'],datasets:[{data:[w,l,b,o],backgroundColor:[C.green,C.red,C.gold,C.blue],borderWidth:0}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom',labels:{color:C.text,font:{size:10},padding:10}}}}});
+}
+function buildSetup(){
+  const c=document.getElementById('setupChart');if(!c)return;
+  if(S.charts.setup)S.charts.setup.destroy();
+  const C=cc();
+  const setups=['Break & Retest','Liquidity Sweep','Trend Continuation','Order Block','FVG / Imbalance'];
+  const wr=setups.map(s=>{const se=S.journal.filter(e=>e.setup===s);return se.length?Math.round(se.filter(e=>e.outcome==='win').length/se.length*100):0;});
+  S.charts.setup=new Chart(c,{type:'bar',data:{labels:['B&R','Liq.','Trend','OB','FVG'],datasets:[{label:'Win Rate %',data:wr,backgroundColor:wr.map(v=>v>=60?C.green:v>=40?C.gold:C.red),borderRadius:5}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{x:{ticks:{color:C.text,font:{size:9}},grid:{display:false}},y:{ticks:{color:C.text,font:{size:9}},grid:{color:C.grid},max:100}}}});
+}
+
+function updateReport(){
+  const j=S.journal.filter(e=>e.outcome!=='open');
+  const wins=j.filter(e=>e.outcome==='win');
+  const wr=j.length?Math.round(wins.length/j.length*100):0;
+  const totalR=j.reduce((s,e)=>s+e.r,0);
+  document.getElementById('rw-wr').textContent=wr+'%';
+  document.getElementById('rw-t').textContent=j.length;
+  document.getElementById('rw-avg').textContent=(j.length?totalR/j.length:0).toFixed(2)+'R';
+  document.getElementById('rw-tr').textContent=(totalR>=0?'+':'')+totalR.toFixed(2)+'R';
+  const setups=['Break & Retest','Liquidity Sweep','Trend Continuation','Order Block','FVG / Imbalance'];
+  let best='—',bestWR=-1;
+  setups.forEach(s=>{const se=j.filter(e=>e.setup===s);if(!se.length)return;const w=Math.round(se.filter(e=>e.outcome==='win').length/se.length*100);if(w>bestWR){bestWR=w;best=`${s} (${w}%)`;};});
+  document.getElementById('rw-best').textContent=best;
+  buildSetup();
+}
+
+async function genReport(){
+  const j=S.journal;
+  if(!j.length){alert(S.lang==='ar'?'لا يوجد صفقات في الجورنال':'No trades in journal');return;}
+  document.getElementById('reportLoading').style.display='flex';
+  document.getElementById('reportBox').classList.remove('show');
+  const summary=j.slice(0,15).map(e=>`${e.date}: ${e.asset} ${e.dir} [${e.setup}] → ${e.outcome} (${e.r>0?'+':''}${e.r}R) | ${e.notes}`).join('\n');
+  const stats=`Wins:${j.filter(e=>e.outcome==='win').length} Losses:${j.filter(e=>e.outcome==='loss').length} TotalR:${j.reduce((s,e)=>s+e.r,0).toFixed(2)}`;
+  
+  const prompt = S.lang === 'ar' ? 
+  `أنت مدرب تداول محترف. إحصائيات: ${stats}. سجل: ${summary}. ملاحظات: ${document.getElementById('weekNotes').value||'لا يوجد'}. الهدف: ${document.getElementById('weekGoal').value||'غير محدد'}.
+اكتب تقرير أسبوعي شامل يشمل: تقييم الأداء | نقاط القوة | نقاط الضعف | أفضل Setup | خطة التطوير (3 إجراءات محددة) | توصيات الأسبوع القادم. كن صريحاً ومباشراً.` : 
+  `You are a pro trading coach. Stats: ${stats}. Log: ${summary}. Notes: ${document.getElementById('weekNotes').value||'None'}. Goal: ${document.getElementById('weekGoal').value||'None'}.
+Write a comprehensive weekly report including: Performance Evaluation | Strengths | Weaknesses | Best Setup | Action Plan (3 steps) | Recommendations. Be direct.`;
+
+  try{
+    const text=await callClaude([{role:'user',content:prompt}]);
+    document.getElementById('reportText').innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+    document.getElementById('reportBox').classList.add('show');
+  }catch(e){
+    document.getElementById('reportText').textContent='Error: '+e.message;
+    document.getElementById('reportBox').classList.add('show');
+  }
+  document.getElementById('reportLoading').style.display='none';
+}
+
+async function sendChat(){
+  const input=document.getElementById('chatInput');
+  const q=input.value.trim();if(!q)return;
+  input.value='';
+  await askQ(q);
+}
+
+async function askQ(q){
+  const area=document.getElementById('chatArea');
+  area.innerHTML+=`<div class="msg user">${q}</div>`;
+  area.innerHTML+=`<div class="msg ai" id="typing"><div class="loading" style="padding:0"><div class="spinner"></div></div></div>`;
+  area.scrollTop=area.scrollHeight;
+  S.chatHistory.push({role:'user',content:q});
+  
+  const sysMsg= S.lang === 'ar' ? 
+  `أنت مساعد تداول متخصص لنظام Al Hammadi Trading. متخصص في: Price Action | SMC | Break&Retest | Liquidity Sweep | Order Block | FVG | Risk Management (1% risk, TP1=2R, TP2=3R, TP3=4R). أجب بالعربية بشكل مختصر ومفيد وعملي.` :
+  `You are an expert trading assistant for Al Hammadi Trading System. Specialized in: Price Action | SMC | Break&Retest | Liquidity Sweep | Order Block | FVG | Risk Management. Answer in English briefly and practically.`;
+
+  try{
+    const msgs=S.chatHistory.length<=1
+      ?[{role:'user',content:sysMsg+'\n\nQuestion: '+q}]
+      :[{role:'user',content:sysMsg},...S.chatHistory.slice(-8)];
+    const text=await callClaude(msgs);
+    S.chatHistory.push({role:'assistant',content:text});
+    const t=document.getElementById('typing');
+    if(t)t.outerHTML=`<div class="msg ai">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`;
+  }catch(e){
+    const t=document.getElementById('typing');
+    if(t)t.outerHTML=`<div class="msg ai" style="color:var(--red2)">Error: ${e.message}</div>`;
+  }
+  area.scrollTop=area.scrollHeight;
+}
+
+function clearChat(){
+  S.chatHistory=[];
+  document.getElementById('chatArea').innerHTML=`<div class="msg ai">${S.lang==='ar'?'المحادثة مُسحت. كيف يمكنني مساعدتك؟':'Chat cleared. How can I help you?'}</div>`;
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  document.getElementById('j-date').value=new Date().toISOString().split('T')[0];
+  calcRisk();
   renderJournal();
 });
 </script>
