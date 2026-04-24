@@ -208,17 +208,18 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="st"><span data-key="navMacro">📡 Macro Scan</span> <span class="st-badge" data-key="macroBadge">أسبوعي / يومي</span></div>
   
   <div class="g2 mb">
-    <!-- الأخبار الحية بـ TradingView Widget لضمان الاستقرار التام -->
+    <!-- الأخبار الحية المحدثة عبر RSS (مثل الإصدار v7) -->
     <div class="card">
       <div class="ch">
         <div>
             <div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (Market Live)</span></div>
-            <span class="source-label" data-key="poweredByTV">Powered by TradingView</span>
+            <span class="source-label" data-key="newsSource" id="newsSourceLabel">Sources: FXStreet, ForexLive, CoinTelegraph</span>
         </div>
+        <button class="btn btn-ghost" style="padding:4px 8px;font-size:.7rem" onclick="fetchLiveRSSNews()">🔄</button>
       </div>
-      <div class="widget-box" id="rssNewsContainer">
-        <!-- Live News will be injected here via JS permanently -->
-        <div class="loading" style="height:100%; justify-content:center;"><div class="spinner"></div></div>
+      <div class="widget-box" style="overflow-y:auto; padding:10px; background:var(--surface2);" id="rssNewsContainer">
+        <!-- Live News will be injected here via JS -->
+        <div class="loading" style="height:100%; justify-content:center;"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري جلب الأخبار...</span></div>
       </div>
     </div>
     
@@ -409,18 +410,32 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="st" style="display:flex; justify-content:space-between; width:100%; align-items:center;">
     <span data-key="signalsTitle">🎯 التوصيات الحية (Autochartist)</span> 
   </div>
-  <div style="padding:10px 15px; border-radius:10px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:var(--accent2); font-size:0.8rem; margin-bottom:1rem; line-height:1.6;" data-key="signalsDisclaimer">
-     💡 تم دمج شاشة Autochartist من حسابك مباشرة. لتطبيق التوصية، اكتب تفاصيلها في "أداة النقل السريع" بالأسفل واضغط على نقل لتعبئة قائمة المراجعة وحاسبة الريسك تلقائياً.
-  </div>
   
-  <!-- Autochartist iFrame -->
-  <div class="card mb" style="padding: 0; overflow: hidden; height: 600px; border-radius: 14px;">
-     <iframe src="https://webapp.autochartist.com/componentcontainer/broker.php?broker_id=558&user=M_alhammadi%40ymail.com&account_type=LIVE&expire=1777260959&token=890676ce048866c92adbd35e4c690fad#tab-10" width="100%" height="100%" frameborder="0" style="border:none;"></iframe>
+  <!-- Setup Autochartist Safely -->
+  <div id="autochartistSetup" class="card mb" style="display:none;">
+    <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="acSetupTitle">ربط حساب Autochartist (آمن محلياً)</span></div></div>
+    <div class="fs08 text-m mb" data-key="acSetupDesc">لأسباب قانونية ولحماية خصوصيتك، لا يمكننا حفظ الرابط الذي يحتوي على الـ Token الخاص بك في كود الموقع. يرجى نسخ رابط Autochartist الخاص بك من منصة IC Markets ولصقه هنا. سيتم حفظه في متصفحك فقط (Secure LocalStorage) ولن يشاركه مع أحد.</div>
+    <div class="ig">
+        <input type="text" class="if" id="acUrlInput" placeholder="https://webapp.autochartist.com/componentcontainer/broker.php?broker_id=...">
+    </div>
+    <button class="btn btn-gold" onclick="saveACUrl()" data-key="acSaveBtn">💾 حفظ الرابط وعرض التوصيات</button>
+  </div>
+
+  <!-- Autochartist iFrame Container -->
+  <div id="autochartistFrameContainer" class="card mb" style="padding: 0; overflow: hidden; height: 600px; border-radius: 14px; display:none;">
+     <div style="padding:10px 15px; background:var(--surface2); border-bottom:1px solid var(--border); display:flex; justify-content:space-between; align-items:center;">
+         <span class="fs08 fw7 text-a">🎯 Autochartist Web App</span>
+         <button class="btn btn-ghost" style="padding:4px 8px;font-size:0.7rem" onclick="clearACUrl()" data-key="acUnlinkBtn">إلغاء الربط 🗑️</button>
+     </div>
+     <iframe id="acIframe" src="" width="100%" height="100%" frameborder="0" style="border:none; height:calc(100% - 40px);"></iframe>
   </div>
 
   <!-- Quick Transfer Tool -->
   <div class="card">
     <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="quickTransfer">أداة النقل السريع (Quick Transfer)</span></div></div>
+    <div style="padding:8px 12px; border-radius:8px; background:rgba(201,168,76,0.08); color:var(--accent2); font-size:0.75rem; margin-bottom:1rem;" data-key="signalsDisclaimer">
+       💡 استخدم هذه الأداة لتطبيق التوصية من الشاشة أعلاه. اكتب تفاصيلها واضغط نقل لملء قائمة المراجعة (Checklist) وحاسبة الريسك تلقائياً.
+    </div>
     <div class="g4">
       <div class="ig"><label class="il" data-key="assetLabel">الأصل</label><input type="text" class="if" id="qt-asset" placeholder="مثال: EURUSD"></div>
       <div class="ig"><label class="il" data-key="tradeDirLabel">الاتجاه</label><select class="sf" id="qt-dir"><option value="long">LONG (شراء)</option><option value="short">SHORT (بيع)</option></select></div>
@@ -428,6 +443,11 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <div class="ig"><label class="il" data-key="slLabel">الوقف (SL)</label><input type="number" class="if" id="qt-sl" step="0.00001"></div>
     </div>
     <button class="btn btn-gold w100 mt" onclick="quickTransferSignal()" data-key="sendToPreTrade">✅ نقل إلى (ما قبل الصفقة)</button>
+  </div>
+  
+  <!-- Fallback Grid (in case user doesn't use Autochartist) -->
+  <div id="signalsGridContainer" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem; margin-top:1rem;">
+    <!-- Mock signals injected via JS -->
   </div>
 </div>
 
@@ -709,8 +729,33 @@ const S = {
   journal: JSON.parse(localStorage.getItem('aht_journal_v3') || '[]'),
   chatHistory: [],
   charts: {},
-  lang: 'ar'
+  lang: 'ar',
+  currentSignals: [] 
 };
+
+// أمثلة التوصيات كاحتياطي (Fallback)
+const mockSignals = [
+    { 
+      id: 1, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: '10:30 AM', timeframe: 'H1', desc: 'ارتداد من منطقة دعم قوية (Demand Zone)', 
+      setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
+      checks: [4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16] 
+    },
+    { 
+      id: 2, asset: 'XAUUSD', dir: 'long', entry: 2350.50, tp: 2380.00, sl: 2335.00, time: '09:15 AM', timeframe: 'H4', desc: 'كسر مستوى مقاومة وإعادة اختبار (B&R)',
+      setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
+      checks: [4, 5, 6, 7, 8, 9, 11, 12, 15, 16] 
+    },
+    { 
+      id: 3, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: '08:45 AM', timeframe: 'M30', desc: 'تشبع شرائي مع ظهور شمعة ابتلاعية سلبية',
+      setupId: 2, structure: { daily: 'bearish', h4: 'bearish', h1: 'bearish', ma200: 'below', ma50: 'below', rsi: 'ob' }, 
+      checks: [4, 5, 6, 7, 8, 9, 10, 15, 16] 
+    },
+    { 
+      id: 4, asset: 'USDJPY', dir: 'long', entry: 154.200, tp: 155.500, sl: 153.500, time: '07:20 AM', timeframe: 'H1', desc: 'استمرار الترند الصاعد بعد تجميع سيولة',
+      setupId: 3, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
+      checks: [4, 5, 6, 7, 8, 9, 13, 15, 16] 
+    }
+];
 
 const translations = {
   en: {
@@ -735,6 +780,10 @@ const translations = {
     liveScreener: "Live Market Screener",
     signalsTitle: "🎯 Live Signals (Autochartist)",
     signalsDisclaimer: "💡 Autochartist is embedded directly from your account. To apply a signal, enter its details in the 'Quick Transfer Tool' below and click Transfer to auto-fill your checklist and risk calculator.",
+    acSetupTitle: "Link Autochartist Account (Secure Local)",
+    acSetupDesc: "For privacy and legal reasons, we cannot save your URL containing the secure token in the code. Please paste your Autochartist URL from IC Markets here. It will be saved locally in your browser (Secure LocalStorage) and never shared.",
+    acSaveBtn: "💾 Save URL & Show Signals",
+    acUnlinkBtn: "Unlink 🗑️",
     quickTransfer: "Quick Transfer Tool",
     sendToPreTrade: "✅ Send to Pre-Trade",
     preTradeTitle: "✅ Pre-Trade",
@@ -805,7 +854,7 @@ const translations = {
     genReportBtn: "📊 Create Report",
     chatTitle: "💬 Smart Assistant",
     poweredByTV: "Powered by TradingView",
-    newsSource: "Sources: TradingView Live News"
+    newsSource: "Sources: FXStreet, ForexLive, CoinTelegraph"
   },
   ar: {
     logoSub: "نظام التداول الاحترافي",
@@ -829,6 +878,10 @@ const translations = {
     liveScreener: "رادار الأسواق المباشر (Live Screener)",
     signalsTitle: "🎯 التوصيات الحية (Autochartist)",
     signalsDisclaimer: "💡 تم دمج شاشة Autochartist من حسابك مباشرة. لتطبيق التوصية، اكتب تفاصيلها في 'أداة النقل السريع' بالأسفل واضغط على نقل لتعبئة قائمة المراجعة وحاسبة الريسك تلقائياً.",
+    acSetupTitle: "ربط حساب Autochartist (آمن محلياً)",
+    acSetupDesc: "لأسباب قانونية ولحماية خصوصيتك، لا يمكننا حفظ الرابط الذي يحتوي على الـ Token الخاص بك في كود الموقع. يرجى نسخ رابط Autochartist الخاص بك من منصة IC Markets ولصقه هنا. سيتم حفظه في متصفحك فقط (Secure LocalStorage) ولن يشاركه مع أحد.",
+    acSaveBtn: "💾 حفظ الرابط وعرض التوصيات",
+    acUnlinkBtn: "إلغاء الربط 🗑️",
     quickTransfer: "أداة النقل السريع (Quick Transfer)",
     sendToPreTrade: "✅ نقل إلى (ما قبل الصفقة)",
     preTradeTitle: "✅ ما قبل الصفقة",
@@ -897,9 +950,40 @@ const translations = {
     genReportBtn: "📊 إنشاء التقرير الأسبوعي",
     chatTitle: "💬 المساعد الذكي",
     poweredByTV: "مدعوم من TradingView",
-    newsSource: "المصادر: TradingView Live News"
+    newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph"
   }
 };
+
+// دوال التحكم برابط Autochartist الآمن
+function checkACUrl() {
+    const url = localStorage.getItem('aht_ac_url');
+    if(url) {
+        document.getElementById('autochartistSetup').style.display = 'none';
+        document.getElementById('autochartistFrameContainer').style.display = 'block';
+        document.getElementById('acIframe').src = url;
+    } else {
+        document.getElementById('autochartistSetup').style.display = 'block';
+        document.getElementById('autochartistFrameContainer').style.display = 'none';
+    }
+}
+
+function saveACUrl() {
+    const url = document.getElementById('acUrlInput').value.trim();
+    if(url && url.includes('autochartist.com')) {
+        localStorage.setItem('aht_ac_url', url);
+        checkACUrl();
+    } else {
+        alert(S.lang==='ar' ? 'الرجاء إدخال رابط Autochartist صحيح من IC Markets' : 'Please enter a valid Autochartist URL');
+    }
+}
+
+function clearACUrl() {
+    if(confirm(S.lang==='ar' ? 'هل أنت متأكد من إلغاء الربط؟' : 'Are you sure you want to unlink?')) {
+        localStorage.removeItem('aht_ac_url');
+        document.getElementById('acIframe').src = '';
+        checkACUrl();
+    }
+}
 
 function quickTransferSignal() {
     const asset = document.getElementById('qt-asset').value.trim().toUpperCase();
@@ -931,7 +1015,33 @@ function quickTransferSignal() {
     // 2. تحديد الاتجاه
     setBias(dir);
 
-    // 3. تعبئة الحاسبة
+    // 3. تعبئة إعدادات الـ Structure تلقائياً بناءً على التوصية المباشرة
+    document.getElementById('dailyStr').value = dir === 'long' ? 'bullish' : 'bearish';
+    document.getElementById('h4Str').value = dir === 'long' ? 'bullish' : 'bearish';
+    document.getElementById('h1Str').value = dir === 'long' ? 'bullish' : 'bearish';
+    document.getElementById('ma200').value = dir === 'long' ? 'above' : 'below';
+    document.getElementById('ma50').value = dir === 'long' ? 'above' : 'below';
+    document.getElementById('rsiS').value = 'neutral';
+    chkBias(); 
+
+    // 4. اختيار نموذج الدخول تلقائياً (الافتراضي للتحليل الفني هو B&R أو Trend)
+    for(let i=1; i<=5; i++) document.getElementById('m'+i).classList.remove('checked');
+    document.getElementById('m1').classList.add('checked'); // Break & Retest كافتراضي للتوصيات الفنية
+
+    // 5. وضع علامات الصح على الشيك لست الأساسية لتوفير الوقت
+    for(let i=1; i<=20; i++) {
+        const chk = document.getElementById('chk'+i);
+        if(chk) chk.classList.remove('checked');
+    }
+    // تفعيل شروط (الاستركشر واضح، توافق الفريمات، مستوى قوي، ترند، وإدارة مخاطر)
+    const autoChecks = [4, 5, 6, 7, 8, 9, 11, 13, 15, 16];
+    autoChecks.forEach(c => {
+        const chk = document.getElementById('chk'+c);
+        if(chk) chk.classList.add('checked');
+    });
+    updateScore();
+
+    // 6. تعبئة الحاسبة
     if(entry > 0) document.getElementById('entryP').value = entry;
     if(sl > 0) document.getElementById('slP').value = sl;
     
@@ -944,51 +1054,72 @@ function quickTransferSignal() {
     
     calcRisk();
 
-    // 4. الانتقال لصفحة ما قبل الصفقة لتكملة الشيك لست
+    // 7. الانتقال لصفحة ما قبل الصفقة لتكملة وتعديل الشيك لست يدوياً
     const tabs = document.querySelectorAll('.nav-tab');
     let precheckTab = null;
     tabs.forEach(t => { if(t.getAttribute('data-key') === 'navPrecheck') precheckTab = t; });
     showPage('precheck', precheckTab);
 }
 
-// دالة مبسطة ومستقرة تماماً للأخبار باستخدام TradingView فقط لتجنب أي حظر
-function fetchLiveRSSNews() {
+// دالة سحب الأخبار الحية الأصلية (التي لا تتغير)
+async function fetchLiveRSSNews() {
     const container = document.getElementById('rssNewsContainer');
     if(!container) return;
     
-    container.innerHTML = '';
-    container.style.padding = '0';
-    container.style.overflow = 'hidden';
+    container.innerHTML = '<div class="loading" style="justify-content:center;height:100%"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري جلب الأخبار...</span></div>';
     
-    const wrapper = document.createElement('div');
-    wrapper.className = 'tradingview-widget-container';
-    wrapper.style.height = '100%';
-    wrapper.style.width = '100%';
-    
-    const widgetDiv = document.createElement('div');
-    widgetDiv.className = 'tradingview-widget-container__widget';
-    widgetDiv.style.height = 'calc(100% - 32px)';
-    
-    const script = document.createElement('script');
-    script.type = 'text/javascript';
-    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
-    script.async = true;
-    script.innerHTML = JSON.stringify({
-        "feedMode": "all_symbols",
-        "isTransparent": true,
-        "displayMode": "regular",
-        "width": "100%",
-        "height": "100%",
-        "colorTheme": "dark",
-        "locale": S.lang
-    });
-    
-    wrapper.appendChild(widgetDiv);
-    wrapper.appendChild(script);
-    container.appendChild(wrapper);
-    
-    const sourceLabel = document.getElementById('newsSourceLabel');
-    if(sourceLabel) sourceLabel.innerHTML = translations[S.lang].poweredByTV;
+    try {
+        const feeds = [
+            { url: 'https://www.fxstreet.com/news/rss', name: 'FXStreet' },
+            { url: 'https://www.forexlive.com/feed/news', name: 'ForexLive' },
+            { url: 'https://cointelegraph.com/rss', name: 'CoinTelegraph' }
+        ];
+
+        let allItems = [];
+
+        const promises = feeds.map(feed => 
+            fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`)
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === 'ok' && data.items) {
+                    return data.items.map(item => ({ ...item, sourceName: feed.name }));
+                }
+                return [];
+            })
+            .catch(e => {
+                console.warn(`Failed to fetch ${feed.name}:`, e);
+                return [];
+            })
+        );
+
+        const results = await Promise.all(promises);
+        
+        results.forEach(items => {
+            allItems = allItems.concat(items);
+        });
+
+        allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
+        if(allItems.length > 0) {
+            let html = '<div style="display:flex;flex-direction:column;gap:8px">';
+            allItems.slice(0, 20).forEach(item => {
+                const pubDate = item.pubDate || new Date().toISOString();
+                const date = new Date(pubDate).toLocaleTimeString(S.lang === 'ar' ? 'ar-SA' : 'en-US', {hour: '2-digit', minute:'2-digit'});
+                
+                html += `<a href="${item.link}" target="_blank" class="news-item">
+                    <div class="news-time">${date} • ${item.sourceName}</div>
+                    <div class="news-title">${item.title}</div>
+                </a>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        } else {
+            throw new Error('No items found in any RSS feed');
+        }
+    } catch(e) {
+        console.error("RSS Error:", e);
+        container.innerHTML = `<div style="text-align:center;color:var(--red2);padding:20px;font-size:0.8rem">⚠️ ${S.lang === 'ar' ? 'تعذر جلب الأخبار المباشرة' : 'Failed to fetch live news'}</div>`;
+    }
 }
 
 function changeTVSymbol() {
@@ -1048,7 +1179,7 @@ function toggleLang() {
   btn.textContent = t === 'dark' ? (S.lang === 'ar' ? '☀️ نهاري' : '☀️ Day') : (S.lang === 'ar' ? '🌙 ليلي' : '🌙 Night');
   
   changeTVSymbol();
-  fetchLiveRSSNews(); // Refresh news on language change 
+  fetchLiveRSSNews(); 
 }
 
 function showPage(name, el) {
@@ -1056,6 +1187,7 @@ function showPage(name, el) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   if (el) el.classList.add('active');
+  if (name === 'signals') { checkACUrl(); }
   if (name === 'journal') { renderJournal(); buildCharts(); }
   if (name === 'report') updateReport();
 }
@@ -1410,7 +1542,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   calcRisk();
   renderJournal();
   changeTVSymbol(); // Initialize the technical analysis widget
-  fetchLiveRSSNews(); // Fetch TradingView news on load to prevent errors
+  fetchLiveRSSNews(); // Fetch RSS news strictly as per v7
 });
 </script>
 </body>
