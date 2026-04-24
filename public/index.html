@@ -282,50 +282,62 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
     </div>
   </div>
 
+  <!-- رادار الأسواق المباشر بدل الفلتر اليدوي -->
   <div class="card mb">
-    <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="selectMarkets">اختيار الأسواق — فلترة الفرص</span></div></div>
-    <div class="section-cat" data-key="usdMajor">عملات مع الدولار USD</div>
-    <div class="pairs-grid">
-      <div class="pair-chip" onclick="togglePair(this,'EURUSD')"><span class="pair-name">EUR/USD</span><span class="pair-cat">Major</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'GBPUSD')"><span class="pair-name">GBP/USD</span><span class="pair-cat">Major</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'AUDUSD')"><span class="pair-name">AUD/USD</span><span class="pair-cat">Major</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'NZDUSD')"><span class="pair-name">NZD/USD</span><span class="pair-cat">Major</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'USDCAD')"><span class="pair-name">USD/CAD</span><span class="pair-cat">Major</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'USDCHF')"><span class="pair-name">USD/CHF</span><span class="pair-cat">Major</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'USDJPY')"><span class="pair-name">USD/JPY</span><span class="pair-cat">Major</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'USDMXN')"><span class="pair-name">USD/MXN</span><span class="pair-cat">Exotic</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'USDSGD')"><span class="pair-name">USD/SGD</span><span class="pair-cat">Exotic</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'USDZAR')"><span class="pair-name">USD/ZAR</span><span class="pair-cat">Exotic</span></div>
+    <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="liveScreener">رادار الأسواق المباشر (Live Market Screener)</span></div></div>
+    <div class="widget-box" style="height: 500px;">
+      <div class="tradingview-widget-container">
+        <div class="tradingview-widget-container__widget"></div>
+        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
+        {
+          "colorTheme": "dark",
+          "dateRange": "12M",
+          "showChart": true,
+          "locale": "ar",
+          "width": "100%",
+          "height": "100%",
+          "largeChartUrl": "",
+          "isTransparent": true,
+          "showSymbolLogo": true,
+          "showFloatingTooltip": false,
+          "tabs": [
+            {
+              "title": "Forex - العملات",
+              "symbols": [
+                {"s": "FX:EURUSD", "d": "EUR/USD"},
+                {"s": "FX:GBPUSD", "d": "GBP/USD"},
+                {"s": "FX:USDJPY", "d": "USD/JPY"},
+                {"s": "FX:AUDUSD", "d": "AUD/USD"},
+                {"s": "FX:USDCAD", "d": "USD/CAD"},
+                {"s": "FX:USDCHF", "d": "USD/CHF"},
+                {"s": "FX:GBPJPY", "d": "GBP/JPY"},
+                {"s": "FX:EURJPY", "d": "EUR/JPY"}
+              ]
+            },
+            {
+              "title": "Indices & Metals - المؤشرات والمعادن",
+              "symbols": [
+                {"s": "TVC:GOLD", "d": "Gold (XAU/USD)"},
+                {"s": "TVC:SILVER", "d": "Silver (XAG/USD)"},
+                {"s": "NASDAQ:QQQ", "d": "Nasdaq 100"},
+                {"s": "SP:SPX", "d": "S&P 500"},
+                {"s": "DJ:DJI", "d": "Dow Jones"},
+                {"s": "TVC:USOIL", "d": "Crude Oil (WTI)"}
+              ]
+            },
+            {
+              "title": "Crypto - العملات الرقمية",
+              "symbols": [
+                {"s": "BINANCE:BTCUSD", "d": "Bitcoin"},
+                {"s": "BINANCE:ETHUSD", "d": "Ethereum"},
+                {"s": "BINANCE:SOLUSD", "d": "Solana"}
+              ]
+            }
+          ]
+        }
+        </script>
+      </div>
     </div>
-    <div class="section-cat" data-key="eurCross">عملات مع اليورو EUR</div>
-    <div class="pairs-grid">
-      <div class="pair-chip" onclick="togglePair(this,'EURGBP')"><span class="pair-name">EUR/GBP</span><span class="pair-cat">Cross</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'EURJPY')"><span class="pair-name">EUR/JPY</span><span class="pair-cat">Cross</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'EURCHF')"><span class="pair-name">EUR/CHF</span><span class="pair-cat">Cross</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'EURAUD')"><span class="pair-name">EUR/AUD</span><span class="pair-cat">Cross</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'EURCAD')"><span class="pair-name">EUR/CAD</span><span class="pair-cat">Cross</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'EURNZD')"><span class="pair-name">EUR/NZD</span><span class="pair-cat">Cross</span></div>
-    </div>
-    <div class="section-cat" data-key="jpyCross">عملات مع الين JPY</div>
-    <div class="pairs-grid">
-      <div class="pair-chip" onclick="togglePair(this,'GBPJPY')"><span class="pair-name">GBP/JPY</span><span class="pair-cat">Cross</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'AUDJPY')"><span class="pair-name">AUD/JPY</span><span class="pair-cat">Cross</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'CADJPY')"><span class="pair-name">CAD/JPY</span><span class="pair-cat">Cross</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'CHFJPY')"><span class="pair-name">CHF/JPY</span><span class="pair-cat">Cross</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'NZDJPY')"><span class="pair-name">NZD/JPY</span><span class="pair-cat">Cross</span></div>
-    </div>
-    <div class="section-cat" data-key="metalsCrypto">معادن / مؤشرات / كريبتو</div>
-    <div class="pairs-grid">
-      <div class="pair-chip" onclick="togglePair(this,'XAUUSD')"><span class="pair-name">XAU/USD</span><span class="pair-cat" style="color:var(--accent2)">Gold ⭐</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'XAGUSD')"><span class="pair-name">XAG/USD</span><span class="pair-cat">Silver</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'US100')"><span class="pair-name">US100</span><span class="pair-cat">Nasdaq</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'SPX500')"><span class="pair-name">SPX500</span><span class="pair-cat">S&amp;P</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'US30')"><span class="pair-name">US30</span><span class="pair-cat">Dow</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'BTCUSD')"><span class="pair-name">BTC/USD</span><span class="pair-cat" style="color:var(--accent2)">Crypto</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'ETHUSD')"><span class="pair-name">ETH/USD</span><span class="pair-cat" style="color:var(--accent2)">Crypto</span></div>
-      <div class="pair-chip" onclick="togglePair(this,'OIL')"><span class="pair-name">CRUDE OIL</span><span class="pair-cat">Commodity</span></div>
-    </div>
-    <div id="corrWarn" class="corr-warn" style="display:none">⚠️ <span id="corrText"></span></div>
   </div>
 </div>
 
@@ -605,7 +617,6 @@ const API_URL = '/api/chat';
 
 const S = {
   bias: null,
-  selectedPairs: new Set(),
   uploadedImages: [],
   journal: JSON.parse(localStorage.getItem('aht_journal_v3') || '[]'),
   chatHistory: [],
@@ -632,11 +643,7 @@ const translations = {
     liveNews: "Live Market News",
     techAnalysis: "Technical Analysis (Auto)",
     assetSelectLabel: "Select Asset:",
-    selectMarkets: "Market Selection",
-    usdMajor: "USD Majors",
-    eurCross: "EUR Crosses",
-    jpyCross: "JPY Crosses",
-    metalsCrypto: "Metals / Indices / Crypto",
+    liveScreener: "Live Market Screener",
     preTradeTitle: "✅ Pre-Trade",
     preTradeBadge: "Full Checklist",
     biasSection: "Directional Bias",
@@ -723,11 +730,7 @@ const translations = {
     liveNews: "الأخبار الحية (Live Market News)",
     techAnalysis: "توقعات الأصول (التحليل الآلي)",
     assetSelectLabel: "اختر الأصل للتحليل:",
-    selectMarkets: "اختيار الأسواق — فلترة الفرص",
-    usdMajor: "عملات مع الدولار USD",
-    eurCross: "عملات مع اليورو EUR",
-    jpyCross: "عملات مع الين JPY",
-    metalsCrypto: "معادن / مؤشرات / كريبتو",
+    liveScreener: "رادار الأسواق المباشر (Live Screener)",
     preTradeTitle: "✅ ما قبل الصفقة",
     preTradeBadge: "Checklist كامل",
     biasSection: "الاتجاه — Directional Bias",
@@ -796,11 +799,10 @@ const translations = {
   }
 };
 
-// Injection function for dynamic Technical Analysis Widget
 function changeTVSymbol() {
     const symbol = document.getElementById('tvSymbolSelect').value;
     const container = document.getElementById('techAnalysisContainer');
-    container.innerHTML = ''; // Clear current widget
+    container.innerHTML = '';
     
     const wrapper = document.createElement('div');
     wrapper.className = 'tradingview-widget-container';
@@ -841,7 +843,7 @@ function toggleLang() {
   S.lang = S.lang === 'ar' ? 'en' : 'ar';
   const html = document.documentElement;
   html.setAttribute('lang', S.lang);
-  html.setAttribute('dir', S.lang === 'ar' ? 'ltr' : 'rtl');
+  html.setAttribute('dir', S.lang === 'ar' ? 'rtl' : 'ltr');
   document.getElementById('langBtn').textContent = S.lang === 'ar' ? 'EN' : 'عربي';
   
   document.querySelectorAll('[data-key]').forEach(el => {
@@ -853,7 +855,7 @@ function toggleLang() {
   const t = html.getAttribute('data-theme');
   btn.textContent = t === 'dark' ? (S.lang === 'ar' ? '☀️ نهاري' : '☀️ Day') : (S.lang === 'ar' ? '🌙 ليلي' : '🌙 Night');
   
-  changeTVSymbol(); // Reload the TV widget with new language
+  changeTVSymbol(); 
 }
 
 function showPage(name, el) {
@@ -877,18 +879,6 @@ async function callClaude(messages, maxTokens = 1000) {
   }
   const data = await res.json();
   return data.content?.map(c => c.text || '').join('') || '';
-}
-
-function togglePair(el, p) {
-  el.classList.toggle('sel');
-  S.selectedPairs.has(p)?S.selectedPairs.delete(p):S.selectedPairs.add(p);
-  const w=[];
-  if((S.selectedPairs.has('EURUSD')&&S.selectedPairs.has('GBPUSD'))||(S.selectedPairs.has('EURUSD')&&S.selectedPairs.has('AUDUSD'))) w.push(S.lang==='ar'?'عدة عملات مرتبطة بالدولار — تحقق من الـ Exposure':'Multiple USD pairs — Check Exposure');
-  if((S.selectedPairs.has('EURUSD')||S.selectedPairs.has('GBPUSD'))&&S.selectedPairs.has('XAUUSD')) w.push(S.lang==='ar'?'EUR/GBP + Gold كلها عكس DXY':'EUR/GBP + Gold are against DXY');
-  if(S.selectedPairs.has('BTCUSD')&&S.selectedPairs.has('US100')) w.push(S.lang==='ar'?'BTC + US100 مترابطان في Risk-On':'BTC + US100 correlated in Risk-On');
-  const box=document.getElementById('corrWarn');
-  box.style.display=w.length?'flex':'none';
-  document.getElementById('corrText').textContent=w.join(' | ');
 }
 
 function setBias(b){
