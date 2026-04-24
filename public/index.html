@@ -204,11 +204,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 </header>
 
 <div class="tv-bar">
-  <div class="tradingview-widget-container" style="height:46px;">
-    <div class="tradingview-widget-container__widget"></div>
-    <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-    {"symbols":[{"proName":"FX:EURUSD","title":"EUR/USD"},{"proName":"FX:GBPUSD","title":"GBP/USD"},{"proName":"FX:USDJPY","title":"USD/JPY"},{"proName":"FX:AUDUSD","title":"AUD/USD"},{"proName":"FX:USDCAD","title":"USD/CAD"},{"proName":"FX:GBPJPY","title":"GBP/JPY"},{"proName":"FX:EURJPY","title":"EUR/JPY"},{"proName":"TVC:GOLD","title":"XAU/USD"},{"proName":"NASDAQ:QQQ","title":"US100"},{"proName":"COINBASE:BTCUSD","title":"BTC/USD"},{"proName":"COINBASE:ETHUSD","title":"ETH/USD"},{"proName":"TVC:DXY","title":"DXY"}],"showSymbolLogo":false,"isTransparent":true,"displayMode":"adaptive","colorTheme":"dark","locale":"en"}
-    </script>
+  <div class="tradingview-widget-container" id="tv-ticker" style="height:46px;">
   </div>
 </div>
 
@@ -219,7 +215,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="st"><span data-key="navMacro">📡 Macro Scan</span> <span class="st-badge" data-key="macroBadge">أسبوعي / يومي</span></div>
   
   <div class="g2 mb">
-    <!-- الأخبار الحية المحدثة عبر RSS -->
+    <!-- الأخبار الحية המحدثة عبر RSS -->
     <div class="card">
       <div class="ch">
         <div>
@@ -243,19 +239,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
         </div>
       </div>
       <div class="widget-box">
-        <div class="tradingview-widget-container">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
-          {
-            "colorTheme": "dark",
-            "isTransparent": true,
-            "width": "100%",
-            "height": "100%",
-            "locale": "ar",
-            "importanceFilter": "-1,0,1",
-            "currencyFilter": "USD,EUR,GBP,JPY,AUD,CAD,CHF,NZD"
-          }
-          </script>
+        <div class="tradingview-widget-container" id="tv-calendar">
         </div>
       </div>
     </div>
@@ -271,18 +255,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
         </div>
       </div>
       <div class="widget-box">
-        <div class="tradingview-widget-container">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js" async>
-          {
-            "width": "100%",
-            "height": "100%",
-            "currencies": ["EUR", "USD", "JPY", "GBP", "CHF", "AUD", "CAD", "NZD"],
-            "isTransparent": true,
-            "colorTheme": "dark",
-            "locale": "ar"
-          }
-          </script>
+        <div class="tradingview-widget-container" id="tv-heatmap">
         </div>
       </div>
     </div>
@@ -343,74 +316,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
         </div>
     </div>
     <div class="widget-box" style="height: 500px;">
-      <div class="tradingview-widget-container">
-        <div class="tradingview-widget-container__widget"></div>
-        <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js" async>
-        {
-          "colorTheme": "dark",
-          "dateRange": "12M",
-          "showChart": true,
-          "locale": "ar",
-          "width": "100%",
-          "height": "100%",
-          "largeChartUrl": "",
-          "isTransparent": true,
-          "showSymbolLogo": true,
-          "showFloatingTooltip": true,
-          "plotLineColorGrowing": "rgba(29, 184, 122, 1)",
-          "plotLineColorFalling": "rgba(224, 60, 60, 1)",
-          "gridLineColor": "rgba(38, 48, 69, 0)",
-          "scaleFontColor": "rgba(143, 163, 191, 1)",
-          "belowLineFillColorGrowing": "rgba(29, 184, 122, 0.12)",
-          "belowLineFillColorFalling": "rgba(224, 60, 60, 0.12)",
-          "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
-          "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
-          "symbolActiveColor": "rgba(41, 98, 255, 0.12)",
-          "tabs": [
-            {
-              "title": "الفوركس (Forex)",
-              "symbols": [
-                {"s": "FX:EURUSD", "d": "EUR/USD"},
-                {"s": "FX:GBPUSD", "d": "GBP/USD"},
-                {"s": "FX:USDJPY", "d": "USD/JPY"},
-                {"s": "FX:AUDUSD", "d": "AUD/USD"},
-                {"s": "FX:USDCAD", "d": "USD/CAD"},
-                {"s": "FX:USDCHF", "d": "USD/CHF"},
-                {"s": "FX:NZDUSD", "d": "NZD/USD"},
-                {"s": "FX:GBPJPY", "d": "GBP/JPY"},
-                {"s": "FX:EURJPY", "d": "EUR/JPY"},
-                {"s": "FX:EURGBP", "d": "EUR/GBP"},
-                {"s": "FX:AUDJPY", "d": "AUD/JPY"}
-              ]
-            },
-            {
-              "title": "المعادن والطاقة (Metals & Energy)",
-              "symbols": [
-                {"s": "TVC:GOLD", "d": "Gold (XAU/USD)"},
-                {"s": "TVC:SILVER", "d": "Silver (XAG/USD)"},
-                {"s": "TVC:USOIL", "d": "WTI Crude Oil"}
-              ]
-            },
-            {
-              "title": "المؤشرات والأسهم (Indices)",
-              "symbols": [
-                {"s": "NASDAQ:QQQ", "d": "US100 (Nasdaq)"},
-                {"s": "SP:SPX", "d": "S&P 500"},
-                {"s": "DJ:DJI", "d": "US30 (Dow Jones)"}
-              ]
-            },
-            {
-              "title": "الكريبتو (Crypto)",
-              "symbols": [
-                {"s": "BINANCE:BTCUSD", "d": "Bitcoin"},
-                {"s": "BINANCE:ETHUSD", "d": "Ethereum"},
-                {"s": "BINANCE:SOLUSD", "d": "Solana"},
-                {"s": "BINANCE:XRPUSD", "d": "Ripple"}
-              ]
-            }
-          ]
-        }
-        </script>
+      <div class="tradingview-widget-container" id="tv-screener">
       </div>
     </div>
   </div>
@@ -569,9 +475,9 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       </div>
       <div class="card">
         <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="contextTitle">سياق الصفقة</span></div></div>
-        <div class="ig"><label class="il" data-key="contextInputLabel">الأصل والـ Timeframe</label><input type="text" class="if" id="chartCtx" placeholder="مثال: XAUUSD — D1 / H4 / H1"></div>
+        <div class="ig"><label class="il" data-key="contextInputLabel">الأصل والـ Timeframe</label><input type="text" class="if" id="chartCtx" data-key="chartCtxPlaceholder" placeholder="مثال: XAUUSD — D1 / H4 / H1"></div>
         <div class="ig"><label class="il" data-key="biasCurrentLabel">الـ Bias الحالي</label><select class="sf" id="chartBias"><option value="long" data-key="chartBiasLong">Long — أبحث عن شراء</option><option value="short" data-key="chartBiasShort">Short — أبحث عن بيع</option><option value="neutral" data-key="chartBiasNeutral">Neutral — محتاج رأي المساعد</option></select></div>
-        <div class="ig"><label class="il" data-key="chartQLabel">سؤالك أو ملاحظاتك</label><textarea class="tf" id="chartQ" placeholder="مثال: هل هذا Break & Retest صحيح؟ وين أضع الـ SL؟"></textarea></div>
+        <div class="ig"><label class="il" data-key="chartQLabel">سؤالك أو ملاحظاتك</label><textarea class="tf" id="chartQ" data-key="chartQPlaceholder" placeholder="مثال: هل هذا Break & Retest صحيح؟ وين أضع الـ SL؟"></textarea></div>
         <button class="btn btn-gold w100" onclick="analyzeChart()" id="analyzeBtn" data-key="analyzeBtn">🤖 تحليل الشارت</button>
       </div>
     </div>
@@ -627,7 +533,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
         <div class="ig"><label class="il" data-key="resultRLabel">النتيجة (R)</label><input type="number" class="if" id="j-r" step="0.1" placeholder="+2 or -1"></div>
         <div class="ig"><label class="il" data-key="statusLabel">الحالة</label><select class="sf" id="j-outcome"><option value="win">✅ Win</option><option value="loss">❌ Loss</option><option value="be">⟷ BE</option><option value="open">🔓 Open</option></select></div>
       </div>
-      <div class="ig"><label class="il" data-key="notesLabel">الملاحظات والأخطاء</label><textarea class="tf" id="j-notes" placeholder="هل اتبعت الخطة؟ الأخطاء؟ الدرس؟"></textarea></div>
+      <div class="ig"><label class="il" data-key="notesLabel">الملاحظات والأخطاء</label><textarea class="tf" id="j-notes" data-key="jNotesPlaceholder" placeholder="هل اتبعت الخطة؟ الأخطاء؟ الدرس؟"></textarea></div>
       <button class="btn btn-gold w100" onclick="addEntry()" data-key="addTradeBtn">+ إضافة الصفقة</button>
     </div>
     <div>
@@ -658,8 +564,8 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
     </div>
     <div class="card">
       <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="genReport">إنشاء التقرير</span></div></div>
-      <div class="ig"><label class="il" data-key="weekNotesLabel">ملاحظاتك عن الأسبوع</label><textarea class="tf" id="weekNotes" placeholder="اللي شغل، اللي ما شغل..." style="min-height:90px"></textarea></div>
-      <div class="ig"><label class="il" data-key="weekGoalLabel">هدفك للأسبوع القادم</label><input type="text" class="if" id="weekGoal" placeholder="مثال: تحسين تطبيق Liquidity Sweep"></div>
+      <div class="ig"><label class="il" data-key="weekNotesLabel">ملاحظاتك عن الأسبوع</label><textarea class="tf" id="weekNotes" data-key="weekNotesPlaceholder" placeholder="اللي شغل، اللي ما شغل..." style="min-height:90px"></textarea></div>
+      <div class="ig"><label class="il" data-key="weekGoalLabel">هدفك للأسبوع القادم</label><input type="text" class="if" id="weekGoal" data-key="weekGoalPlaceholder" placeholder="مثال: تحسين تطبيق Liquidity Sweep"></div>
       <button class="btn btn-gold w100" onclick="genReport()" data-key="genReportBtn">📊 إنشاء التقرير الأسبوعي</button>
       <div id="reportLoading" class="loading" style="display:none"><div class="spinner"></div><span data-key="reportLoadingText">جاري تحليل أسبوعك...</span></div>
     </div>
@@ -675,14 +581,14 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <div class="card">
         <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="chatFaq">أسئلة شائعة</span></div></div>
         <div style="display:flex;flex-direction:column;gap:5px">
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما الفرق بين Break and Retest و Liquidity Sweep؟')" data-key="q1">🔁 Break & Retest vs Liquidity Sweep؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أحدد الـ Bias الصحيح على D1 و H4؟')" data-key="q2">📊 كيف أحدد الـ Bias الصحيح؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('متى أحرك الـ Stop Loss لـ Break-even؟')" data-key="q3">📍 متى أحرك SL لـ Break-even؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أتعامل مع سلسلة الخسائر المتتالية نفسياً؟')" data-key="q4">🧠 كيف أتعامل مع الخسائر المتتالية؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما أهم الأخطاء التي يقع فيها المتداول المبتدئ؟')" data-key="q5">⚠️ أهم أخطاء المتداول المبتدئ؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أقرأ Market Structure على التشارت؟')" data-key="q6">🏗️ كيف أقرأ Market Structure؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما الفرق بين Trading Sessions وأيها أفضل؟')" data-key="q7">⏰ أفضل Session للتداول؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما هو Order Block وكيف أستخدمه في التداول؟')" data-key="q8">🧲 ما هو Order Block؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ(this.innerText)" data-key="q1">🔁 Break & Retest vs Liquidity Sweep؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ(this.innerText)" data-key="q2">📊 كيف أحدد الـ Bias الصحيح؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ(this.innerText)" data-key="q3">📍 متى أحرك SL لـ Break-even؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ(this.innerText)" data-key="q4">🧠 كيف أتعامل مع الخسائر المتتالية؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ(this.innerText)" data-key="q5">⚠️ أهم أخطاء المتداول المبتدئ؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ(this.innerText)" data-key="q6">🏗️ كيف أقرأ Market Structure؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ(this.innerText)" data-key="q7">⏰ أفضل Session للتداول؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ(this.innerText)" data-key="q8">🧲 ما هو Order Block؟</button>
         </div>
       </div>
       
@@ -738,7 +644,6 @@ const S = {
   currentSignals: [] 
 };
 
-// التوصيات الافتراضية
 const defaultSignals = [
     { 
       id: 991, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: 'Now', timeframe: 'H1', desc: '', 
@@ -907,7 +812,6 @@ const translations = {
     tdSetup: "Setup",
     chartPlaceholderText: "Upload a chart and click Analyze",
 
-    // Missing Translations
     dailyBiasClear: "Daily Bias is clear",
     h4Aligns: "H4 aligns with Daily",
     ma200Supports: "200 MA supports Bias",
@@ -938,7 +842,12 @@ const translations = {
     optGroupCrypto: "Crypto",
     qtAssetPlaceholder: "Example: EURUSD",
     qtLong: "LONG (Buy)",
-    qtShort: "SHORT (Sell)"
+    qtShort: "SHORT (Sell)",
+    chartCtxPlaceholder: "Example: XAUUSD — D1 / H4 / H1",
+    chartQPlaceholder: "Example: Is this a valid Break & Retest? Where should I place SL?",
+    jNotesPlaceholder: "Did you follow the plan? Mistakes? Lesson?",
+    weekNotesPlaceholder: "What worked, what didn't...",
+    weekGoalPlaceholder: "Example: Improve Liquidity Sweep execution"
   },
   ar: {
     logoSub: "نظام التداول الاحترافي",
@@ -1092,7 +1001,6 @@ const translations = {
     tdSetup: "Setup",
     chartPlaceholderText: "ارفع شارت واضغط تحليل",
 
-    // Missing Translations
     dailyBiasClear: "Daily Bias واضح",
     h4Aligns: "H4 يتوافق مع Daily",
     ma200Supports: "200 MA يدعم الـ Bias",
@@ -1123,7 +1031,12 @@ const translations = {
     optGroupCrypto: "العملات الرقمية (Crypto)",
     qtAssetPlaceholder: "مثال: EURUSD",
     qtLong: "LONG (شراء)",
-    qtShort: "SHORT (بيع)"
+    qtShort: "SHORT (بيع)",
+    chartCtxPlaceholder: "مثال: XAUUSD — D1 / H4 / H1",
+    chartQPlaceholder: "مثال: هل هذا Break & Retest صحيح؟ وين أضع الـ SL؟",
+    jNotesPlaceholder: "هل اتبعت الخطة؟ الأخطاء؟ الدرس؟",
+    weekNotesPlaceholder: "اللي شغل، اللي ما شغل...",
+    weekGoalPlaceholder: "مثال: تحسين تطبيق Liquidity Sweep"
   }
 };
 
@@ -1252,7 +1165,6 @@ function renderSignalsUI(signals) {
         let displayTime = s.time;
         if(!displayTime || displayTime.toLowerCase() === 'now') displayTime = isAr ? 'الآن' : 'Now';
 
-        // جعل لون نص الزر أسود دائماً
         return `
         <div class="card signal-card" style="border: 1px solid rgba(201,168,76,0.3); background: linear-gradient(180deg, var(--surface) 0%, var(--surface2) 100%);">
           ${defaultBadge}
@@ -1341,7 +1253,6 @@ function applySignal(id) {
     showPage('precheck', precheckTab);
 }
 
-// دالة سحب الأخبار الحية الأصلية 100%
 async function fetchLiveRSSNews() {
     const container = document.getElementById('rssNewsContainer');
     if(!container) return;
@@ -1402,11 +1313,103 @@ async function fetchLiveRSSNews() {
     }
 }
 
+// وظيفة جديدة لإعادة رسم ودجات TradingView بألوان تتناسب مع الثيم (نهاري/ليلي)
+function renderTVWidgets() {
+    const t = document.documentElement.getAttribute('data-theme');
+    const locale = S.lang;
+
+    const ticker = document.getElementById('tv-ticker');
+    if(ticker) {
+        ticker.innerHTML = '<div class="tradingview-widget-container__widget"></div>';
+        const script = document.createElement('script');
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js';
+        script.async = true;
+        script.innerHTML = JSON.stringify({
+            "symbols":[{"proName":"FX:EURUSD","title":"EUR/USD"},{"proName":"FX:GBPUSD","title":"GBP/USD"},{"proName":"FX:USDJPY","title":"USD/JPY"},{"proName":"FX:AUDUSD","title":"AUD/USD"},{"proName":"FX:USDCAD","title":"USD/CAD"},{"proName":"FX:GBPJPY","title":"GBP/JPY"},{"proName":"FX:EURJPY","title":"EUR/JPY"},{"proName":"TVC:GOLD","title":"XAU/USD"},{"proName":"NASDAQ:QQQ","title":"US100"},{"proName":"COINBASE:BTCUSD","title":"BTC/USD"},{"proName":"COINBASE:ETHUSD","title":"ETH/USD"},{"proName":"TVC:DXY","title":"DXY"}],
+            "showSymbolLogo":false,"isTransparent":true,"displayMode":"adaptive","colorTheme":t,"locale":locale
+        });
+        ticker.appendChild(script);
+    }
+
+    const calendar = document.getElementById('tv-calendar');
+    if(calendar) {
+        calendar.innerHTML = '<div class="tradingview-widget-container__widget"></div>';
+        const script = document.createElement('script');
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-events.js';
+        script.async = true;
+        script.innerHTML = JSON.stringify({
+            "colorTheme": t,
+            "isTransparent": true,
+            "width": "100%",
+            "height": "100%",
+            "locale": locale,
+            "importanceFilter": "-1,0,1",
+            "currencyFilter": "USD,EUR,GBP,JPY,AUD,CAD,CHF,NZD"
+        });
+        calendar.appendChild(script);
+    }
+
+    const heatmap = document.getElementById('tv-heatmap');
+    if(heatmap) {
+        heatmap.innerHTML = '<div class="tradingview-widget-container__widget"></div>';
+        const script = document.createElement('script');
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js';
+        script.async = true;
+        script.innerHTML = JSON.stringify({
+            "width": "100%",
+            "height": "100%",
+            "currencies": ["EUR", "USD", "JPY", "GBP", "CHF", "AUD", "CAD", "NZD"],
+            "isTransparent": true,
+            "colorTheme": t,
+            "locale": locale
+        });
+        heatmap.appendChild(script);
+    }
+
+    const screener = document.getElementById('tv-screener');
+    if(screener) {
+        screener.innerHTML = '<div class="tradingview-widget-container__widget"></div>';
+        const script = document.createElement('script');
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js';
+        script.async = true;
+        script.innerHTML = JSON.stringify({
+            "colorTheme": t,
+            "dateRange": "12M",
+            "showChart": true,
+            "locale": locale,
+            "width": "100%",
+            "height": "100%",
+            "largeChartUrl": "",
+            "isTransparent": true,
+            "showSymbolLogo": true,
+            "showFloatingTooltip": true,
+            "plotLineColorGrowing": "rgba(29, 184, 122, 1)",
+            "plotLineColorFalling": "rgba(224, 60, 60, 1)",
+            "gridLineColor": "rgba(38, 48, 69, 0)",
+            "scaleFontColor": t === 'dark' ? "rgba(143, 163, 191, 1)" : "rgba(71, 85, 105, 1)",
+            "belowLineFillColorGrowing": "rgba(29, 184, 122, 0.12)",
+            "belowLineFillColorFalling": "rgba(224, 60, 60, 0.12)",
+            "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+            "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+            "symbolActiveColor": "rgba(41, 98, 255, 0.12)",
+            "tabs": [
+                { "title": locale === 'en' ? "Forex" : "الفوركس (Forex)", "symbols": [ {"s": "FX:EURUSD", "d": "EUR/USD"}, {"s": "FX:GBPUSD", "d": "GBP/USD"}, {"s": "FX:USDJPY", "d": "USD/JPY"}, {"s": "FX:AUDUSD", "d": "AUD/USD"}, {"s": "FX:USDCAD", "d": "USD/CAD"}, {"s": "FX:USDCHF", "d": "USD/CHF"}, {"s": "FX:NZDUSD", "d": "NZD/USD"}, {"s": "FX:GBPJPY", "d": "GBP/JPY"}, {"s": "FX:EURJPY", "d": "EUR/JPY"}, {"s": "FX:EURGBP", "d": "EUR/GBP"}, {"s": "FX:AUDJPY", "d": "AUD/JPY"} ] },
+                { "title": locale === 'en' ? "Metals & Energy" : "المعادن والطاقة (Metals & Energy)", "symbols": [ {"s": "TVC:GOLD", "d": "Gold (XAU/USD)"}, {"s": "TVC:SILVER", "d": "Silver (XAG/USD)"}, {"s": "TVC:USOIL", "d": "WTI Crude Oil"} ] },
+                { "title": locale === 'en' ? "Indices" : "المؤشرات والأسهم (Indices)", "symbols": [ {"s": "NASDAQ:QQQ", "d": "US100 (Nasdaq)"}, {"s": "SP:SPX", "d": "S&P 500"}, {"s": "DJ:DJI", "d": "US30 (Dow Jones)"} ] },
+                { "title": locale === 'en' ? "Crypto" : "الكريبتو (Crypto)", "symbols": [ {"s": "BINANCE:BTCUSD", "d": "Bitcoin"}, {"s": "BINANCE:ETHUSD", "d": "Ethereum"}, {"s": "BINANCE:SOLUSD", "d": "Solana"}, {"s": "BINANCE:XRPUSD", "d": "Ripple"} ] }
+            ]
+        });
+        screener.appendChild(script);
+    }
+}
+
 function changeTVSymbol() {
     const symbol = document.getElementById('tvSymbolSelect').value;
     const container = document.getElementById('techAnalysisContainer');
-    container.innerHTML = '';
+    if(!container) return;
     
+    container.innerHTML = '';
+    const t = document.documentElement.getAttribute('data-theme');
     const wrapper = document.createElement('div');
     wrapper.className = 'tradingview-widget-container';
     
@@ -1425,7 +1428,7 @@ function changeTVSymbol() {
         "symbol": symbol,
         "showIntervalTabs": true,
         "locale": S.lang,
-        "colorTheme": "dark"
+        "colorTheme": t
     });
     
     wrapper.appendChild(widgetDiv);
@@ -1439,6 +1442,11 @@ function toggleTheme() {
   html.setAttribute('data-theme', t);
   const btn = document.getElementById('themeBtn');
   btn.textContent = t === 'dark' ? (S.lang === 'ar' ? '☀️ نهاري' : '☀️ Day') : (S.lang === 'ar' ? '🌙 ليلي' : '🌙 Night');
+  
+  // تحديث الودجات لتتطابق مع الثيم الجديد
+  renderTVWidgets();
+  changeTVSymbol();
+  
   setTimeout(buildCharts, 150);
 }
 
@@ -1460,7 +1468,6 @@ function toggleLang() {
     }
   });
 
-  // تحديث نصوص المجموعات في الـ Select الخاص بالتحليل الفني
   document.querySelectorAll('[data-label-key]').forEach(el => {
     const key = el.getAttribute('data-label-key');
     if (translations[S.lang][key]) {
@@ -1472,6 +1479,7 @@ function toggleLang() {
   const t = html.getAttribute('data-theme');
   btn.textContent = t === 'dark' ? (S.lang === 'ar' ? '☀️ نهاري' : '☀️ Day') : (S.lang === 'ar' ? '🌙 ليلي' : '🌙 Night');
   
+  renderTVWidgets();
   changeTVSymbol();
   fetchLiveRSSNews(); 
   if(S.currentSignals && S.currentSignals.length > 0) renderSignalsUI(S.currentSignals);
@@ -1834,6 +1842,7 @@ function clearChat(){
 
 document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('j-date').value=new Date().toISOString().split('T')[0];
+  renderTVWidgets();
   calcRisk();
   renderJournal();
   changeTVSymbol(); 
