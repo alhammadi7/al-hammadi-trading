@@ -208,17 +208,16 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="st"><span data-key="navMacro">📡 Macro Scan</span> <span class="st-badge" data-key="macroBadge">أسبوعي / يومي</span></div>
   
   <div class="g2 mb">
-    <!-- الأخبار الحية المحدثة لتعمل عبر RSS -->
+    <!-- الأخبار الحية المحدثة لتعمل بذكاء مع Fallback حماية -->
     <div class="card">
       <div class="ch">
         <div>
             <div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (Market Live)</span></div>
-            <span class="source-label" data-key="newsSource">Sources: FXStreet, ForexLive, CoinTelegraph</span>
+            <span class="source-label" data-key="newsSource" id="newsSourceLabel">Sources: FXStreet, ForexLive, CoinTelegraph</span>
         </div>
         <button class="btn btn-ghost" style="padding:4px 8px;font-size:.7rem" onclick="fetchLiveRSSNews()">🔄</button>
       </div>
       <div class="widget-box" style="overflow-y:auto; padding:10px; background:var(--surface2);" id="rssNewsContainer">
-        <!-- Live News will be injected here via JS -->
         <div class="loading" style="height:100%;"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري جلب الأخبار...</span></div>
       </div>
     </div>
@@ -276,7 +275,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       </div>
     </div>
 
-    <!-- التحليل الفني (بديل Trading Central / Autochartist) -->
+    <!-- التحليل الفني -->
     <div class="card">
       <div class="ch">
         <div>
@@ -319,13 +318,11 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
             </optgroup>
         </select>
       </div>
-      <div class="widget-box" id="techAnalysisContainer" style="height:310px">
-        <!-- Widget injected via JS to allow dynamic symbol change -->
-      </div>
+      <div class="widget-box" id="techAnalysisContainer" style="height:310px"></div>
     </div>
   </div>
 
-  <!-- رادار الأسواق المباشر بدل الفلتر اليدوي -->
+  <!-- رادار الأسواق المباشر -->
   <div class="card mb">
     <div class="ch">
         <div>
@@ -413,7 +410,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
     <span data-key="signalsTitle">🎯 التوصيات الحية (Trading Central & Ideas)</span> 
   </div>
   <div style="padding:10px 15px; border-radius:10px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:var(--accent2); font-size:0.8rem; margin-bottom:1rem; line-height:1.6;" data-key="signalsDisclaimer">
-     💡 هذه المساحة مخصصة لعرض توصياتك الجاهزة (مثل Trading Central). اضغط على "نقل إلى ما قبل الصفقة" لتحويل تفاصيل الصفقة (الدخول، الهدف، الوقف) مباشرة إلى قائمة المراجعة وحاسبة الريسك!
+     💡 هذه المساحة مخصصة لعرض توصياتك الجاهزة. اضغط على "نقل إلى ما قبل الصفقة" لتعبئة تفاصيل الصفقة، الشروط، ونموذج الدخول تلقائياً في قائمة المراجعة وحاسبة الريسك!
   </div>
   <div id="signalsGridContainer" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem; margin-bottom:1rem;">
     <!-- Signals injected via JS -->
@@ -455,29 +452,29 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
         <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="fullChecklist">Checklist الكامل</span></div><div class="sr-wrap"><div class="sr" id="scoreRing" style="--p:0%"><span class="sr-num" id="scoreNum">0</span></div></div></div>
         <div id="checkList">
           <div class="section-cat" data-key="macroLayer">— MACRO LAYER —</div>
-          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check1">بيئة السوق محددة</strong> <span data-key="check1Desc">— Risk-On/Off واضح</span></div></div>
-          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check2">لا خبر قوي الآن</strong> <span data-key="check2Desc">— تجنب 30 دقيقة قبل/بعد</span></div></div>
-          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check3">DXY يدعم الاتجاه</strong></div></div>
+          <div class="ci" id="chk1" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check1">بيئة السوق محددة</strong> <span data-key="check1Desc">— Risk-On/Off واضح</span></div></div>
+          <div class="ci" id="chk2" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check2">لا خبر قوي الآن</strong> <span data-key="check2Desc">— تجنب 30 دقيقة قبل/بعد</span></div></div>
+          <div class="ci" id="chk3" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check3">DXY يدعم الاتجاه</strong></div></div>
           <div class="section-cat">— STRUCTURE &amp; BIAS —</div>
-          <div class="ci" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Daily Bias واضح</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>H4 يتوافق مع Daily</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>200 MA يدعم الـ Bias</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>50 MA يدعم الـ Bias</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>HH/HL يتشكل</strong> <span>للـ Buy / LH/LL للـ Sell</span></div></div>
+          <div class="ci" id="chk4" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Daily Bias واضح</strong></div></div>
+          <div class="ci" id="chk5" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>H4 يتوافق مع Daily</strong></div></div>
+          <div class="ci" id="chk6" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>200 MA يدعم الـ Bias</strong></div></div>
+          <div class="ci" id="chk7" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>50 MA يدعم الـ Bias</strong></div></div>
+          <div class="ci" id="chk8" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>HH/HL يتشكل</strong> <span>للـ Buy / LH/LL للـ Sell</span></div></div>
           <div class="section-cat">— ENTRY QUALITY —</div>
-          <div class="ci" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Setup واضح (أحد النماذج الخمسة)</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Confirmation Candle</strong> <span>— Engulfing / Pin Bar</span></div></div>
-          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>مستوى قوي</strong> <span>— S/R أو Order Block</span></div></div>
-          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>ATR / Volatility كافية</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Confluence</strong> <span>— تقاطع S/R + MA + Pattern</span></div></div>
-          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Session مناسبة</strong> <span>— London/NY أقوى</span></div></div>
+          <div class="ci" id="chk9" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Setup واضح (أحد النماذج الخمسة)</strong></div></div>
+          <div class="ci" id="chk10" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Confirmation Candle</strong> <span>— Engulfing / Pin Bar</span></div></div>
+          <div class="ci" id="chk11" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>مستوى قوي</strong> <span>— S/R أو Order Block</span></div></div>
+          <div class="ci" id="chk12" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>ATR / Volatility كافية</strong></div></div>
+          <div class="ci" id="chk13" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Confluence</strong> <span>— تقاطع S/R + MA + Pattern</span></div></div>
+          <div class="ci" id="chk14" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Session مناسبة</strong> <span>— London/NY أقوى</span></div></div>
           <div class="section-cat">— RISK MANAGEMENT —</div>
-          <div class="ci" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>SL وراء Structure / Swing</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>RR ≥ 2:1</strong> <span>— الصفقة تستاهل</span></div></div>
-          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Risk ≤ 1% من الحساب</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Daily Loss &lt; 2%</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>لا Correlation تعارض</strong></div></div>
-          <div class="ci" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>حالتك النفسية مستقرة</strong></div></div>
+          <div class="ci" id="chk15" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>SL وراء Structure / Swing</strong></div></div>
+          <div class="ci" id="chk16" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>RR ≥ 2:1</strong> <span>— الصفقة تستاهل</span></div></div>
+          <div class="ci" id="chk17" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Risk ≤ 1% من الحساب</strong></div></div>
+          <div class="ci" id="chk18" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Daily Loss &lt; 2%</strong></div></div>
+          <div class="ci" id="chk19" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>لا Correlation تعارض</strong></div></div>
+          <div class="ci" id="chk20" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>حالتك النفسية مستقرة</strong></div></div>
         </div>
         <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)">
           <div class="flex items-c justify-b mb05"><span class="fs07 text-m" data-key="tradeScore">Score الصفقة</span><span id="scoreLabel" class="mono fw7">0/33</span></div>
@@ -703,11 +700,28 @@ const S = {
   lang: 'ar'
 };
 
+// أمثلة التوصيات - الآن تحتوي على بيانات هيكل السوق (Structure) والشروط (Checklist)
 const mockSignals = [
-    { id: 1, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: '10:30 AM', timeframe: 'H1', desc: 'ارتداد من منطقة دعم قوية (Demand Zone)' },
-    { id: 2, asset: 'XAUUSD', dir: 'long', entry: 2350.50, tp: 2380.00, sl: 2335.00, time: '09:15 AM', timeframe: 'H4', desc: 'كسر مستوى مقاومة وإعادة اختبار (B&R)' },
-    { id: 3, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: '08:45 AM', timeframe: 'M30', desc: 'تشبع شرائي مع ظهور شمعة ابتلاعية سلبية' },
-    { id: 4, asset: 'USDJPY', dir: 'long', entry: 154.200, tp: 155.500, sl: 153.500, time: '07:20 AM', timeframe: 'H1', desc: 'استمرار الترند الصاعد بعد تجميع سيولة' }
+    { 
+      id: 1, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: '10:30 AM', timeframe: 'H1', desc: 'ارتداد من منطقة دعم قوية (Demand Zone)', 
+      setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
+      checks: [4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16] // أرقام الشروط التي ستفعل تلقائياً
+    },
+    { 
+      id: 2, asset: 'XAUUSD', dir: 'long', entry: 2350.50, tp: 2380.00, sl: 2335.00, time: '09:15 AM', timeframe: 'H4', desc: 'كسر مستوى مقاومة وإعادة اختبار (B&R)',
+      setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
+      checks: [4, 5, 6, 7, 8, 9, 11, 12, 15, 16] 
+    },
+    { 
+      id: 3, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: '08:45 AM', timeframe: 'M30', desc: 'تشبع شرائي مع ظهور شمعة ابتلاعية سلبية',
+      setupId: 2, structure: { daily: 'bearish', h4: 'bearish', h1: 'bearish', ma200: 'below', ma50: 'below', rsi: 'ob' }, 
+      checks: [4, 5, 6, 7, 8, 9, 10, 15, 16] 
+    },
+    { 
+      id: 4, asset: 'USDJPY', dir: 'long', entry: 154.200, tp: 155.500, sl: 153.500, time: '07:20 AM', timeframe: 'H1', desc: 'استمرار الترند الصاعد بعد تجميع سيولة',
+      setupId: 3, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
+      checks: [4, 5, 6, 7, 8, 9, 13, 15, 16] 
+    }
 ];
 
 const translations = {
@@ -727,12 +741,12 @@ const translations = {
     macroBadge: "Live Dashboard",
     currencyHeatmap: "Currency Heatmap",
     economicCalendar: "Economic Calendar",
-    liveNews: "Live Market News (FXStreet)",
+    liveNews: "Live Market News",
     techAnalysis: "Technical Analysis (Auto)",
     assetSelectLabel: "Select Asset:",
     liveScreener: "Live Market Screener",
-    signalsTitle: "🎯 Live Trading Signals (Trading Central & Ideas)",
-    signalsDisclaimer: "💡 This space is reserved for your ready signals (like Trading Central). Click 'Send to Pre-Trade' to transfer entry, TP, and SL directly to your checklist and risk calculator!",
+    signalsTitle: "🎯 Live Trading Signals",
+    signalsDisclaimer: "💡 This space is reserved for your ready signals. Click 'Send to Pre-Trade' to autofill entry, TP, SL, setup, and checklist criteria instantly!",
     sendToPreTrade: "✅ Send to Pre-Trade",
     preTradeTitle: "✅ Pre-Trade",
     preTradeBadge: "Full Checklist",
@@ -802,7 +816,7 @@ const translations = {
     genReportBtn: "📊 Create Report",
     chatTitle: "💬 Smart Assistant",
     poweredByTV: "Powered by TradingView",
-    newsSource: "Sources: FXStreet, ForexLive, CoinTelegraph"
+    newsSource: "Sources: TradingView Live News"
   },
   ar: {
     logoSub: "نظام التداول الاحترافي",
@@ -825,7 +839,7 @@ const translations = {
     assetSelectLabel: "اختر الأصل للتحليل:",
     liveScreener: "رادار الأسواق المباشر (Live Screener)",
     signalsTitle: "🎯 التوصيات الحية (Trading Central & Ideas)",
-    signalsDisclaimer: "💡 هذه المساحة مخصصة لعرض توصياتك الجاهزة (مثل Trading Central). اضغط على 'نقل إلى ما قبل الصفقة' لتحويل تفاصيل الصفقة (الدخول، الهدف، الوقف) مباشرة إلى قائمة المراجعة وحاسبة الريسك!",
+    signalsDisclaimer: "💡 هذه المساحة مخصصة لعرض توصياتك الجاهزة. اضغط على 'نقل إلى ما قبل الصفقة' لتعبئة تفاصيل الصفقة، الشروط، ونموذج الدخول تلقائياً في قائمة المراجعة وحاسبة الريسك!",
     sendToPreTrade: "✅ نقل إلى (ما قبل الصفقة)",
     preTradeTitle: "✅ ما قبل الصفقة",
     preTradeBadge: "Checklist كامل",
@@ -893,7 +907,7 @@ const translations = {
     genReportBtn: "📊 إنشاء التقرير الأسبوعي",
     chatTitle: "💬 المساعد الذكي",
     poweredByTV: "مدعوم من TradingView",
-    newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph"
+    newsSource: "المصادر: TradingView Live News"
   }
 };
 
@@ -922,46 +936,85 @@ function renderSignalsUI() {
             <div style="background:var(--surface2); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">TP</div><div class="mono fw7 text-g" style="font-size:0.85rem">${s.tp}</div></div>
             <div style="background:var(--surface2); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">SL</div><div class="mono fw7 text-r" style="font-size:0.85rem">${s.sl}</div></div>
           </div>
-          <button class="btn btn-ghost w100" onclick="applySignal('${s.asset}', '${s.dir}', ${s.entry}, ${s.sl})" style="border-color:var(--accent); color:var(--accent2);">${btnText}</button>
+          <button class="btn btn-ghost w100" onclick="applySignal(${s.id})" style="border-color:var(--accent); color:var(--accent2);">${btnText}</button>
         </div>
         `;
     }).join('');
 }
 
-function applySignal(asset, dir, entry, sl) {
+function applySignal(id) {
+    const signal = mockSignals.find(s => s.id === id);
+    if(!signal) return;
+
     // 1. Set Asset in Pre-Trade
     const assetSelect = document.getElementById('tradeAsset');
     let found = false;
     for(let i=0; i<assetSelect.options.length; i++) {
-        if(assetSelect.options[i].text.replace(/\s/g,'').includes(asset)) {
+        if(assetSelect.options[i].text.replace(/\s/g,'').includes(signal.asset)) {
             assetSelect.selectedIndex = i;
             found = true; break;
         }
     }
     if(!found) {
         const opt = document.createElement('option');
-        opt.text = asset;
+        opt.text = signal.asset;
         assetSelect.add(opt);
         assetSelect.selectedIndex = assetSelect.options.length - 1;
     }
     
     // 2. Set Direction Bias
-    setBias(dir);
+    setBias(signal.dir);
 
-    // 3. Set Values in Risk Calculator
-    document.getElementById('entryP').value = entry;
-    document.getElementById('slP').value = sl;
+    // 3. Set Structure Dropdowns (Auto-fill)
+    if(signal.structure) {
+        document.getElementById('dailyStr').value = signal.structure.daily;
+        document.getElementById('h4Str').value = signal.structure.h4;
+        document.getElementById('h1Str').value = signal.structure.h1;
+        document.getElementById('ma200').value = signal.structure.ma200;
+        document.getElementById('ma50').value = signal.structure.ma50;
+        document.getElementById('rsiS').value = signal.structure.rsi;
+        chkBias(); // Trigger warning check
+    }
+
+    // 4. Set Setup Model (Auto-select)
+    if(signal.setupId) {
+        // Clear all setups first
+        for(let i=1; i<=5; i++) {
+            document.getElementById('m'+i).classList.remove('checked');
+        }
+        // Select the specific setup
+        document.getElementById('m'+signal.setupId).classList.add('checked');
+    }
+
+    // 5. Fill the Checklist (Auto-check)
+    if(signal.checks && signal.checks.length > 0) {
+        // Reset all checklists
+        for(let i=1; i<=20; i++) {
+            const chk = document.getElementById('chk'+i);
+            if(chk) chk.classList.remove('checked');
+        }
+        // Apply checks
+        signal.checks.forEach(c => {
+            const chk = document.getElementById('chk'+c);
+            if(chk) chk.classList.add('checked');
+        });
+        updateScore();
+    }
+
+    // 6. Set Values in Risk Calculator
+    document.getElementById('entryP').value = signal.entry;
+    document.getElementById('slP').value = signal.sl;
     
     const riskAsset = document.getElementById('assetType');
-    if(asset.includes('XAU')) riskAsset.value = 'gold';
-    else if(asset.includes('BTC') || asset.includes('ETH')) riskAsset.value = 'btc';
-    else if(asset.includes('US100') || asset.includes('SPX')) riskAsset.value = 'indices_usd';
-    else if(asset.includes('JPY')) riskAsset.value = 'forex_yen';
+    if(signal.asset.includes('XAU')) riskAsset.value = 'gold';
+    else if(signal.asset.includes('BTC') || signal.asset.includes('ETH')) riskAsset.value = 'btc';
+    else if(signal.asset.includes('US100') || signal.asset.includes('SPX')) riskAsset.value = 'indices_usd';
+    else if(signal.asset.includes('JPY')) riskAsset.value = 'forex_yen';
     else riskAsset.value = 'forex_major';
     
     calcRisk();
 
-    // 4. Switch to Pre-Trade Tab
+    // 7. Switch to Pre-Trade Tab
     const tabs = document.querySelectorAll('.nav-tab');
     let precheckTab = null;
     tabs.forEach(t => { if(t.getAttribute('data-key') === 'navPrecheck') precheckTab = t; });
@@ -976,50 +1029,30 @@ async function fetchLiveRSSNews() {
     container.innerHTML = '<div class="loading" style="justify-content:center;height:100%"><div class="spinner"></div></div>';
     
     try {
-        // قائمة المصادر المتعددة
+        // محاولة جلب الأخبار من المصادر عبر وسيط RSS
         const feeds = [
             { url: 'https://www.fxstreet.com/news/rss', name: 'FXStreet' },
-            { url: 'https://www.forexlive.com/feed/news', name: 'ForexLive' },
-            { url: 'https://cointelegraph.com/rss', name: 'CoinTelegraph' }
+            { url: 'https://www.forexlive.com/feed/news', name: 'ForexLive' }
         ];
 
         let allItems = [];
-
-        // جلب الأخبار من كل المصادر في نفس الوقت (بشكل متوازي للسرعة)
         const promises = feeds.map(feed => 
             fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`)
             .then(res => res.json())
             .then(data => {
-                if (data.status === 'ok' && data.items) {
-                    // إضافة اسم المصدر لكل خبر
-                    return data.items.map(item => ({ ...item, sourceName: feed.name }));
-                }
+                if (data.status === 'ok' && data.items) return data.items.map(item => ({ ...item, sourceName: feed.name }));
                 return [];
-            })
-            .catch(e => {
-                console.warn(`Failed to fetch ${feed.name}:`, e);
-                return [];
-            })
+            }).catch(e => [])
         );
 
-        // انتظار كل المصادر حتى تنتهي من التحميل
         const results = await Promise.all(promises);
-        
-        // دمج جميع الأخبار في قائمة واحدة
-        results.forEach(items => {
-            allItems = allItems.concat(items);
-        });
-
-        // ترتيب الأخبار حسب الوقت (الأحدث أولاً)
-        allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+        results.forEach(items => { allItems = allItems.concat(items); });
 
         if(allItems.length > 0) {
+            allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
             let html = '<div style="display:flex;flex-direction:column;gap:8px">';
-            // عرض أحدث 20 خبر من المزيج
             allItems.slice(0, 20).forEach(item => {
-                const pubDate = item.pubDate || new Date().toISOString();
-                const date = new Date(pubDate).toLocaleTimeString(S.lang === 'ar' ? 'ar-SA' : 'en-US', {hour: '2-digit', minute:'2-digit'});
-                
+                const date = new Date(item.pubDate || new Date().toISOString()).toLocaleTimeString(S.lang === 'ar' ? 'ar-SA' : 'en-US', {hour: '2-digit', minute:'2-digit'});
                 html += `<a href="${item.link}" target="_blank" class="news-item">
                     <div class="news-time">${date} • ${item.sourceName}</div>
                     <div class="news-title">${item.title}</div>
@@ -1028,11 +1061,44 @@ async function fetchLiveRSSNews() {
             html += '</div>';
             container.innerHTML = html;
         } else {
-            throw new Error('No items found in any RSS feed');
+            // إذا حظرت جميع السيرفرات طلب الـ RSS، نقوم فوراً وبشكل صامت بتبديل الشاشة لودجت أخبار TradingView المستقر 100%
+            throw new Error('Fallback to TV News');
         }
     } catch(e) {
-        console.error("RSS Error:", e);
-        container.innerHTML = `<div style="text-align:center;color:var(--red2);padding:20px;font-size:0.8rem">⚠️ ${S.lang === 'ar' ? 'تعذر جلب الأخبار المباشرة' : 'Failed to fetch live news'}</div>`;
+        // Fallback: Inject TradingView News Widget
+        container.innerHTML = '';
+        container.style.padding = '0';
+        container.style.overflow = 'hidden';
+        const wrapper = document.createElement('div');
+        wrapper.className = 'tradingview-widget-container';
+        wrapper.style.height = '100%';
+        wrapper.style.width = '100%';
+        
+        const widgetDiv = document.createElement('div');
+        widgetDiv.className = 'tradingview-widget-container__widget';
+        widgetDiv.style.height = 'calc(100% - 32px)';
+        
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
+        script.async = true;
+        script.innerHTML = JSON.stringify({
+            "feedMode": "all_symbols",
+            "isTransparent": true,
+            "displayMode": "regular",
+            "width": "100%",
+            "height": "100%",
+            "colorTheme": "dark",
+            "locale": S.lang
+        });
+        
+        wrapper.appendChild(widgetDiv);
+        wrapper.appendChild(script);
+        container.appendChild(wrapper);
+        
+        // تحديث النص ليوضح أن المصدر تحول لـ TradingView
+        const sourceLabel = document.getElementById('newsSourceLabel');
+        if(sourceLabel) sourceLabel.innerHTML = translations[S.lang].poweredByTV;
     }
 }
 
