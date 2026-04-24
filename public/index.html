@@ -8,12 +8,12 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 [data-theme="dark"]{--bg:#060810;--bg2:#0a0d16;--surface:#0f1219;--surface2:#141824;--surface3:#1a2030;--border:#1e2738;--border2:#263045;--text:#e8edf5;--text2:#8fa3bf;--text3:#4a5f7a;--accent:#c9a84c;--accent2:#e8c86e;--accent3:rgba(201,168,76,0.12);--green:#1db87a;--green2:#35d494;--red:#e03c3c;--red2:#f06060;--blue:#3b7fd4;--blue2:#5a9ae8;--shadow:0 8px 32px rgba(0,0,0,0.5);--glow:0 0 20px rgba(201,168,76,0.15);}
-/* تم تعديل الألوان النهارية لتصبح هادئة ومريحة للعين */
-[data-theme="light"]{--bg:#f3f4f6;--bg2:#e2e8f0;--surface:#ffffff;--surface2:#f8fafc;--surface3:#f1f5f9;--border:#cbd5e1;--border2:#94a3b8;--text:#1e293b;--text2:#475569;--text3:#64748b;--accent:#b8922a;--accent2:#9ca3af;--accent3:rgba(184,146,42,0.1);--green:#059669;--green2:#10b981;--red:#dc2626;--red2:#ef4444;--blue:#2563eb;--blue2:#3b82f6;--shadow:0 4px 20px rgba(0,0,0,0.08);--glow:0 0 20px rgba(184,146,42,0.1);}
+/* الألوان النهارية الهادئة الجديدة والمريحة للعين مع نصوص واضحة */
+[data-theme="light"]{--bg:#f0f2f5;--bg2:#e4e7eb;--surface:#ffffff;--surface2:#f8f9fa;--surface3:#f1f3f5;--border:#cbd5e1;--border2:#9ca3af;--text:#0f172a;--text2:#334155;--text3:#475569;--accent:#b48529;--accent2:#926b1c;--accent3:rgba(180,133,41,0.12);--green:#059669;--green2:#10b981;--red:#dc2626;--red2:#ef4444;--blue:#2563eb;--blue2:#3b82f6;--shadow:0 4px 20px rgba(0,0,0,0.08);--glow:0 0 20px rgba(184,146,42,0.1);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s; display:flex; flex-direction:column;}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:56px;background:rgba(6,8,16,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1rem;gap:.75rem;transition:background .3s;}
-[data-theme="light"] .topbar{background:rgba(244,245,248,.95);}
+[data-theme="light"] .topbar{background:rgba(240,242,245,.95);}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
 .logo-icon{width:34px;height:34px;background:linear-gradient(135deg,#c9a84c,#e8c86e);border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(201,168,76,.4);}
 .logo-icon svg{width:22px;height:22px;}
@@ -297,36 +297,36 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       </div>
       <div class="ig"><label class="il" data-key="assetSelectLabel">اختر الأصل للتحليل:</label>
         <select class="sf" id="tvSymbolSelect" onchange="changeTVSymbol()">
-            <optgroup label="الفوركس — أزواج الدولار">
-                <option value="FX:EURUSD">EUR/USD (يورو/دولار)</option>
-                <option value="FX:GBPUSD">GBP/USD (باوند/دولار)</option>
-                <option value="FX:USDJPY">USD/JPY (دولار/ين)</option>
-                <option value="FX:AUDUSD">AUD/USD (استرالي/دولار)</option>
-                <option value="FX:USDCAD">USD/CAD (دولار/كندي)</option>
-                <option value="FX:USDCHF">USD/CHF (دولار/فرنك)</option>
-                <option value="FX:NZDUSD">NZD/USD (نيوزلندي/دولار)</option>
+            <optgroup data-label-key="optGroupForexMajor" label="الفوركس — أزواج الدولار">
+                <option value="FX:EURUSD">EUR/USD</option>
+                <option value="FX:GBPUSD">GBP/USD</option>
+                <option value="FX:USDJPY">USD/JPY</option>
+                <option value="FX:AUDUSD">AUD/USD</option>
+                <option value="FX:USDCAD">USD/CAD</option>
+                <option value="FX:USDCHF">USD/CHF</option>
+                <option value="FX:NZDUSD">NZD/USD</option>
             </optgroup>
-            <optgroup label="الفوركس — التقاطعات (Crosses)">
-                <option value="FX:GBPJPY">GBP/JPY (باوند/ين)</option>
-                <option value="FX:EURJPY">EUR/JPY (يورو/ين)</option>
-                <option value="FX:EURGBP">EUR/GBP (يورو/باوند)</option>
-                <option value="FX:AUDJPY">AUD/JPY (استرالي/ين)</option>
+            <optgroup data-label-key="optGroupForexCross" label="الفوركس — التقاطعات (Crosses)">
+                <option value="FX:GBPJPY">GBP/JPY</option>
+                <option value="FX:EURJPY">EUR/JPY</option>
+                <option value="FX:EURGBP">EUR/GBP</option>
+                <option value="FX:AUDJPY">AUD/JPY</option>
             </optgroup>
-            <optgroup label="المعادن والطاقة">
-                <option value="TVC:GOLD">Gold (الذهب XAU/USD)</option>
-                <option value="TVC:SILVER">Silver (الفضة XAG/USD)</option>
-                <option value="TVC:USOIL">WTI Crude Oil (النفط الأمريكي)</option>
+            <optgroup data-label-key="optGroupMetals" label="المعادن والطاقة">
+                <option value="TVC:GOLD">Gold (XAU/USD)</option>
+                <option value="TVC:SILVER">Silver (XAG/USD)</option>
+                <option value="TVC:USOIL">WTI Crude Oil</option>
             </optgroup>
-            <optgroup label="المؤشرات والأسهم">
-                <option value="NASDAQ:QQQ">US100 (الناسداك)</option>
-                <option value="SP:SPX">S&P 500 (إس آند بي)</option>
-                <option value="DJ:DJI">US30 (الداو جونز)</option>
+            <optgroup data-label-key="optGroupIndices" label="المؤشرات والأسهم">
+                <option value="NASDAQ:QQQ">US100 (Nasdaq)</option>
+                <option value="SP:SPX">S&P 500</option>
+                <option value="DJ:DJI">US30 (Dow Jones)</option>
             </optgroup>
-            <optgroup label="العملات الرقمية (Crypto)">
-                <option value="BINANCE:BTCUSD">BTC/USD (البتكوين)</option>
-                <option value="BINANCE:ETHUSD">ETH/USD (الإيثريوم)</option>
-                <option value="BINANCE:SOLUSD">SOL/USD (سولانا)</option>
-                <option value="BINANCE:XRPUSD">XRP/USD (الريبل)</option>
+            <optgroup data-label-key="optGroupCrypto" label="العملات الرقمية (Crypto)">
+                <option value="BINANCE:BTCUSD">BTC/USD (Bitcoin)</option>
+                <option value="BINANCE:ETHUSD">ETH/USD (Ethereum)</option>
+                <option value="BINANCE:SOLUSD">SOL/USD (Solana)</option>
+                <option value="BINANCE:XRPUSD">XRP/USD (Ripple)</option>
             </optgroup>
         </select>
       </div>
@@ -416,14 +416,14 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   </div>
 </div>
 
-<!-- SIGNALS & TRADE IDEAS -->
+<!-- SIGNALS -->
 <div id="page-signals" class="page">
   <div class="st" style="display:flex; justify-content:space-between; width:100%; align-items:center;">
     <span data-key="signalsTitle">🎯 التوصيات الحية</span> 
   </div>
   
   <div style="display:flex; justify-content:center; margin-bottom:1.5rem;">
-    <button class="btn btn-gold" style="padding:10px 20px;font-size:.9rem; font-weight:800;" onclick="loadLiveSignals()" data-key="acSaveBtn">🔄 لإظهار التوصيات والتحديثات اضغط هنا</button>
+    <button class="btn btn-gold" style="padding:10px 20px;font-size:.9rem; font-weight:800; color:#060810 !important;" onclick="loadLiveSignals()" data-key="acSaveBtn">🔄 لإظهار التوصيات والتحديثات اضغط هنا</button>
   </div>
   
   <!-- Signals Grid -->
@@ -703,7 +703,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
           <div class="msg ai"><span data-key="chatWelcomeMsg"><strong>مرحباً!</strong> أنا مساعدك التداولي لنظام Al Hammadi Trading.<br>اسألني أي شيء عن التداول، التحليل الفني، أو إدارة المخاطر.</span></div>
         </div>
         <div class="chat-input-row">
-          <input type="text" class="if" id="chatInput" placeholder="اكتب سؤالك هنا..." onkeydown="if(event.key==='Enter')sendChat()">
+          <input type="text" class="if" id="chatInput" data-key="chatInputPlaceholder" placeholder="اكتب سؤالك هنا..." onkeydown="if(event.key==='Enter')sendChat()">
           <button class="btn btn-gold" onclick="sendChat()">⬆</button>
         </div>
       </div>
@@ -741,12 +741,12 @@ const S = {
 // التوصيات الافتراضية
 const defaultSignals = [
     { 
-      id: 991, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: 'Now', timeframe: 'H1', desc: 'توصية افتراضية حتى تتوفر التوصية', 
+      id: 991, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: 'Now', timeframe: 'H1', desc: '', 
       isDefault: true, setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
       checks: [4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16] 
     },
     { 
-      id: 992, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: 'Now', timeframe: 'M30', desc: 'توصية افتراضية حتى تتوفر التوصية',
+      id: 992, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: 'Now', timeframe: 'M30', desc: '',
       isDefault: true, setupId: 2, structure: { daily: 'bearish', h4: 'bearish', h1: 'bearish', ma200: 'below', ma50: 'below', rsi: 'ob' }, 
       checks: [4, 5, 6, 7, 8, 9, 10, 15, 16] 
     }
@@ -846,7 +846,6 @@ const translations = {
     newsSource: "Sources: FXStreet, ForexLive, CoinTelegraph",
     footerDisclaimer: "Trading in financial markets involves high risk and may result in the loss of your capital. All trading decisions are strictly your own responsibility, and no other party assumes any liability for the results.",
     
-    // New Translations added
     chatFaq: "Frequently Asked Questions",
     contactUsTitle: "Contact Us",
     emailBtn: "Email Support",
@@ -906,7 +905,40 @@ const translations = {
     tradeAnalysisTitle: "Trading Analysis",
     proposedTradeDetails: "Proposed Trade Details",
     tdSetup: "Setup",
-    chartPlaceholderText: "Upload a chart and click Analyze"
+    chartPlaceholderText: "Upload a chart and click Analyze",
+
+    // Missing Translations
+    dailyBiasClear: "Daily Bias is clear",
+    h4Aligns: "H4 aligns with Daily",
+    ma200Supports: "200 MA supports Bias",
+    ma50Supports: "50 MA supports Bias",
+    hhhlForms: "HH/HL is forming",
+    hhhlDesc: "for Buy / LH/LL for Sell",
+    setupClear: "Setup is clear (One of the 5 models)",
+    confCandle: "Confirmation Candle",
+    confDesc: "— Engulfing / Pin Bar",
+    strongLevel: "Strong Level",
+    levelDesc: "— S/R or Order Block",
+    atrSuff: "ATR / Volatility is sufficient",
+    confluence: "Confluence",
+    confPattern: "— S/R + MA + Pattern",
+    goodSession: "Good Session",
+    sessionDesc: "— London/NY is stronger",
+    slBehindStr: "SL is behind Structure / Swing",
+    rrGood: "RR ≥ 2:1",
+    rrDesc: "— Trade is worth it",
+    risk1Pct: "Risk ≤ 1% of account",
+    dailyLoss: "Daily Loss < 2%",
+    noCorr: "No Correlation conflict",
+    mentalState: "Mental state is stable",
+    optGroupForexMajor: "Forex — Majors",
+    optGroupForexCross: "Forex — Crosses",
+    optGroupMetals: "Metals & Energy",
+    optGroupIndices: "Indices & Stocks",
+    optGroupCrypto: "Crypto",
+    qtAssetPlaceholder: "Example: EURUSD",
+    qtLong: "LONG (Buy)",
+    qtShort: "SHORT (Sell)"
   },
   ar: {
     logoSub: "نظام التداول الاحترافي",
@@ -999,7 +1031,6 @@ const translations = {
     newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph",
     footerDisclaimer: "ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة، ولا تتحمل أي جهة أخرى أي مسؤولية عن النتائج.",
     
-    // New Translations added
     chatFaq: "أسئلة شائعة",
     contactUsTitle: "تواصل معنا",
     emailBtn: "البريد الإلكتروني",
@@ -1059,7 +1090,40 @@ const translations = {
     tradeAnalysisTitle: "التحليل التداولي",
     proposedTradeDetails: "تفاصيل الصفقة المقترحة",
     tdSetup: "Setup",
-    chartPlaceholderText: "ارفع شارت واضغط تحليل"
+    chartPlaceholderText: "ارفع شارت واضغط تحليل",
+
+    // Missing Translations
+    dailyBiasClear: "Daily Bias واضح",
+    h4Aligns: "H4 يتوافق مع Daily",
+    ma200Supports: "200 MA يدعم الـ Bias",
+    ma50Supports: "50 MA يدعم الـ Bias",
+    hhhlForms: "HH/HL يتشكل",
+    hhhlDesc: "للـ Buy / LH/LL للـ Sell",
+    setupClear: "Setup واضح (أحد النماذج الخمسة)",
+    confCandle: "Confirmation Candle",
+    confDesc: "— Engulfing / Pin Bar",
+    strongLevel: "مستوى قوي",
+    levelDesc: "— S/R أو Order Block",
+    atrSuff: "ATR / Volatility كافية",
+    confluence: "Confluence",
+    confPattern: "— تقاطع S/R + MA + Pattern",
+    goodSession: "Session مناسبة",
+    sessionDesc: "— London/NY أقوى",
+    slBehindStr: "SL وراء Structure / Swing",
+    rrGood: "RR ≥ 2:1",
+    rrDesc: "— الصفقة تستاهل",
+    risk1Pct: "Risk ≤ 1% من الحساب",
+    dailyLoss: "Daily Loss < 2%",
+    noCorr: "لا Correlation تعارض",
+    mentalState: "حالتك النفسية مستقرة",
+    optGroupForexMajor: "الفوركس — أزواج الدولار",
+    optGroupForexCross: "الفوركس — التقاطعات (Crosses)",
+    optGroupMetals: "المعادن والطاقة",
+    optGroupIndices: "المؤشرات والأسهم",
+    optGroupCrypto: "العملات الرقمية (Crypto)",
+    qtAssetPlaceholder: "مثال: EURUSD",
+    qtLong: "LONG (شراء)",
+    qtShort: "SHORT (بيع)"
   }
 };
 
@@ -1179,8 +1243,16 @@ function renderSignalsUI(signals) {
         const dirClass = s.dir === 'long' ? 'bg-g' : 'bg-r';
         const dirText = s.dir === 'long' ? (isAr ? 'شراء (BUY)' : 'BUY') : (isAr ? 'بيع (SELL)' : 'SELL');
         const btnText = isAr ? translations.ar.sendToPreTrade : translations.en.sendToPreTrade;
-        const defaultBadge = s.isDefault ? `<div style="background:var(--accent3); color:var(--accent2); padding:3px 8px; border-radius:4px; font-size:0.6rem; text-align:center; margin-bottom:8px; font-weight:bold;">⚠️ ${isAr ? 'توصية افتراضية (بانتظار السوق)' : 'Default Signal (Waiting)'}</div>` : '';
+        const defaultBadgeText = isAr ? 'توصية افتراضية (بانتظار التحديث)' : 'Default Signal (Waiting)';
+        const defaultBadge = s.isDefault ? `<div style="background:var(--accent3); color:var(--accent2); padding:3px 8px; border-radius:4px; font-size:0.6rem; text-align:center; margin-bottom:8px; font-weight:bold;">⚠️ ${defaultBadgeText}</div>` : '';
         
+        let displayDesc = s.desc;
+        if(s.isDefault) displayDesc = isAr ? 'توصية افتراضية حتى تتوفر التوصية' : 'Default signal until available';
+
+        let displayTime = s.time;
+        if(!displayTime || displayTime.toLowerCase() === 'now') displayTime = isAr ? 'الآن' : 'Now';
+
+        // جعل لون نص الزر أسود دائماً
         return `
         <div class="card signal-card" style="border: 1px solid rgba(201,168,76,0.3); background: linear-gradient(180deg, var(--surface) 0%, var(--surface2) 100%);">
           ${defaultBadge}
@@ -1188,14 +1260,14 @@ function renderSignalsUI(signals) {
             <div class="ch-title" style="font-size:1.1rem; letter-spacing:0;">${s.asset} <span style="font-size:0.6rem; color:var(--text3)">${s.timeframe || 'H1'}</span></div>
             <span class="bg ${dirClass}">${dirText}</span>
           </div>
-          <div class="fs07 text-m mb1">🕒 ${s.time || 'Now'}</div>
-          <div class="fs07 text-m mb1" style="line-height:1.5; padding:8px; background:var(--surface); border-radius:8px; min-height:50px;">${s.desc}</div>
+          <div class="fs07 text-m mb1">🕒 ${displayTime}</div>
+          <div class="fs07 text-m mb1" style="line-height:1.5; padding:8px; background:var(--surface); border-radius:8px; min-height:50px;">${displayDesc}</div>
           <div class="g3 mb1" style="gap:5px; text-align:center;">
             <div style="background:var(--surface); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">Entry</div><div class="mono fw7" style="font-size:0.85rem">${s.entry}</div></div>
             <div style="background:var(--surface); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">TP</div><div class="mono fw7 text-g" style="font-size:0.85rem">${s.tp}</div></div>
             <div style="background:var(--surface); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">SL</div><div class="mono fw7 text-r" style="font-size:0.85rem">${s.sl}</div></div>
           </div>
-          <button class="btn btn-gold w100" onclick="applySignal('${s.id}')">${btnText}</button>
+          <button class="btn btn-gold w100" onclick="applySignal('${s.id}')" style="color:#060810 !important; font-weight:800;">${btnText}</button>
         </div>
         `;
     }).join('');
@@ -1385,6 +1457,14 @@ function toggleLang() {
       } else {
          el.innerHTML = translations[S.lang][key]; 
       }
+    }
+  });
+
+  // تحديث نصوص المجموعات في الـ Select الخاص بالتحليل الفني
+  document.querySelectorAll('[data-label-key]').forEach(el => {
+    const key = el.getAttribute('data-label-key');
+    if (translations[S.lang][key]) {
+      el.setAttribute('label', translations[S.lang][key]);
     }
   });
 
