@@ -132,6 +132,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 .pair-cat{font-size:.62rem;color:var(--text3);}
 .corr-warn{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.2);border-radius:9px;padding:9px 12px;margin-top:.65rem;font-size:.78rem;color:var(--accent2);display:flex;align-items:flex-start;gap:7px;}
 .chart-wrap{position:relative;height:200px;}
+.widget-box{width:100%;height:380px;border-radius:8px;overflow:hidden;background:var(--surface2);border:1px solid var(--border);}
 .div{height:1px;background:var(--border);margin:.65rem 0;}
 .flex{display:flex;}.items-c{align-items:center;}.justify-b{justify-content:space-between;}
 .text-g{color:var(--green2);}.text-r{color:var(--red2);}.text-a{color:var(--accent2);}.text-m{color:var(--text3);}
@@ -193,29 +194,94 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 
 <main class="main">
 
-<!-- MACRO SCAN -->
+<!-- MACRO SCAN (ADVANCED DASHBOARD) -->
 <div id="page-macro" class="page active">
   <div class="st"><span data-key="navMacro">📡 Macro Scan</span> <span class="st-badge" data-key="macroBadge">أسبوعي / يومي</span></div>
-  <div class="g3 mb">
+  
+  <div class="g2 mb">
+    <!-- خريطة قوة العملات -->
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="envSettings">إعدادات البيئة</span></div></div>
-      <div class="ig"><label class="il" data-key="fedPolicy">سياسة الفائدة — Fed</label><select class="sf" id="fedPolicy" onchange="updateMacro()"><option value="" data-key="choose">اختر...</option><option value="hike" data-key="hike">رفع ↑ Hawkish</option><option value="hold" data-key="hold">ثبات ⟷ Hold</option><option value="cut" data-key="cut">خفض ↓ Dovish</option></select></div>
-      <div class="ig"><label class="il" data-key="ecbPolicy">سياسة الفائدة — ECB</label><select class="sf" id="ecbPolicy" onchange="updateMacro()"><option value="" data-key="choose">اختر...</option><option value="hike" data-key="hike">رفع ↑</option><option value="hold" data-key="hold">ثبات ⟷</option><option value="cut" data-key="cut">خفض ↓</option></select></div>
-      <div class="ig"><label class="il" data-key="riskApp">شهية المخاطرة</label><select class="sf" id="riskApp" onchange="updateMacro()"><option value="" data-key="choose">اختر...</option><option value="on" data-key="riskOn">Risk-On — شهية عالية</option><option value="off" data-key="riskOff">Risk-Off — نفور</option><option value="neutral" data-key="neutralText">محايدة</option></select></div>
-      <div class="ig"><label class="il" data-key="dxyStrength">قوة الدولار DXY</label><select class="sf" id="dxyStr" onchange="updateMacro()"><option value="" data-key="choose">اختر...</option><option value="strong" data-key="strong">قوي</option><option value="weak" data-key="weak">ضعيف</option><option value="neutral" data-key="neutralText">محايد</option></select></div>
-      <div class="ig"><label class="il" data-key="currentSession">الجلسة الحالية</label><select class="sf" id="session"><option value="asian" data-key="tokyo">آسيوية - Tokyo</option><option value="london" data-key="london">لندن - London Open</option><option value="ny" data-key="ny">نيويورك - NY Session</option><option value="overlap" data-key="overlap">Overlap London/NY</option></select></div>
-      <button class="btn btn-gold w100 mt" onclick="fetchAINews()" data-key="updateAINews">🤖 تحديث الأخبار بالـ AI</button>
+      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="currencyHeatmap">خريطة قوة العملات (Heatmap)</span></div></div>
+      <div class="widget-box">
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js" async>
+          {
+            "width": "100%",
+            "height": "100%",
+            "currencies": ["EUR", "USD", "JPY", "GBP", "CHF", "AUD", "CAD", "NZD"],
+            "isTransparent": true,
+            "colorTheme": "dark",
+            "locale": "ar"
+          }
+          </script>
+        </div>
+      </div>
     </div>
+    
+    <!-- التقويم الاقتصادي -->
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="todayNews">أخبار السوق اليوم</span></div><span id="newsTS" class="text-m fs07"></span></div>
-      <div id="newsLoading" class="loading" style="display:none"><div class="spinner"></div><span data-key="aiFetching">AI يجلب الأخبار...</span></div>
-      <div id="newsContainer"><div style="text-align:center;padding:2rem;color:var(--text3);font-size:.82rem"><div style="font-size:2rem;margin-bottom:8px">📰</div><span data-key="clickUpdate">اضغط تحديث الأخبار بالـ AI</span></div></div>
-    </div>
-    <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="assetExpect">توقعات الأصول</span></div></div>
-      <div id="macroExpect"><div style="text-align:center;padding:2rem;color:var(--text3);font-size:.82rem"><div style="font-size:2rem;margin-bottom:8px">📊</div><span data-key="completeSettings">أكمل الإعدادات لتظهر التوقعات</span></div></div>
+      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="economicCalendar">التقويم الاقتصادي (Economic Calendar)</span></div></div>
+      <div class="widget-box">
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-events.js" async>
+          {
+            "colorTheme": "dark",
+            "isTransparent": true,
+            "width": "100%",
+            "height": "100%",
+            "locale": "ar",
+            "importanceFilter": "-1,0,1",
+            "currencyFilter": "USD,EUR,GBP,JPY,AUD,CAD,CHF,NZD"
+          }
+          </script>
+        </div>
+      </div>
     </div>
   </div>
+
+  <div class="g2 mb">
+    <!-- الأخبار الحية -->
+    <div class="card">
+      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (Live Market News)</span></div></div>
+      <div class="widget-box">
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
+          {
+            "feedMode": "all_symbols",
+            "colorTheme": "dark",
+            "isTransparent": true,
+            "displayMode": "regular",
+            "width": "100%",
+            "height": "100%",
+            "locale": "ar"
+          }
+          </script>
+        </div>
+      </div>
+    </div>
+
+    <!-- التحليل الفني (بديل Trading Central / Autochartist) -->
+    <div class="card">
+      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="techAnalysis">توقعات الأصول (التحليل الآلي)</span></div></div>
+      <div class="ig"><label class="il" data-key="assetSelectLabel">اختر الأصل للتحليل:</label>
+        <select class="sf" id="tvSymbolSelect" onchange="changeTVSymbol()">
+            <option value="FX:EURUSD">EUR/USD</option>
+            <option value="FX:GBPUSD">GBP/USD</option>
+            <option value="FX:USDJPY">USD/JPY</option>
+            <option value="TVC:GOLD">Gold (XAU/USD)</option>
+            <option value="NASDAQ:QQQ">US100 (Nasdaq)</option>
+            <option value="BINANCE:BTCUSD">BTC/USD</option>
+        </select>
+      </div>
+      <div class="widget-box" id="techAnalysisContainer" style="height:310px">
+        <!-- Widget injected via JS to allow dynamic symbol change -->
+      </div>
+    </div>
+  </div>
+
   <div class="card mb">
     <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="selectMarkets">اختيار الأسواق — فلترة الفرص</span></div></div>
     <div class="section-cat" data-key="usdMajor">عملات مع الدولار USD</div>
@@ -560,32 +626,12 @@ const translations = {
     themeDay: "☀️ Day",
     themeNight: "🌙 Night",
     macroScan: "📡 Macro Scan",
-    macroBadge: "Weekly / Daily",
-    envSettings: "Environment Settings",
-    fedPolicy: "Fed Policy",
-    ecbPolicy: "ECB Policy",
-    riskAppetite: "Risk Appetite",
-    dxyStrength: "DXY Strength",
-    currentSession: "Current Session",
-    choose: "Choose...",
-    hike: "Hike ↑ Hawkish",
-    hold: "Hold ⟷",
-    cut: "Cut ↓ Dovish",
-    riskOn: "Risk-On",
-    riskOff: "Risk-Off",
-    neutralText: "Neutral",
-    strong: "Strong",
-    weak: "Weak",
-    tokyo: "Tokyo Session",
-    london: "London Session",
-    ny: "NY Session",
-    overlap: "Overlap",
-    updateAINews: "🤖 AI Update News",
-    todayNews: "Market News",
-    aiFetching: "AI Fetching...",
-    clickUpdate: "Click to Update AI News",
-    assetExpect: "Asset Outlook",
-    completeSettings: "Complete settings to see predictions",
+    macroBadge: "Live Dashboard",
+    currencyHeatmap: "Currency Heatmap",
+    economicCalendar: "Economic Calendar",
+    liveNews: "Live Market News",
+    techAnalysis: "Technical Analysis (Auto)",
+    assetSelectLabel: "Select Asset:",
     selectMarkets: "Market Selection",
     usdMajor: "USD Majors",
     eurCross: "EUR Crosses",
@@ -671,32 +717,12 @@ const translations = {
     themeDay: "☀️ نهاري",
     themeNight: "🌙 ليلي",
     macroScan: "📡 ماكرو سكان",
-    macroBadge: "أسبوعي / يومي",
-    envSettings: "إعدادات البيئة",
-    fedPolicy: "سياسة الفائدة — Fed",
-    ecbPolicy: "سياسة الفائدة — ECB",
-    riskAppetite: "شهية المخاطرة",
-    dxyStrength: "قوة الدولار DXY",
-    currentSession: "الجلسة الحالية",
-    choose: "اختر...",
-    hike: "رفع ↑ Hawkish",
-    hold: "ثبات ⟷ Hold",
-    cut: "خفض ↓ Dovish",
-    riskOn: "Risk-On — شهية عالية",
-    riskOff: "Risk-Off — نفور",
-    neutralText: "محايدة",
-    strong: "قوي",
-    weak: "ضعيف",
-    tokyo: "آسيوية - Tokyo",
-    london: "لندن - London Open",
-    ny: "نيويورك - NY Session",
-    overlap: "Overlap London/NY",
-    updateAINews: "🤖 تحديث الأخبار بالـ AI",
-    todayNews: "أخبار السوق اليوم",
-    aiFetching: "AI يجلب الأخبار...",
-    clickUpdate: "اضغط تحديث الأخبار بالـ AI",
-    assetExpect: "توقعات الأصول",
-    completeSettings: "أكمل الإعدادات لتظهر التوقعات",
+    macroBadge: "شاشات حية",
+    currencyHeatmap: "خريطة قوة العملات (Heatmap)",
+    economicCalendar: "التقويم الاقتصادي (Economic Calendar)",
+    liveNews: "الأخبار الحية (Live Market News)",
+    techAnalysis: "توقعات الأصول (التحليل الآلي)",
+    assetSelectLabel: "اختر الأصل للتحليل:",
     selectMarkets: "اختيار الأسواق — فلترة الفرص",
     usdMajor: "عملات مع الدولار USD",
     eurCross: "عملات مع اليورو EUR",
@@ -770,6 +796,38 @@ const translations = {
   }
 };
 
+// Injection function for dynamic Technical Analysis Widget
+function changeTVSymbol() {
+    const symbol = document.getElementById('tvSymbolSelect').value;
+    const container = document.getElementById('techAnalysisContainer');
+    container.innerHTML = ''; // Clear current widget
+    
+    const wrapper = document.createElement('div');
+    wrapper.className = 'tradingview-widget-container';
+    
+    const widgetDiv = document.createElement('div');
+    widgetDiv.className = 'tradingview-widget-container__widget';
+    
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js';
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+        "interval": "1h",
+        "width": "100%",
+        "isTransparent": true,
+        "height": "100%",
+        "symbol": symbol,
+        "showIntervalTabs": true,
+        "locale": S.lang,
+        "colorTheme": "dark"
+    });
+    
+    wrapper.appendChild(widgetDiv);
+    wrapper.appendChild(script);
+    container.appendChild(wrapper);
+}
+
 function toggleTheme() {
   const html = document.documentElement;
   const t = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
@@ -788,14 +846,14 @@ function toggleLang() {
   
   document.querySelectorAll('[data-key]').forEach(el => {
     const key = el.getAttribute('data-key');
-    if (translations[S.lang][key]) el.innerHTML = translations[S.lang][key]; // Using innerHTML to preserve spans inside
+    if (translations[S.lang][key]) el.innerHTML = translations[S.lang][key]; 
   });
 
   const btn = document.getElementById('themeBtn');
   const t = html.getAttribute('data-theme');
   btn.textContent = t === 'dark' ? (S.lang === 'ar' ? '☀️ نهاري' : '☀️ Day') : (S.lang === 'ar' ? '🌙 ليلي' : '🌙 Night');
   
-  updateMacro();
+  changeTVSymbol(); // Reload the TV widget with new language
 }
 
 function showPage(name, el) {
@@ -820,70 +878,6 @@ async function callClaude(messages, maxTokens = 1000) {
   const data = await res.json();
   return data.content?.map(c => c.text || '').join('') || '';
 }
-
-async function fetchAINews() {
-  const fed = document.getElementById('fedPolicy').value;
-  const risk = document.getElementById('riskApp').value;
-  const session = document.getElementById('session').value;
-  const today = new Date().toLocaleDateString(S.lang === 'ar' ? 'ar-SA' : 'en-US', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-  
-  document.getElementById('newsLoading').style.display = 'flex';
-  document.getElementById('newsContainer').innerHTML = '';
-  
-  try {
-    const text = await callClaude([{ role:'user', content:`أنت محلل اقتصادي متخصص. اليوم: ${today}. السياق: Fed=${fed||'غير محدد'} | Risk=${risk||'غير محدد'} | Session=${session}.
-أنشئ تقرير أخبار السوق باللغة ${S.lang === 'ar' ? 'العربية' : 'الإنجليزية'}. أجب بـ JSON فقط بلا نص خارجه:
-{"summary":"ملخص بيئة السوق وتوقعات الأصول في جملتين","news":[{"title":"عنوان","impact":"high|medium|low","body":"تفاصيل وتأثير على الأسواق","assets":["EURUSD"]}]}` }]);
-    const clean = text.replace(/```json|```/g,'').trim();
-    const parsed = JSON.parse(clean);
-    document.getElementById('newsTS').textContent = new Date().toLocaleTimeString(S.lang === 'ar' ? 'ar' : 'en');
-    
-    const impMap = S.lang === 'ar' ? {high:'عالي',medium:'متوسط',low:'منخفض'} : {high:'High',medium:'Medium',low:'Low'};
-    let html = `<div style="padding:8px 10px;border-radius:8px;background:var(--accent3);border:1px solid rgba(201,168,76,.2);font-size:.79rem;color:var(--accent2);margin-bottom:9px">💡 ${parsed.summary||''}</div>`;
-    
-    (parsed.news||[]).forEach(n => {
-      const ic = n.impact==='high'?'bg-r':n.impact==='medium'?'bg-a':'bg-b';
-      html += `<div style="padding:9px 11px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);margin-bottom:5px">
-        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:7px">
-          <span style="font-size:.81rem;font-weight:600">${n.title}</span>
-          <span class="bg ${ic}" style="font-size:.65rem;flex-shrink:0">${impMap[n.impact]||n.impact}</span>
-        </div>
-        <div style="font-size:.76rem;color:var(--text2);margin-top:4px;line-height:1.5">${n.body}</div>
-        ${n.assets?.length?`<div style="margin-top:4px;display:flex;gap:4px;flex-wrap:wrap">${n.assets.map(a=>`<span class="bg bg-b" style="font-size:.65rem">${a}</span>`).join('')}</div>`:''}
-      </div>`;
-    });
-    document.getElementById('newsContainer').innerHTML = html;
-    updateMacro();
-  } catch(e) {
-    document.getElementById('newsContainer').innerHTML = `<div style="color:var(--red2);font-size:.8rem;padding:1rem">Error: ${e.message}</div>`;
-  }
-  document.getElementById('newsLoading').style.display = 'none';
-}
-
-function updateMacro() {
-  const fed = document.getElementById('fedPolicy').value;
-  const ecb = document.getElementById('ecbPolicy').value;
-  const risk = document.getElementById('riskApp').value;
-  const dxy = document.getElementById('dxyStr').value;
-  if (!fed && !risk && !dxy) return;
-  const G='var(--green2)',R='var(--red2)',A='var(--accent2)';
-  const items = [
-    gold(fed,risk,dxy,G,R,A), indices(fed,risk,G,R,A), crypto(risk,G,R,A),
-    eurusd(fed,ecb,dxy,G,R,A), gbpusd(dxy,G,R,A), usdjpy(fed,risk,dxy,G,R,A)
-  ];
-  document.getElementById('macroExpect').innerHTML = items.map(i =>
-    `<div style="display:flex;justify-content:space-between;align-items:center;padding:7px 9px;border-radius:8px;background:var(--surface2);border:1px solid var(--border);margin-bottom:5px">
-      <span style="font-size:.82rem">${i.a}</span>
-      <div style="text-align:${S.lang === 'ar' ? 'left' : 'right'}"><div style="color:${i.c};font-weight:800;font-size:.82rem">${i.o}</div><div style="font-size:.68rem;color:var(--text3)">${i.n}</div></div>
-    </div>`).join('');
-}
-
-const gold=(f,r,d,G,R,A)=>r==='off'?{a:'🥇 XAU/USD',o:'📈 Bullish',n:S.lang==='ar'?'Risk-Off = ملاذ آمن':'Risk-Off = Safe Haven',c:G}:d==='strong'&&f==='hike'?{a:'🥇 XAU/USD',o:'📉 Bearish',n:S.lang==='ar'?'DXY قوي + فائدة مرتفعة':'Strong DXY + High Rates',c:R}:d==='weak'?{a:'🥇 XAU/USD',o:'📈 Bullish',n:S.lang==='ar'?'DXY ضعيف':'Weak DXY',c:G}:{a:'🥇 XAU/USD',o:'⟷ Mixed',n:S.lang==='ar'?'بيئة مختلطة':'Mixed Env',c:A};
-const indices=(f,r,G,R,A)=>r==='on'&&(f==='cut'||f==='hold')?{a:'📊 US100',o:'📈 Bullish',n:S.lang==='ar'?'Risk-On + سيولة':'Risk-On + Liquidity',c:G}:r==='off'||f==='hike'?{a:'📊 US100',o:'📉 Bearish',n:'Risk-Off',c:R}:{a:'📊 US100',o:'⟷ Neutral',n:S.lang==='ar'?'انتظر تأكيد':'Wait for confirmation',c:A};
-const crypto=(r,G,R,A)=>r==='on'?{a:'₿ BTC/USD',o:'📈 Bullish',n:'Risk-On',c:G}:r==='off'?{a:'₿ BTC/USD',o:'📉 Bearish',n:'Risk-Off',c:R}:{a:'₿ BTC/USD',o:'⟷ Neutral',n:S.lang==='ar'?'تابع DXY':'Watch DXY',c:A};
-const eurusd=(f,e,d,G,R,A)=>f==='hike'&&e!=='hike'?{a:'💱 EUR/USD',o:'📉 Bearish',n:S.lang==='ar'?'Fed أقوى من ECB':'Fed stronger than ECB',c:R}:e==='hike'&&f!=='hike'?{a:'💱 EUR/USD',o:'📈 Bullish',n:S.lang==='ar'?'ECB أقوى':'ECB Stronger',c:G}:d==='strong'?{a:'💱 EUR/USD',o:'📉 Bearish',n:S.lang==='ar'?'DXY قوي':'Strong DXY',c:R}:d==='weak'?{a:'💱 EUR/USD',o:'📈 Bullish',n:S.lang==='ar'?'DXY ضعيف':'Weak DXY',c:G}:{a:'💱 EUR/USD',o:'⟷ Neutral',n:S.lang==='ar'?'تابع Structure':'Watch Structure',c:A};
-const gbpusd=(d,G,R,A)=>d==='strong'?{a:'💷 GBP/USD',o:'📉 Bearish',n:S.lang==='ar'?'DXY قوي':'Strong DXY',c:R}:d==='weak'?{a:'💷 GBP/USD',o:'📈 Bullish',n:S.lang==='ar'?'DXY ضعيف':'Weak DXY',c:G}:{a:'💷 GBP/USD',o:'⟷ Neutral',n:S.lang==='ar'?'تابع BoE':'Watch BoE',c:A};
-const usdjpy=(f,r,d,G,R,A)=>f==='hike'||d==='strong'?{a:'🇯🇵 USD/JPY',o:'📈 Bullish',n:S.lang==='ar'?'USD قوي':'Strong USD',c:G}:r==='off'?{a:'🇯🇵 USD/JPY',o:'📉 Bearish',n:S.lang==='ar'?'JPY ملاذ آمن':'JPY Safe Haven',c:R}:{a:'🇯🇵 USD/JPY',o:'⟷ Neutral',n:S.lang==='ar'?'تابع BoJ':'Watch BoJ',c:A};
 
 function togglePair(el, p) {
   el.classList.toggle('sel');
@@ -1232,6 +1226,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('j-date').value=new Date().toISOString().split('T')[0];
   calcRisk();
   renderJournal();
+  changeTVSymbol(); // Initialize the technical analysis widget
 });
 </script>
 </body>
