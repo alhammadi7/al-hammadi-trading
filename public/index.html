@@ -208,7 +208,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="st"><span data-key="navMacro">📡 Macro Scan</span> <span class="st-badge" data-key="macroBadge">أسبوعي / يومي</span></div>
   
   <div class="g2 mb">
-    <!-- الأخبار الحية المحدثة عبر RSS (مثل الإصدار القديم تماماً) -->
+    <!-- الأخبار الحية المحدثة عبر RSS -->
     <div class="card">
       <div class="ch">
         <div>
@@ -408,12 +408,11 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 <!-- SIGNALS & TRADE IDEAS -->
 <div id="page-signals" class="page">
   <div class="st" style="display:flex; justify-content:space-between; width:100%; align-items:center;">
-    <span data-key="signalsTitle">🎯 التوصيات الحية (AI + TradingView)</span> 
-    <button class="btn btn-ghost" style="padding:6px 12px;font-size:.75rem" onclick="loadLiveSignals()" data-key="acSaveBtn">🔄 تحديث التوصيات بالـ AI</button>
+    <span data-key="signalsTitle">🎯 التوصيات الحية</span> 
   </div>
   
-  <div style="padding:10px 15px; border-radius:10px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:var(--accent2); font-size:0.8rem; margin-bottom:1rem; line-height:1.6;" data-key="signalsDisclaimer">
-     💡 يقوم الذكاء الاصطناعي (Claude) بسحب أحدث التحليلات من السوق (TradingView/ForexLive) واستخراج صفقات جاهزة لك. اضغط "نقل إلى ما قبل الصفقة" لتطبيق التوصية في حساباتك.
+  <div style="display:flex; justify-content:center; margin-bottom:1.5rem;">
+    <button class="btn btn-gold" style="padding:10px 20px;font-size:.9rem; font-weight:800;" onclick="loadLiveSignals()" data-key="acSaveBtn">🔄 لإظهار التوصيات والتحديثات اضغط هنا</button>
   </div>
 
   <!-- Quick Transfer Tool -->
@@ -430,7 +429,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   
   <!-- Signals Grid -->
   <div id="signalsGridContainer" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem; margin-top:1rem;">
-    <!-- AI Extracted Signals injected via JS -->
+    <!-- Signals injected via JS -->
   </div>
 </div>
 
@@ -556,7 +555,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 
 <!-- CHART ANALYSIS -->
 <div id="page-chart" class="page">
-  <div class="st"><span data-key="navChart">📸 تحليل الشارت — AI متخصص</span></div>
+  <div class="st"><span data-key="navChart">📸 تحليل الشارت</span></div>
   <div class="g2">
     <div>
       <div class="card mb">
@@ -572,16 +571,16 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <div class="card">
         <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="contextTitle">سياق الصفقة</span></div></div>
         <div class="ig"><label class="il" data-key="contextInputLabel">الأصل والـ Timeframe</label><input type="text" class="if" id="chartCtx" placeholder="مثال: XAUUSD — D1 / H4 / H1"></div>
-        <div class="ig"><label class="il">الـ Bias الحالي</label><select class="sf" id="chartBias"><option value="long">Long — أبحث عن شراء</option><option value="short">Short — أبحث عن بيع</option><option value="neutral">Neutral — محتاج رأي AI</option></select></div>
+        <div class="ig"><label class="il">الـ Bias الحالي</label><select class="sf" id="chartBias"><option value="long">Long — أبحث عن شراء</option><option value="short">Short — أبحث عن بيع</option><option value="neutral">Neutral — محتاج رأي المساعد</option></select></div>
         <div class="ig"><label class="il">سؤالك أو ملاحظاتك</label><textarea class="tf" id="chartQ" placeholder="مثال: هل هذا Break & Retest صحيح؟ وين أضع الـ SL؟"></textarea></div>
         <button class="btn btn-gold w100" onclick="analyzeChart()" id="analyzeBtn" data-key="analyzeBtn">🤖 تحليل الشارت</button>
       </div>
     </div>
     <div>
       <div class="card" style="position:sticky;top:112px">
-        <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="aiAnalysisTitle">تحليل الـ AI المتخصص</span></div></div>
-        <div id="chartLoading" class="loading" style="display:none"><div class="spinner"></div><span data-key="aiAnalysisLoading">Claude يحلل الشارت...</span></div>
-        <div id="chartAIBox" class="ai-box"><div class="ai-head"><div class="ai-pulse"></div>تحليل Claude التداولي</div><div class="ai-body" id="chartAIText"></div></div>
+        <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="aiAnalysisTitle">نتيجة التحليل</span></div></div>
+        <div id="chartLoading" class="loading" style="display:none"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري تحليل الشارت...</span></div>
+        <div id="chartAIBox" class="ai-box"><div class="ai-head"><div class="ai-pulse"></div>التحليل التداولي</div><div class="ai-body" id="chartAIText"></div></div>
         <div class="trade-detail" id="tradeDetailCard" style="display:none">
           <div class="flex items-c justify-b mb05"><span class="fs07 fw7 text-a">تفاصيل الصفقة المقترحة</span><span id="tdDirection" class="bg"></span></div>
           <div class="td-grid">
@@ -659,14 +658,14 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <div class="chart-wrap mt"><canvas id="setupChart"></canvas></div>
     </div>
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="genReport">إنشاء التقرير بالـ AI</span></div></div>
+      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="genReport">إنشاء التقرير</span></div></div>
       <div class="ig"><label class="il">ملاحظاتك عن الأسبوع</label><textarea class="tf" id="weekNotes" placeholder="اللي شغل، اللي ما شغل..." style="min-height:90px"></textarea></div>
       <div class="ig"><label class="il">هدفك للأسبوع القادم</label><input type="text" class="if" id="weekGoal" placeholder="مثال: تحسين تطبيق Liquidity Sweep"></div>
       <button class="btn btn-gold w100" onclick="genReport()" data-key="genReportBtn">📊 إنشاء التقرير الأسبوعي</button>
-      <div id="reportLoading" class="loading" style="display:none"><div class="spinner"></div>AI يحلل أسبوعك...</div>
+      <div id="reportLoading" class="loading" style="display:none"><div class="spinner"></div>جاري تحليل أسبوعك...</div>
     </div>
   </div>
-  <div id="reportBox" class="ai-box mb"><div class="ai-head"><div class="ai-pulse"></div>تقرير الأسبوع من Claude</div><div class="ai-body" id="reportText"></div></div>
+  <div id="reportBox" class="ai-box mb"><div class="ai-head"><div class="ai-pulse"></div>تقرير الأسبوع</div><div class="ai-body" id="reportText"></div></div>
 </div>
 
 <!-- AI CHAT -->
@@ -689,7 +688,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       </div>
     </div>
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span>المحادثة مع Claude</div><button class="btn btn-ghost" style="font-size:.7rem;padding:4px 9px" onclick="clearChat()">مسح</button></div>
+      <div class="ch"><div class="ch-title"><span class="gem"></span>المحادثة مع المساعد</div><button class="btn btn-ghost" style="font-size:.7rem;padding:4px 9px" onclick="clearChat()">مسح</button></div>
       <div class="chat-wrap">
         <div class="chat-area" id="chatArea">
           <div class="msg ai"><strong>مرحباً!</strong> أنا مساعدك التداولي لنظام Al Hammadi Trading.<br>اسألني أي شيء عن التداول، التحليل الفني، أو إدارة المخاطر.</div>
@@ -761,9 +760,8 @@ const translations = {
     techAnalysis: "Technical Analysis (Auto)",
     assetSelectLabel: "Select Asset:",
     liveScreener: "Live Market Screener",
-    signalsTitle: "🎯 Live Signals (AI + TradingView)",
-    signalsDisclaimer: "💡 These signals are automatically extracted by AI (Claude) from the latest technical analysis across the market. Click 'Send to Pre-Trade' to auto-fill your checklist and risk calculator.",
-    acSaveBtn: "🔄 Refresh AI Signals",
+    signalsTitle: "🎯 Live Signals",
+    acSaveBtn: "🔄 Click here to show signals & updates",
     quickTransfer: "Quick Transfer Tool",
     sendToPreTrade: "✅ Send to Pre-Trade",
     preTradeTitle: "✅ Pre-Trade",
@@ -822,18 +820,17 @@ const translations = {
     contextTitle: "Context",
     contextInputLabel: "Asset & Timeframe",
     analyzeBtn: "🤖 Analyze Chart",
-    aiAnalysisLoading: "Claude analyzing...",
-    aiAnalysisTitle: "Claude Analysis",
+    aiAnalysisLoading: "Analyzing...",
+    aiAnalysisTitle: "Analysis Result",
     journalTitle: "📓 Trade Journal",
     addEntryTitle: "Add New Trade",
     addTradeBtn: "+ Add Trade",
     tableAsset: "Asset",
     tableR: "R",
     reportTitle: "📊 Weekly Report",
-    genReport: "Generate AI Report",
+    genReport: "Generate Report",
     genReportBtn: "📊 Create Report",
     chatTitle: "💬 Smart Assistant",
-    poweredByTV: "Powered by TradingView",
     newsSource: "Sources: FXStreet, ForexLive, CoinTelegraph"
   },
   ar: {
@@ -856,9 +853,8 @@ const translations = {
     techAnalysis: "توقعات الأصول (التحليل الآلي)",
     assetSelectLabel: "اختر الأصل للتحليل:",
     liveScreener: "رادار الأسواق المباشر (Live Screener)",
-    signalsTitle: "🎯 التوصيات الحية (AI + TradingView)",
-    signalsDisclaimer: "💡 يقوم الذكاء الاصطناعي (Claude) بسحب أحدث التحليلات من السوق واستخراج صفقات جاهزة لك. اضغط 'نقل إلى ما قبل الصفقة' لتطبيق التوصية في حساباتك.",
-    acSaveBtn: "🔄 تحديث التوصيات بالـ AI",
+    signalsTitle: "🎯 التوصيات الحية",
+    acSaveBtn: "🔄 لإظهار التوصيات والتحديثات اضغط هنا",
     quickTransfer: "أداة النقل السريع (Quick Transfer)",
     sendToPreTrade: "✅ نقل إلى (ما قبل الصفقة)",
     preTradeTitle: "✅ ما قبل الصفقة",
@@ -911,27 +907,26 @@ const translations = {
     riskPctRes: "نسبة الريسك",
     slPipsRes: "حجم الـ SL (نقاط)",
     lotRes: "اللوت الموصى",
-    chartAnalysis: "📸 تحليل الشارت — AI متخصص",
+    chartAnalysis: "📸 تحليل الشارت",
     uploadTitle: "رفع الشارت (حتى 6 صور)",
     uploadClick: "اضغط لاختيار صورة",
     contextTitle: "سياق الصفقة",
     contextInputLabel: "الأصل والـ Timeframe",
     analyzeBtn: "🤖 تحليل الشارت",
-    aiAnalysisLoading: "Claude يحلل الشارت...",
-    aiAnalysisTitle: "تحليل Claude التداولي",
+    aiAnalysisLoading: "جاري تحليل الشارت...",
+    aiAnalysisTitle: "نتيجة التحليل",
     journalTitle: "📓 Trade Journal",
     addEntryTitle: "تسجيل صفقة جديدة",
     addTradeBtn: "+ إضافة الصفقة",
     reportTitle: "📊 التقرير الأسبوعي",
-    genReport: "إنشاء التقرير بالـ AI",
+    genReport: "إنشاء التقرير",
     genReportBtn: "📊 إنشاء التقرير الأسبوعي",
     chatTitle: "💬 المساعد الذكي",
-    poweredByTV: "مدعوم من TradingView",
     newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph"
   }
 };
 
-// دالة جلب التوصيات باستخدام الذكاء الاصطناعي (AI + TradingView Ideas)
+// دالة جلب التوصيات باستخدام الذكاء الاصطناعي ولكن معروضة كأداة تحليل
 async function loadLiveSignals() {
     const grid = document.getElementById('signalsGridContainer');
     if(!grid) return;
@@ -940,7 +935,7 @@ async function loadLiveSignals() {
     grid.innerHTML = `
         <div class="loading" style="justify-content:center; grid-column: 1/-1; padding: 4rem; flex-direction:column; gap:15px;">
             <div class="spinner" style="width:30px; height:30px; border-width:3px;"></div>
-            <span style="color:var(--accent2); font-weight:bold;">الذكاء الاصطناعي (Claude) يقرأ الآن أحدث التحليلات من السوق... يرجى الانتظار</span>
+            <span style="color:var(--accent2); font-weight:bold;">جاري تحليل وتحديث التوصيات الحية...</span>
         </div>`;
 
     try {
@@ -965,7 +960,6 @@ async function loadLiveSignals() {
             }
         }
 
-        // إذا لم يجد نصوص، يستخدم نصوص افتراضية ليحللها الـ AI
         if(rawTexts.length < 50) {
             rawTexts = "Gold is showing strong bullish momentum above 2330, targeting 2380. Stop loss should be placed below 2315. EURUSD is breaking below 1.0850 support, looking bearish towards 1.0780, SL 1.0890.";
         }
@@ -1014,20 +1008,18 @@ ${rawTexts.substring(0, 3500)}`;
             extractedSignals = JSON.parse(textResponse);
         }
 
-        // إذا فشل في إرجاع مصفوفة، استخدم الاحتياطي
         if(!Array.isArray(extractedSignals) || extractedSignals.length === 0) {
             extractedSignals = mockSignals;
         }
 
-        // تعيين معرّفات فريدة
         extractedSignals.forEach((sig, index) => sig.id = Date.now() + index);
         S.currentSignals = extractedSignals;
 
         renderSignalsUI(S.currentSignals);
 
     } catch (error) {
-        console.error('Error in AI Signals:', error);
-        grid.innerHTML = `<div style="text-align:center; color:var(--red2); grid-column: 1/-1; padding: 2rem;">⚠️ تعذر استخراج التوصيات بالذكاء الاصطناعي الآن (الرجاء المحاولة لاحقاً). تم عرض التوصيات الافتراضية.</div>`;
+        console.error('Error in Signals:', error);
+        grid.innerHTML = `<div style="text-align:center; color:var(--red2); grid-column: 1/-1; padding: 2rem;">⚠️ تعذر التحديث الآن (الرجاء المحاولة لاحقاً). تم عرض التوصيات المحفوظة.</div>`;
         S.currentSignals = mockSignals; 
         setTimeout(() => renderSignalsUI(S.currentSignals), 2500);
     }
@@ -1048,8 +1040,8 @@ function renderSignalsUI(signals) {
             <div class="ch-title" style="font-size:1.1rem; letter-spacing:0;">${s.asset} <span style="font-size:0.6rem; color:var(--text3)">${s.timeframe || 'H1'}</span></div>
             <span class="bg ${dirClass}">${dirText}</span>
           </div>
-          <div class="fs07 text-m mb1">🕒 ${s.time || 'Now'} • <span style="color:var(--accent2)">AI Extracted</span></div>
-          <div class="fs07 text-m mb1" style="line-height:1.5; padding:8px; background:var(--surface); border-radius:8px; min-height:50px;">🤖 ${s.desc}</div>
+          <div class="fs07 text-m mb1">🕒 ${s.time || 'Now'}</div>
+          <div class="fs07 text-m mb1" style="line-height:1.5; padding:8px; background:var(--surface); border-radius:8px; min-height:50px;">${s.desc}</div>
           <div class="g3 mb1" style="gap:5px; text-align:center;">
             <div style="background:var(--surface); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">Entry</div><div class="mono fw7" style="font-size:0.85rem">${s.entry}</div></div>
             <div style="background:var(--surface); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">TP</div><div class="mono fw7 text-g" style="font-size:0.85rem">${s.tp}</div></div>
@@ -1331,7 +1323,6 @@ function toggleLang() {
   
   changeTVSymbol();
   fetchLiveRSSNews(); 
-  renderSignalsUI(S.currentSignals);
 }
 
 function showPage(name, el) {
@@ -1339,7 +1330,6 @@ function showPage(name, el) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   if (el) el.classList.add('active');
-  if (name === 'signals' && S.currentSignals.length === 0) { loadLiveSignals(); }
   if (name === 'journal') { renderJournal(); buildCharts(); }
   if (name === 'report') updateReport();
 }
