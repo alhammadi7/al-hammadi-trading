@@ -152,6 +152,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 .news-item:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
 .news-time{font-size:.65rem;color:var(--accent2);margin-bottom:5px;font-weight:700;font-family:'JetBrains Mono',monospace;}
 .news-title{font-size:.82rem;font-weight:700;color:var(--text);line-height:1.5;}
+.source-label{font-size:.55rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;display:block;}
 
 @media(max-width:900px){.g2,.g3,.g4,.g13,.g31{grid-template-columns:1fr;}}
 @media(max-width:600px){.topbar{padding:0 .75rem;}.main{padding:112px .75rem 2rem;}.nav-tab{padding:4px 8px;font-size:.7rem;}}
@@ -206,29 +207,29 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="st"><span data-key="navMacro">📡 Macro Scan</span> <span class="st-badge" data-key="macroBadge">أسبوعي / يومي</span></div>
   
   <div class="g2 mb">
-    <!-- خريطة قوة العملات -->
+    <!-- الأخبار الحية المحدثة لتعمل عبر RSS -->
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="currencyHeatmap">خريطة قوة العملات (Heatmap)</span></div></div>
-      <div class="widget-box">
-        <div class="tradingview-widget-container">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js" async>
-          {
-            "width": "100%",
-            "height": "100%",
-            "currencies": ["EUR", "USD", "JPY", "GBP", "CHF", "AUD", "CAD", "NZD"],
-            "isTransparent": true,
-            "colorTheme": "dark",
-            "locale": "ar"
-          }
-          </script>
+      <div class="ch">
+        <div>
+            <div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (Market Live)</span></div>
+            <span class="source-label" data-key="newsSource">Sources: FXStreet, ForexLive</span>
         </div>
+        <button class="btn btn-ghost" style="padding:4px 8px;font-size:.7rem" onclick="fetchLiveRSSNews()">🔄</button>
+      </div>
+      <div class="widget-box" style="overflow-y:auto; padding:10px; background:var(--surface2);" id="rssNewsContainer">
+        <!-- Live News will be injected here via JS -->
+        <div class="loading" style="height:100%;"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري جلب الأخبار...</span></div>
       </div>
     </div>
     
     <!-- التقويم الاقتصادي -->
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="economicCalendar">التقويم الاقتصادي (Economic Calendar)</span></div></div>
+      <div class="ch">
+        <div>
+            <div class="ch-title"><span class="gem"></span><span data-key="economicCalendar">التقويم الاقتصادي (Economic Calendar)</span></div>
+            <span class="source-label" data-key="poweredByTV">Powered by TradingView</span>
+        </div>
+      </div>
       <div class="widget-box">
         <div class="tradingview-widget-container">
           <div class="tradingview-widget-container__widget"></div>
@@ -249,21 +250,39 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   </div>
 
   <div class="g2 mb">
-    <!-- الأخبار الحية المحدثة لتعمل عبر RSS -->
+    <!-- خريطة قوة العملات -->
     <div class="card">
       <div class="ch">
-        <div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (Market Live)</span></div>
-        <button class="btn btn-ghost" style="padding:4px 8px;font-size:.7rem" onclick="fetchLiveRSSNews()">🔄</button>
+        <div>
+            <div class="ch-title"><span class="gem"></span><span data-key="currencyHeatmap">خريطة قوة العملات (Heatmap)</span></div>
+            <span class="source-label" data-key="poweredByTV">Powered by TradingView</span>
+        </div>
       </div>
-      <div class="widget-box" style="overflow-y:auto; padding:10px; background:var(--surface2);" id="rssNewsContainer">
-        <!-- Live News will be injected here via JS -->
-        <div class="loading" style="height:100%;"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري جلب الأخبار...</span></div>
+      <div class="widget-box">
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js" async>
+          {
+            "width": "100%",
+            "height": "100%",
+            "currencies": ["EUR", "USD", "JPY", "GBP", "CHF", "AUD", "CAD", "NZD"],
+            "isTransparent": true,
+            "colorTheme": "dark",
+            "locale": "ar"
+          }
+          </script>
+        </div>
       </div>
     </div>
 
     <!-- التحليل الفني (بديل Trading Central / Autochartist) -->
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="techAnalysis">توقعات الأصول (التحليل الآلي)</span></div></div>
+      <div class="ch">
+        <div>
+            <div class="ch-title"><span class="gem"></span><span data-key="techAnalysis">توقعات الأصول (التحليل الآلي)</span></div>
+            <span class="source-label" data-key="poweredByTV">Powered by TradingView</span>
+        </div>
+      </div>
       <div class="ig"><label class="il" data-key="assetSelectLabel">اختر الأصل للتحليل:</label>
         <select class="sf" id="tvSymbolSelect" onchange="changeTVSymbol()">
             <optgroup label="الفوركس — أزواج الدولار">
@@ -307,7 +326,12 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 
   <!-- رادار الأسواق المباشر بدل الفلتر اليدوي -->
   <div class="card mb">
-    <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="liveScreener">رادار الأسواق المباشر (Live Market Screener)</span></div></div>
+    <div class="ch">
+        <div>
+            <div class="ch-title"><span class="gem"></span><span data-key="liveScreener">رادار الأسواق المباشر (Live Market Screener)</span></div>
+            <span class="source-label" data-key="poweredByTV">Powered by TradingView</span>
+        </div>
+    </div>
     <div class="widget-box" style="height: 500px;">
       <div class="tradingview-widget-container">
         <div class="tradingview-widget-container__widget"></div>
@@ -322,10 +346,19 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
           "largeChartUrl": "",
           "isTransparent": true,
           "showSymbolLogo": true,
-          "showFloatingTooltip": false,
+          "showFloatingTooltip": true,
+          "plotLineColorGrowing": "rgba(29, 184, 122, 1)",
+          "plotLineColorFalling": "rgba(224, 60, 60, 1)",
+          "gridLineColor": "rgba(38, 48, 69, 0)",
+          "scaleFontColor": "rgba(143, 163, 191, 1)",
+          "belowLineFillColorGrowing": "rgba(29, 184, 122, 0.12)",
+          "belowLineFillColorFalling": "rgba(224, 60, 60, 0.12)",
+          "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+          "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+          "symbolActiveColor": "rgba(41, 98, 255, 0.12)",
           "tabs": [
             {
-              "title": "Forex - العملات",
+              "title": "الفوركس (Forex)",
               "symbols": [
                 {"s": "FX:EURUSD", "d": "EUR/USD"},
                 {"s": "FX:GBPUSD", "d": "GBP/USD"},
@@ -333,27 +366,36 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
                 {"s": "FX:AUDUSD", "d": "AUD/USD"},
                 {"s": "FX:USDCAD", "d": "USD/CAD"},
                 {"s": "FX:USDCHF", "d": "USD/CHF"},
+                {"s": "FX:NZDUSD", "d": "NZD/USD"},
                 {"s": "FX:GBPJPY", "d": "GBP/JPY"},
-                {"s": "FX:EURJPY", "d": "EUR/JPY"}
+                {"s": "FX:EURJPY", "d": "EUR/JPY"},
+                {"s": "FX:EURGBP", "d": "EUR/GBP"},
+                {"s": "FX:AUDJPY", "d": "AUD/JPY"}
               ]
             },
             {
-              "title": "Indices & Metals - المؤشرات والمعادن",
+              "title": "المعادن والطاقة (Metals & Energy)",
               "symbols": [
                 {"s": "TVC:GOLD", "d": "Gold (XAU/USD)"},
                 {"s": "TVC:SILVER", "d": "Silver (XAG/USD)"},
-                {"s": "NASDAQ:QQQ", "d": "Nasdaq 100"},
-                {"s": "SP:SPX", "d": "S&P 500"},
-                {"s": "DJ:DJI", "d": "Dow Jones"},
-                {"s": "TVC:USOIL", "d": "Crude Oil (WTI)"}
+                {"s": "TVC:USOIL", "d": "WTI Crude Oil"}
               ]
             },
             {
-              "title": "Crypto - العملات الرقمية",
+              "title": "المؤشرات والأسهم (Indices)",
+              "symbols": [
+                {"s": "NASDAQ:QQQ", "d": "US100 (Nasdaq)"},
+                {"s": "SP:SPX", "d": "S&P 500"},
+                {"s": "DJ:DJI", "d": "US30 (Dow Jones)"}
+              ]
+            },
+            {
+              "title": "الكريبتو (Crypto)",
               "symbols": [
                 {"s": "BINANCE:BTCUSD", "d": "Bitcoin"},
                 {"s": "BINANCE:ETHUSD", "d": "Ethereum"},
-                {"s": "BINANCE:SOLUSD", "d": "Solana"}
+                {"s": "BINANCE:SOLUSD", "d": "Solana"},
+                {"s": "BINANCE:XRPUSD", "d": "Ripple"}
               ]
             }
           ]
@@ -733,7 +775,9 @@ const translations = {
     reportTitle: "📊 Weekly Report",
     genReport: "Generate AI Report",
     genReportBtn: "📊 Create Report",
-    chatTitle: "💬 Smart Assistant"
+    chatTitle: "💬 Smart Assistant",
+    poweredByTV: "Powered by TradingView",
+    newsSource: "Sources: FXStreet, ForexLive"
   },
   ar: {
     logoSub: "نظام التداول الاحترافي",
@@ -818,7 +862,9 @@ const translations = {
     reportTitle: "📊 التقرير الأسبوعي",
     genReport: "إنشاء التقرير بالـ AI",
     genReportBtn: "📊 إنشاء التقرير الأسبوعي",
-    chatTitle: "💬 المساعد الذكي"
+    chatTitle: "💬 المساعد الذكي",
+    poweredByTV: "مدعوم من TradingView",
+    newsSource: "المصادر: FXStreet, ForexLive"
   }
 };
 
