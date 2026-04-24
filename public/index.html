@@ -208,17 +208,17 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="st"><span data-key="navMacro">📡 Macro Scan</span> <span class="st-badge" data-key="macroBadge">أسبوعي / يومي</span></div>
   
   <div class="g2 mb">
-    <!-- الأخبار الحية المحدثة لتعمل بذكاء مع Fallback حماية -->
+    <!-- الأخبار الحية بـ TradingView Widget لضمان الاستقرار التام -->
     <div class="card">
       <div class="ch">
         <div>
             <div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (Market Live)</span></div>
-            <span class="source-label" data-key="newsSource" id="newsSourceLabel">Sources: FXStreet, ForexLive, CoinTelegraph</span>
+            <span class="source-label" data-key="poweredByTV">Powered by TradingView</span>
         </div>
-        <button class="btn btn-ghost" style="padding:4px 8px;font-size:.7rem" onclick="fetchLiveRSSNews()">🔄</button>
       </div>
-      <div class="widget-box" style="overflow-y:auto; padding:10px; background:var(--surface2);" id="rssNewsContainer">
-        <div class="loading" style="height:100%;"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري جلب الأخبار...</span></div>
+      <div class="widget-box" id="rssNewsContainer">
+        <!-- Live News will be injected here via JS permanently -->
+        <div class="loading" style="height:100%; justify-content:center;"><div class="spinner"></div></div>
       </div>
     </div>
     
@@ -406,14 +406,28 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 
 <!-- SIGNALS & TRADE IDEAS -->
 <div id="page-signals" class="page">
-  <div class="st">
-    <span data-key="signalsTitle">🎯 التوصيات الحية (Trading Central & Ideas)</span> 
+  <div class="st" style="display:flex; justify-content:space-between; width:100%; align-items:center;">
+    <span data-key="signalsTitle">🎯 التوصيات الحية (Autochartist)</span> 
   </div>
   <div style="padding:10px 15px; border-radius:10px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:var(--accent2); font-size:0.8rem; margin-bottom:1rem; line-height:1.6;" data-key="signalsDisclaimer">
-     💡 هذه المساحة مخصصة لعرض توصياتك الجاهزة. اضغط على "نقل إلى ما قبل الصفقة" لتعبئة تفاصيل الصفقة، الشروط، ونموذج الدخول تلقائياً في قائمة المراجعة وحاسبة الريسك!
+     💡 تم دمج شاشة Autochartist من حسابك مباشرة. لتطبيق التوصية، اكتب تفاصيلها في "أداة النقل السريع" بالأسفل واضغط على نقل لتعبئة قائمة المراجعة وحاسبة الريسك تلقائياً.
   </div>
-  <div id="signalsGridContainer" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem; margin-bottom:1rem;">
-    <!-- Signals injected via JS -->
+  
+  <!-- Autochartist iFrame -->
+  <div class="card mb" style="padding: 0; overflow: hidden; height: 600px; border-radius: 14px;">
+     <iframe src="https://webapp.autochartist.com/componentcontainer/broker.php?broker_id=558&user=M_alhammadi%40ymail.com&account_type=LIVE&expire=1777260959&token=890676ce048866c92adbd35e4c690fad#tab-10" width="100%" height="100%" frameborder="0" style="border:none;"></iframe>
+  </div>
+
+  <!-- Quick Transfer Tool -->
+  <div class="card">
+    <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="quickTransfer">أداة النقل السريع (Quick Transfer)</span></div></div>
+    <div class="g4">
+      <div class="ig"><label class="il" data-key="assetLabel">الأصل</label><input type="text" class="if" id="qt-asset" placeholder="مثال: EURUSD"></div>
+      <div class="ig"><label class="il" data-key="tradeDirLabel">الاتجاه</label><select class="sf" id="qt-dir"><option value="long">LONG (شراء)</option><option value="short">SHORT (بيع)</option></select></div>
+      <div class="ig"><label class="il" data-key="entryLabel">سعر الدخول</label><input type="number" class="if" id="qt-entry" step="0.00001"></div>
+      <div class="ig"><label class="il" data-key="slLabel">الوقف (SL)</label><input type="number" class="if" id="qt-sl" step="0.00001"></div>
+    </div>
+    <button class="btn btn-gold w100 mt" onclick="quickTransferSignal()" data-key="sendToPreTrade">✅ نقل إلى (ما قبل الصفقة)</button>
   </div>
 </div>
 
@@ -686,8 +700,6 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   </div>
 </div>
 
-</main>
-
 <script>
 const API_URL = '/api/chat';
 
@@ -699,30 +711,6 @@ const S = {
   charts: {},
   lang: 'ar'
 };
-
-// أمثلة التوصيات - الآن تحتوي على بيانات هيكل السوق (Structure) والشروط (Checklist)
-const mockSignals = [
-    { 
-      id: 1, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: '10:30 AM', timeframe: 'H1', desc: 'ارتداد من منطقة دعم قوية (Demand Zone)', 
-      setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
-      checks: [4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16] // أرقام الشروط التي ستفعل تلقائياً
-    },
-    { 
-      id: 2, asset: 'XAUUSD', dir: 'long', entry: 2350.50, tp: 2380.00, sl: 2335.00, time: '09:15 AM', timeframe: 'H4', desc: 'كسر مستوى مقاومة وإعادة اختبار (B&R)',
-      setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
-      checks: [4, 5, 6, 7, 8, 9, 11, 12, 15, 16] 
-    },
-    { 
-      id: 3, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: '08:45 AM', timeframe: 'M30', desc: 'تشبع شرائي مع ظهور شمعة ابتلاعية سلبية',
-      setupId: 2, structure: { daily: 'bearish', h4: 'bearish', h1: 'bearish', ma200: 'below', ma50: 'below', rsi: 'ob' }, 
-      checks: [4, 5, 6, 7, 8, 9, 10, 15, 16] 
-    },
-    { 
-      id: 4, asset: 'USDJPY', dir: 'long', entry: 154.200, tp: 155.500, sl: 153.500, time: '07:20 AM', timeframe: 'H1', desc: 'استمرار الترند الصاعد بعد تجميع سيولة',
-      setupId: 3, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
-      checks: [4, 5, 6, 7, 8, 9, 13, 15, 16] 
-    }
-];
 
 const translations = {
   en: {
@@ -745,13 +733,15 @@ const translations = {
     techAnalysis: "Technical Analysis (Auto)",
     assetSelectLabel: "Select Asset:",
     liveScreener: "Live Market Screener",
-    signalsTitle: "🎯 Live Trading Signals",
-    signalsDisclaimer: "💡 This space is reserved for your ready signals. Click 'Send to Pre-Trade' to autofill entry, TP, SL, setup, and checklist criteria instantly!",
+    signalsTitle: "🎯 Live Signals (Autochartist)",
+    signalsDisclaimer: "💡 Autochartist is embedded directly from your account. To apply a signal, enter its details in the 'Quick Transfer Tool' below and click Transfer to auto-fill your checklist and risk calculator.",
+    quickTransfer: "Quick Transfer Tool",
     sendToPreTrade: "✅ Send to Pre-Trade",
     preTradeTitle: "✅ Pre-Trade",
     preTradeBadge: "Full Checklist",
     biasSection: "Directional Bias",
     assetLabel: "Asset",
+    tradeDirLabel: "Direction",
     ma200Label: "Price vs 200 MA",
     above200: "Above 200 MA ← BUY",
     below200: "Below 200 MA ← SELL",
@@ -788,7 +778,6 @@ const translations = {
     riskPctLabel: "Risk %",
     riskDollarLabel: "Risk $",
     assetTypeLabel: "Asset Type",
-    tradeDirLabel: "Direction",
     longTrade: "LONG - Buy",
     shortTrade: "SHORT - Sell",
     entryLabel: "Entry Price",
@@ -838,13 +827,15 @@ const translations = {
     techAnalysis: "توقعات الأصول (التحليل الآلي)",
     assetSelectLabel: "اختر الأصل للتحليل:",
     liveScreener: "رادار الأسواق المباشر (Live Screener)",
-    signalsTitle: "🎯 التوصيات الحية (Trading Central & Ideas)",
-    signalsDisclaimer: "💡 هذه المساحة مخصصة لعرض توصياتك الجاهزة. اضغط على 'نقل إلى ما قبل الصفقة' لتعبئة تفاصيل الصفقة، الشروط، ونموذج الدخول تلقائياً في قائمة المراجعة وحاسبة الريسك!",
+    signalsTitle: "🎯 التوصيات الحية (Autochartist)",
+    signalsDisclaimer: "💡 تم دمج شاشة Autochartist من حسابك مباشرة. لتطبيق التوصية، اكتب تفاصيلها في 'أداة النقل السريع' بالأسفل واضغط على نقل لتعبئة قائمة المراجعة وحاسبة الريسك تلقائياً.",
+    quickTransfer: "أداة النقل السريع (Quick Transfer)",
     sendToPreTrade: "✅ نقل إلى (ما قبل الصفقة)",
     preTradeTitle: "✅ ما قبل الصفقة",
     preTradeBadge: "Checklist كامل",
     biasSection: "الاتجاه — Directional Bias",
     assetLabel: "الأصل",
+    tradeDirLabel: "الاتجاه",
     ma200Label: "موقع السعر من 200 MA",
     above200: "فوق 200 MA ← BUY Bias",
     below200: "تحت 200 MA ← SELL Bias",
@@ -881,7 +872,6 @@ const translations = {
     riskPctLabel: "الريسك %",
     riskDollarLabel: "أو الريسك $",
     assetTypeLabel: "نوع الأصل",
-    tradeDirLabel: "اتجاه الصفقة",
     longTrade: "LONG — شراء",
     shortTrade: "SHORT — بيع",
     entryLabel: "سعر الدخول",
@@ -911,195 +901,94 @@ const translations = {
   }
 };
 
-function renderSignalsUI() {
-    const grid = document.getElementById('signalsGridContainer');
-    if(!grid) return;
-    const isAr = S.lang === 'ar';
-    grid.innerHTML = mockSignals.map(s => {
-        const dirClass = s.dir === 'long' ? 'bg-g' : 'bg-r';
-        const dirText = s.dir === 'long' ? (isAr ? 'شراء (BUY)' : 'BUY') : (isAr ? 'بيع (SELL)' : 'SELL');
-        const btnText = isAr ? translations.ar.sendToPreTrade : translations.en.sendToPreTrade;
-        return `
-        <div class="card signal-card">
-          <div class="ch mb05" style="margin-bottom:0">
-            <div class="ch-title" style="font-size:1.1rem; letter-spacing:0;">${s.asset} <span style="font-size:0.6rem; color:var(--text3)">${s.timeframe}</span></div>
-            <span class="bg ${dirClass}">${dirText}</span>
-          </div>
-          <div class="fs07 text-m mb1">🕒 ${s.time}</div>
-          <div style="height:140px; background:var(--surface2); border:1px dashed var(--border2); border-radius:8px; margin-bottom:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text3); position:relative; overflow:hidden;">
-             <div style="font-size:2.5rem; opacity:0.5; margin-bottom:5px;">📊</div>
-             <div style="font-size:0.7rem;">Trading Central Image Placeholder</div>
-          </div>
-          <div class="fs07 text-m mb1" style="line-height:1.4;">📝 ${s.desc}</div>
-          <div class="g3 mb1" style="gap:5px; text-align:center;">
-            <div style="background:var(--surface2); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">Entry</div><div class="mono fw7" style="font-size:0.85rem">${s.entry}</div></div>
-            <div style="background:var(--surface2); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">TP</div><div class="mono fw7 text-g" style="font-size:0.85rem">${s.tp}</div></div>
-            <div style="background:var(--surface2); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">SL</div><div class="mono fw7 text-r" style="font-size:0.85rem">${s.sl}</div></div>
-          </div>
-          <button class="btn btn-ghost w100" onclick="applySignal(${s.id})" style="border-color:var(--accent); color:var(--accent2);">${btnText}</button>
-        </div>
-        `;
-    }).join('');
-}
+function quickTransferSignal() {
+    const asset = document.getElementById('qt-asset').value.trim().toUpperCase();
+    const dir = document.getElementById('qt-dir').value;
+    const entry = parseFloat(document.getElementById('qt-entry').value) || 0;
+    const sl = parseFloat(document.getElementById('qt-sl').value) || 0;
 
-function applySignal(id) {
-    const signal = mockSignals.find(s => s.id === id);
-    if(!signal) return;
+    if(!asset) {
+        alert(S.lang === 'ar' ? 'الرجاء إدخال اسم الأصل' : 'Please enter asset name');
+        return;
+    }
 
-    // 1. Set Asset in Pre-Trade
+    // 1. تحديد الأصل
     const assetSelect = document.getElementById('tradeAsset');
     let found = false;
     for(let i=0; i<assetSelect.options.length; i++) {
-        if(assetSelect.options[i].text.replace(/\s/g,'').includes(signal.asset)) {
+        if(assetSelect.options[i].text.replace(/\s/g,'').includes(asset)) {
             assetSelect.selectedIndex = i;
             found = true; break;
         }
     }
     if(!found) {
         const opt = document.createElement('option');
-        opt.text = signal.asset;
+        opt.text = asset;
         assetSelect.add(opt);
         assetSelect.selectedIndex = assetSelect.options.length - 1;
     }
     
-    // 2. Set Direction Bias
-    setBias(signal.dir);
+    // 2. تحديد الاتجاه
+    setBias(dir);
 
-    // 3. Set Structure Dropdowns (Auto-fill)
-    if(signal.structure) {
-        document.getElementById('dailyStr').value = signal.structure.daily;
-        document.getElementById('h4Str').value = signal.structure.h4;
-        document.getElementById('h1Str').value = signal.structure.h1;
-        document.getElementById('ma200').value = signal.structure.ma200;
-        document.getElementById('ma50').value = signal.structure.ma50;
-        document.getElementById('rsiS').value = signal.structure.rsi;
-        chkBias(); // Trigger warning check
-    }
-
-    // 4. Set Setup Model (Auto-select)
-    if(signal.setupId) {
-        // Clear all setups first
-        for(let i=1; i<=5; i++) {
-            document.getElementById('m'+i).classList.remove('checked');
-        }
-        // Select the specific setup
-        document.getElementById('m'+signal.setupId).classList.add('checked');
-    }
-
-    // 5. Fill the Checklist (Auto-check)
-    if(signal.checks && signal.checks.length > 0) {
-        // Reset all checklists
-        for(let i=1; i<=20; i++) {
-            const chk = document.getElementById('chk'+i);
-            if(chk) chk.classList.remove('checked');
-        }
-        // Apply checks
-        signal.checks.forEach(c => {
-            const chk = document.getElementById('chk'+c);
-            if(chk) chk.classList.add('checked');
-        });
-        updateScore();
-    }
-
-    // 6. Set Values in Risk Calculator
-    document.getElementById('entryP').value = signal.entry;
-    document.getElementById('slP').value = signal.sl;
+    // 3. تعبئة الحاسبة
+    if(entry > 0) document.getElementById('entryP').value = entry;
+    if(sl > 0) document.getElementById('slP').value = sl;
     
     const riskAsset = document.getElementById('assetType');
-    if(signal.asset.includes('XAU')) riskAsset.value = 'gold';
-    else if(signal.asset.includes('BTC') || signal.asset.includes('ETH')) riskAsset.value = 'btc';
-    else if(signal.asset.includes('US100') || signal.asset.includes('SPX')) riskAsset.value = 'indices_usd';
-    else if(signal.asset.includes('JPY')) riskAsset.value = 'forex_yen';
+    if(asset.includes('XAU')) riskAsset.value = 'gold';
+    else if(asset.includes('BTC') || asset.includes('ETH')) riskAsset.value = 'btc';
+    else if(asset.includes('US100') || asset.includes('SPX')) riskAsset.value = 'indices_usd';
+    else if(asset.includes('JPY')) riskAsset.value = 'forex_yen';
     else riskAsset.value = 'forex_major';
     
     calcRisk();
 
-    // 7. Switch to Pre-Trade Tab
+    // 4. الانتقال لصفحة ما قبل الصفقة لتكملة الشيك لست
     const tabs = document.querySelectorAll('.nav-tab');
     let precheckTab = null;
     tabs.forEach(t => { if(t.getAttribute('data-key') === 'navPrecheck') precheckTab = t; });
     showPage('precheck', precheckTab);
 }
 
-async function fetchLiveRSSNews() {
+// دالة مبسطة ومستقرة تماماً للأخبار باستخدام TradingView فقط لتجنب أي حظر
+function fetchLiveRSSNews() {
     const container = document.getElementById('rssNewsContainer');
     if(!container) return;
     
-    // إظهار علامة التحميل
-    container.innerHTML = '<div class="loading" style="justify-content:center;height:100%"><div class="spinner"></div></div>';
+    container.innerHTML = '';
+    container.style.padding = '0';
+    container.style.overflow = 'hidden';
     
-    try {
-        // محاولة جلب الأخبار من المصادر عبر وسيط RSS
-        const feeds = [
-            { url: 'https://www.fxstreet.com/news/rss', name: 'FXStreet' },
-            { url: 'https://www.forexlive.com/feed/news', name: 'ForexLive' }
-        ];
-
-        let allItems = [];
-        const promises = feeds.map(feed => 
-            fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`)
-            .then(res => res.json())
-            .then(data => {
-                if (data.status === 'ok' && data.items) return data.items.map(item => ({ ...item, sourceName: feed.name }));
-                return [];
-            }).catch(e => [])
-        );
-
-        const results = await Promise.all(promises);
-        results.forEach(items => { allItems = allItems.concat(items); });
-
-        if(allItems.length > 0) {
-            allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-            let html = '<div style="display:flex;flex-direction:column;gap:8px">';
-            allItems.slice(0, 20).forEach(item => {
-                const date = new Date(item.pubDate || new Date().toISOString()).toLocaleTimeString(S.lang === 'ar' ? 'ar-SA' : 'en-US', {hour: '2-digit', minute:'2-digit'});
-                html += `<a href="${item.link}" target="_blank" class="news-item">
-                    <div class="news-time">${date} • ${item.sourceName}</div>
-                    <div class="news-title">${item.title}</div>
-                </a>`;
-            });
-            html += '</div>';
-            container.innerHTML = html;
-        } else {
-            // إذا حظرت جميع السيرفرات طلب الـ RSS، نقوم فوراً وبشكل صامت بتبديل الشاشة لودجت أخبار TradingView المستقر 100%
-            throw new Error('Fallback to TV News');
-        }
-    } catch(e) {
-        // Fallback: Inject TradingView News Widget
-        container.innerHTML = '';
-        container.style.padding = '0';
-        container.style.overflow = 'hidden';
-        const wrapper = document.createElement('div');
-        wrapper.className = 'tradingview-widget-container';
-        wrapper.style.height = '100%';
-        wrapper.style.width = '100%';
-        
-        const widgetDiv = document.createElement('div');
-        widgetDiv.className = 'tradingview-widget-container__widget';
-        widgetDiv.style.height = 'calc(100% - 32px)';
-        
-        const script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
-        script.async = true;
-        script.innerHTML = JSON.stringify({
-            "feedMode": "all_symbols",
-            "isTransparent": true,
-            "displayMode": "regular",
-            "width": "100%",
-            "height": "100%",
-            "colorTheme": "dark",
-            "locale": S.lang
-        });
-        
-        wrapper.appendChild(widgetDiv);
-        wrapper.appendChild(script);
-        container.appendChild(wrapper);
-        
-        // تحديث النص ليوضح أن المصدر تحول لـ TradingView
-        const sourceLabel = document.getElementById('newsSourceLabel');
-        if(sourceLabel) sourceLabel.innerHTML = translations[S.lang].poweredByTV;
-    }
+    const wrapper = document.createElement('div');
+    wrapper.className = 'tradingview-widget-container';
+    wrapper.style.height = '100%';
+    wrapper.style.width = '100%';
+    
+    const widgetDiv = document.createElement('div');
+    widgetDiv.className = 'tradingview-widget-container__widget';
+    widgetDiv.style.height = 'calc(100% - 32px)';
+    
+    const script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-timeline.js';
+    script.async = true;
+    script.innerHTML = JSON.stringify({
+        "feedMode": "all_symbols",
+        "isTransparent": true,
+        "displayMode": "regular",
+        "width": "100%",
+        "height": "100%",
+        "colorTheme": "dark",
+        "locale": S.lang
+    });
+    
+    wrapper.appendChild(widgetDiv);
+    wrapper.appendChild(script);
+    container.appendChild(wrapper);
+    
+    const sourceLabel = document.getElementById('newsSourceLabel');
+    if(sourceLabel) sourceLabel.innerHTML = translations[S.lang].poweredByTV;
 }
 
 function changeTVSymbol() {
@@ -1160,7 +1049,6 @@ function toggleLang() {
   
   changeTVSymbol();
   fetchLiveRSSNews(); // Refresh news on language change 
-  renderSignalsUI(); // Refresh signals translations
 }
 
 function showPage(name, el) {
@@ -1522,8 +1410,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   calcRisk();
   renderJournal();
   changeTVSymbol(); // Initialize the technical analysis widget
-  fetchLiveRSSNews(); // Fetch FXStreet news on load
-  renderSignalsUI(); // Render the mock signals
+  fetchLiveRSSNews(); // Fetch TradingView news on load to prevent errors
 });
 </script>
 </body>
