@@ -8,15 +8,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 [data-theme="dark"]{--bg:#060810;--bg2:#0a0d16;--surface:#0f1219;--surface2:#141824;--surface3:#1a2030;--border:#1e2738;--border2:#263045;--text:#e8edf5;--text2:#8fa3bf;--text3:#4a5f7a;--accent:#c9a84c;--accent2:#e8c86e;--accent3:rgba(201,168,76,0.12);--green:#1db87a;--green2:#35d494;--red:#e03c3c;--red2:#f06060;--blue:#3b7fd4;--blue2:#5a9ae8;--shadow:0 8px 32px rgba(0,0,0,0.5);--glow:0 0 20px rgba(201,168,76,0.15);}
-[data-theme="light"]{--bg:#f0f2f7;--bg2:#e8ebf2;--surface:#fff;--surface2:#f4f6fb;--surface3:#eaecf3;--border:#dde2ee;--border2:#c8d0e0;--text:#1a2235;--text2:#4a5f7a;--text3:#8a9ab8;--accent:#b8922a;--accent2:#c9a84c;--accent3:rgba(201,168,76,0.1);--green:#0ea86a;--green2:#1db87a;--red:#c83232;--red2:#e03c3c;--blue:#2563c0;--blue2:#3b7fd4;--shadow:0 4px 20px rgba(0,0,0,0.12);--glow:0 0 20px rgba(201,168,76,0.1);}
+/* تم تعديل الألوان النهارية لتصبح هادئة ومريحة للعين */
+[data-theme="light"]{--bg:#f3f4f6;--bg2:#e2e8f0;--surface:#ffffff;--surface2:#f8fafc;--surface3:#f1f5f9;--border:#cbd5e1;--border2:#94a3b8;--text:#1e293b;--text2:#475569;--text3:#64748b;--accent:#b8922a;--accent2:#9ca3af;--accent3:rgba(184,146,42,0.1);--green:#059669;--green2:#10b981;--red:#dc2626;--red2:#ef4444;--blue:#2563eb;--blue2:#3b82f6;--shadow:0 4px 20px rgba(0,0,0,0.08);--glow:0 0 20px rgba(184,146,42,0.1);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s; display:flex; flex-direction:column;}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:56px;background:rgba(6,8,16,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1rem;gap:.75rem;transition:background .3s;}
-[data-theme="light"] .topbar{background:rgba(240,242,247,.95);}
+[data-theme="light"] .topbar{background:rgba(244,245,248,.95);}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
 .logo-icon{width:34px;height:34px;background:linear-gradient(135deg,#c9a84c,#e8c86e);border-radius:9px;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 12px rgba(201,168,76,.4);}
 .logo-icon svg{width:22px;height:22px;}
 .logo-name{font-size:.88rem;font-weight:800;background:linear-gradient(135deg,var(--accent2),#fff8e0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-family:'Tajawal',sans-serif;}
+[data-theme="light"] .logo-name{background:linear-gradient(135deg,var(--accent),#000);-webkit-background-clip:text;}
 .logo-sub{font-size:.58rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;}
 .nav-scroll{flex:1;overflow-x:auto;display:flex;align-items:center;}
 .nav-scroll::-webkit-scrollbar{display:none;}
@@ -154,6 +156,11 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 .news-title{font-size:.82rem;font-weight:700;color:var(--text);line-height:1.5;}
 .source-label{font-size:.55rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;display:block;}
 
+/* Floating Contact Button */
+.fab-contact { position:fixed; bottom:20px; right:20px; width:50px; height:50px; border-radius:50%; background:linear-gradient(135deg,var(--accent),var(--accent2)); color:#060810; display:flex; align-items:center; justify-content:center; font-size:1.5rem; cursor:pointer; box-shadow:var(--shadow); z-index:999; border:none; transition:all 0.3s; }
+.fab-contact:hover { transform:scale(1.1); box-shadow: 0 6px 24px rgba(201,168,76,.4); }
+[dir="rtl"] .fab-contact { right:auto; left:20px; }
+
 /* Footer Styles */
 .site-footer { text-align: center; padding: 2rem 1.25rem; margin-top: auto; border-top: 1px solid var(--border); color: var(--text3); font-size: 0.75rem; line-height: 1.6; }
 .site-footer .credit { font-size: 0.65rem; margin-top: 10px; opacity: 0.7; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; }
@@ -187,7 +194,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <button class="nav-tab" onclick="showPage('chart',this)" data-key="navChart">📸 تحليل الشارت</button>
       <button class="nav-tab" onclick="showPage('journal',this)" data-key="navJournal">📓 الجورنال</button>
       <button class="nav-tab" onclick="showPage('report',this)" data-key="navReport">📊 التقرير الأسبوعي</button>
-      <button class="nav-tab" onclick="showPage('chat',this)" data-key="navChat">💬 المساعد</button>
+      <button class="nav-tab" id="navChatBtn" onclick="showPage('chat',this)" data-key="navChat">💬 المساعد</button>
     </div>
   </div>
   <div style="display:flex;gap:6px;flex-shrink:0;">
@@ -463,26 +470,26 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
           <div class="ci" id="chk1" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check1">بيئة السوق محددة</strong> <span data-key="check1Desc">— Risk-On/Off واضح</span></div></div>
           <div class="ci" id="chk2" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check2">لا خبر قوي الآن</strong> <span data-key="check2Desc">— تجنب 30 دقيقة قبل/بعد</span></div></div>
           <div class="ci" id="chk3" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="check3">DXY يدعم الاتجاه</strong></div></div>
-          <div class="section-cat">— STRUCTURE &amp; BIAS —</div>
-          <div class="ci" id="chk4" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Daily Bias واضح</strong></div></div>
-          <div class="ci" id="chk5" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>H4 يتوافق مع Daily</strong></div></div>
-          <div class="ci" id="chk6" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>200 MA يدعم الـ Bias</strong></div></div>
-          <div class="ci" id="chk7" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>50 MA يدعم الـ Bias</strong></div></div>
-          <div class="ci" id="chk8" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>HH/HL يتشكل</strong> <span>للـ Buy / LH/LL للـ Sell</span></div></div>
-          <div class="section-cat">— ENTRY QUALITY —</div>
-          <div class="ci" id="chk9" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Setup واضح (أحد النماذج الخمسة)</strong></div></div>
-          <div class="ci" id="chk10" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Confirmation Candle</strong> <span>— Engulfing / Pin Bar</span></div></div>
-          <div class="ci" id="chk11" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>مستوى قوي</strong> <span>— S/R أو Order Block</span></div></div>
-          <div class="ci" id="chk12" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>ATR / Volatility كافية</strong></div></div>
-          <div class="ci" id="chk13" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Confluence</strong> <span>— تقاطع S/R + MA + Pattern</span></div></div>
-          <div class="ci" id="chk14" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Session مناسبة</strong> <span>— London/NY أقوى</span></div></div>
-          <div class="section-cat">— RISK MANAGEMENT —</div>
-          <div class="ci" id="chk15" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>SL وراء Structure / Swing</strong></div></div>
-          <div class="ci" id="chk16" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>RR ≥ 2:1</strong> <span>— الصفقة تستاهل</span></div></div>
-          <div class="ci" id="chk17" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Risk ≤ 1% من الحساب</strong></div></div>
-          <div class="ci" id="chk18" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>Daily Loss &lt; 2%</strong></div></div>
-          <div class="ci" id="chk19" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>لا Correlation تعارض</strong></div></div>
-          <div class="ci" id="chk20" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong>حالتك النفسية مستقرة</strong></div></div>
+          <div class="section-cat" data-key="structureBias">— STRUCTURE &amp; BIAS —</div>
+          <div class="ci" id="chk4" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="dailyBiasClear">Daily Bias واضح</strong></div></div>
+          <div class="ci" id="chk5" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="h4Aligns">H4 يتوافق مع Daily</strong></div></div>
+          <div class="ci" id="chk6" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="ma200Supports">200 MA يدعم الـ Bias</strong></div></div>
+          <div class="ci" id="chk7" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="ma50Supports">50 MA يدعم الـ Bias</strong></div></div>
+          <div class="ci" id="chk8" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="hhhlForms">HH/HL يتشكل</strong> <span data-key="hhhlDesc">للـ Buy / LH/LL للـ Sell</span></div></div>
+          <div class="section-cat" data-key="entryQuality">— ENTRY QUALITY —</div>
+          <div class="ci" id="chk9" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="setupClear">Setup واضح (أحد النماذج الخمسة)</strong></div></div>
+          <div class="ci" id="chk10" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="confCandle">Confirmation Candle</strong> <span data-key="confDesc">— Engulfing / Pin Bar</span></div></div>
+          <div class="ci" id="chk11" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="strongLevel">مستوى قوي</strong> <span data-key="levelDesc">— S/R أو Order Block</span></div></div>
+          <div class="ci" id="chk12" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="atrSuff">ATR / Volatility كافية</strong></div></div>
+          <div class="ci" id="chk13" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="confluence">Confluence</strong> <span data-key="confPattern">— تقاطع S/R + MA + Pattern</span></div></div>
+          <div class="ci" id="chk14" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="goodSession">Session مناسبة</strong> <span data-key="sessionDesc">— London/NY أقوى</span></div></div>
+          <div class="section-cat" data-key="riskMgmt">— RISK MANAGEMENT —</div>
+          <div class="ci" id="chk15" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="slBehindStr">SL وراء Structure / Swing</strong></div></div>
+          <div class="ci" id="chk16" onclick="tc(this)" data-w="3"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="rrGood">RR ≥ 2:1</strong> <span data-key="rrDesc">— الصفقة تستاهل</span></div></div>
+          <div class="ci" id="chk17" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="risk1Pct">Risk ≤ 1% من الحساب</strong></div></div>
+          <div class="ci" id="chk18" onclick="tc(this)" data-w="2"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="dailyLoss">Daily Loss &lt; 2%</strong></div></div>
+          <div class="ci" id="chk19" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="noCorr">لا Correlation تعارض</strong></div></div>
+          <div class="ci" id="chk20" onclick="tc(this)" data-w="1"><div class="cb"><svg width="10" height="8" viewBox="0 0 10 8"><path d="M1 4l3 3 5-6" stroke="white" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></div><div class="ct"><strong data-key="mentalState">حالتك النفسية مستقرة</strong></div></div>
         </div>
         <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)">
           <div class="flex items-c justify-b mb05"><span class="fs07 text-m" data-key="tradeScore">Score الصفقة</span><span id="scoreLabel" class="mono fw7">0/33</span></div>
@@ -511,7 +518,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
         <div class="ig"><label class="il" data-key="entryLabel">سعر الدخول</label><input type="number" class="if" id="entryP" value="1.0850" step="0.00001" oninput="calcRisk()"></div>
         <div class="ig"><label class="il" data-key="slLabel">Stop Loss</label><input type="number" class="if" id="slP" value="1.0820" step="0.00001" oninput="calcRisk()"></div>
       </div>
-      <div style="padding:9px 11px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);font-size:.76rem;color:var(--text2)">💡 <strong>الـ TP يُحسب أوتوماتيك</strong> بناءً على RR 2:1 و3:1 و4:1</div>
+      <div style="padding:9px 11px;border-radius:9px;background:var(--surface2);border:1px solid var(--border);font-size:.76rem;color:var(--text2)"><span data-key="tpAutoInfo">💡 <strong>الـ TP يُحسب أوتوماتيك</strong> بناءً على RR 2:1 و3:1 و4:1</span></div>
     </div>
     <div>
       <div class="card mb">
@@ -523,22 +530,22 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
           <div class="rr-row"><span class="rr-label" data-key="lotRes">اللوت الموصى</span><span class="rr-value v-ok" id="r-lot">—</span></div>
           <div style="height:1px;background:var(--border);margin:6px 0"></div>
           <div class="rr-row"><span class="rr-label">Stop Loss</span><span class="rr-value v-bad" id="r-sl">—</span></div>
-          <div class="rr-row"><span class="rr-label">🎯 TP1 (2R) — اغلق 50%</span><span class="rr-value v-ok" id="r-tp1">—</span></div>
-          <div class="rr-row"><span class="rr-label">🎯 TP2 (3R) — اغلق 25%</span><span class="rr-value v-ok" id="r-tp2">—</span></div>
+          <div class="rr-row"><span class="rr-label" data-key="tp1Label">🎯 TP1 (2R) — اغلق 50%</span><span class="rr-value v-ok" id="r-tp1">—</span></div>
+          <div class="rr-row"><span class="rr-label" data-key="tp2Label">🎯 TP2 (3R) — اغلق 25%</span><span class="rr-value v-ok" id="r-tp2">—</span></div>
           <div class="rr-row"><span class="rr-label">🎯 TP3 (4R)</span><span class="rr-value v-ok" id="r-tp3">—</span></div>
           <div style="height:1px;background:var(--border);margin:6px 0"></div>
-          <div class="rr-row"><span class="rr-label">ربح عند TP1</span><span class="rr-value v-ok" id="r-p1">—</span></div>
-          <div class="rr-row"><span class="rr-label">ربح عند TP2</span><span class="rr-value v-ok" id="r-p2">—</span></div>
-          <div class="rr-row"><span class="rr-label">ربح عند TP3</span><span class="rr-value v-ok" id="r-p3">—</span></div>
+          <div class="rr-row"><span class="rr-label" data-key="profit1Label">ربح عند TP1</span><span class="rr-value v-ok" id="r-p1">—</span></div>
+          <div class="rr-row"><span class="rr-label" data-key="profit2Label">ربح عند TP2</span><span class="rr-value v-ok" id="r-p2">—</span></div>
+          <div class="rr-row"><span class="rr-label" data-key="profit3Label">ربح عند TP3</span><span class="rr-value v-ok" id="r-p3">—</span></div>
         </div>
       </div>
       <div class="card">
-        <div class="ch"><div class="ch-title"><span class="gem"></span>قواعد إدارة الصفقة</div></div>
+        <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="tradeRulesTitle">قواعد إدارة الصفقة</span></div></div>
         <div style="display:flex;flex-direction:column;gap:5px">
-          <div style="padding:8px 11px;border-radius:8px;background:var(--surface2);border:1px solid var(--border)"><div class="fs07 text-a fw7 mb05">📍 عند 1R</div><div class="fs08 text-m">حرّك SL إلى نقطة الدخول</div></div>
-          <div style="padding:8px 11px;border-radius:8px;background:rgba(29,184,122,.05);border:1px solid rgba(29,184,122,.2)"><div class="fs07 fw7 mb05" style="color:var(--green2)">✅ عند TP1 (2R)</div><div class="fs08 text-m">اغلق 50% | حرّك SL لـ +0.5R</div></div>
-          <div style="padding:8px 11px;border-radius:8px;background:var(--surface2);border:1px solid var(--border)"><div class="fs07 text-a fw7 mb05">🎯 عند TP2 (3R)</div><div class="fs08 text-m">اغلق 25% | اتركها حتى TP3</div></div>
-          <div style="padding:8px 11px;border-radius:8px;background:rgba(224,60,60,.05);border:1px solid rgba(224,60,60,.15)"><div class="fs07 fw7 mb05" style="color:var(--red2)">🚫 حدود صارمة</div><div class="fs08 text-m">Daily Max: 2% | Weekly Max: 5%</div></div>
+          <div style="padding:8px 11px;border-radius:8px;background:var(--surface2);border:1px solid var(--border)"><div class="fs07 text-a fw7 mb05">📍 <span data-key="at1R">عند 1R</span></div><div class="fs08 text-m" data-key="moveSlToEntry">حرّك SL إلى نقطة الدخول</div></div>
+          <div style="padding:8px 11px;border-radius:8px;background:rgba(29,184,122,.05);border:1px solid rgba(29,184,122,.2)"><div class="fs07 fw7 mb05" style="color:var(--green2)">✅ <span data-key="atTP1">عند TP1 (2R)</span></div><div class="fs08 text-m" data-key="close50">اغلق 50% | حرّك SL لـ +0.5R</div></div>
+          <div style="padding:8px 11px;border-radius:8px;background:var(--surface2);border:1px solid var(--border)"><div class="fs07 text-a fw7 mb05">🎯 <span data-key="atTP2">عند TP2 (3R)</span></div><div class="fs08 text-m" data-key="close25">اغلق 25% | اتركها حتى TP3</div></div>
+          <div style="padding:8px 11px;border-radius:8px;background:rgba(224,60,60,.05);border:1px solid rgba(224,60,60,.15)"><div class="fs07 fw7 mb05" style="color:var(--red2)">🚫 <span data-key="strictLimits">حدود صارمة</span></div><div class="fs08 text-m">Daily Max: 2% | Weekly Max: 5%</div></div>
         </div>
       </div>
     </div>
@@ -563,8 +570,8 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <div class="card">
         <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="contextTitle">سياق الصفقة</span></div></div>
         <div class="ig"><label class="il" data-key="contextInputLabel">الأصل والـ Timeframe</label><input type="text" class="if" id="chartCtx" placeholder="مثال: XAUUSD — D1 / H4 / H1"></div>
-        <div class="ig"><label class="il">الـ Bias الحالي</label><select class="sf" id="chartBias"><option value="long">Long — أبحث عن شراء</option><option value="short">Short — أبحث عن بيع</option><option value="neutral">Neutral — محتاج رأي المساعد</option></select></div>
-        <div class="ig"><label class="il">سؤالك أو ملاحظاتك</label><textarea class="tf" id="chartQ" placeholder="مثال: هل هذا Break & Retest صحيح؟ وين أضع الـ SL؟"></textarea></div>
+        <div class="ig"><label class="il" data-key="biasCurrentLabel">الـ Bias الحالي</label><select class="sf" id="chartBias"><option value="long" data-key="chartBiasLong">Long — أبحث عن شراء</option><option value="short" data-key="chartBiasShort">Short — أبحث عن بيع</option><option value="neutral" data-key="chartBiasNeutral">Neutral — محتاج رأي المساعد</option></select></div>
+        <div class="ig"><label class="il" data-key="chartQLabel">سؤالك أو ملاحظاتك</label><textarea class="tf" id="chartQ" placeholder="مثال: هل هذا Break & Retest صحيح؟ وين أضع الـ SL؟"></textarea></div>
         <button class="btn btn-gold w100" onclick="analyzeChart()" id="analyzeBtn" data-key="analyzeBtn">🤖 تحليل الشارت</button>
       </div>
     </div>
@@ -572,19 +579,19 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <div class="card" style="position:sticky;top:112px">
         <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="aiAnalysisTitle">نتيجة التحليل</span></div></div>
         <div id="chartLoading" class="loading" style="display:none"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري تحليل الشارت...</span></div>
-        <div id="chartAIBox" class="ai-box"><div class="ai-head"><div class="ai-pulse"></div>التحليل التداولي</div><div class="ai-body" id="chartAIText"></div></div>
+        <div id="chartAIBox" class="ai-box"><div class="ai-head"><div class="ai-pulse"></div><span data-key="tradeAnalysisTitle">التحليل التداولي</span></div><div class="ai-body" id="chartAIText"></div></div>
         <div class="trade-detail" id="tradeDetailCard" style="display:none">
-          <div class="flex items-c justify-b mb05"><span class="fs07 fw7 text-a">تفاصيل الصفقة المقترحة</span><span id="tdDirection" class="bg"></span></div>
+          <div class="flex items-c justify-b mb05"><span class="fs07 fw7 text-a" data-key="proposedTradeDetails">تفاصيل الصفقة المقترحة</span><span id="tdDirection" class="bg"></span></div>
           <div class="td-grid">
-            <div class="td-item"><div class="tdi-label">الدخول</div><div class="tdi-value text-a" id="td-entry">—</div></div>
+            <div class="td-item"><div class="tdi-label" data-key="tdEntry">الدخول</div><div class="tdi-value text-a" id="td-entry">—</div></div>
             <div class="td-item"><div class="tdi-label">Stop Loss</div><div class="tdi-value text-r" id="td-sl">—</div></div>
             <div class="td-item"><div class="tdi-label">TP1 (2R)</div><div class="tdi-value text-g" id="td-tp1">—</div></div>
             <div class="td-item"><div class="tdi-label">TP2 (3R)</div><div class="tdi-value text-g" id="td-tp2">—</div></div>
             <div class="td-item"><div class="tdi-label">TP3 (4R)</div><div class="tdi-value text-g" id="td-tp3">—</div></div>
-            <div class="td-item"><div class="tdi-label">Setup</div><div class="tdi-value text-a fs08" id="td-setup">—</div></div>
+            <div class="td-item"><div class="tdi-label" data-key="tdSetup">Setup</div><div class="tdi-value text-a fs08" id="td-setup">—</div></div>
           </div>
         </div>
-        <div id="chartPlaceholder" style="text-align:center;padding:3rem;color:var(--text3)"><div style="font-size:2.5rem;margin-bottom:10px">🔍</div><div class="fs08">ارفع شارت واضغط تحليل</div></div>
+        <div id="chartPlaceholder" style="text-align:center;padding:3rem;color:var(--text3)"><div style="font-size:2.5rem;margin-bottom:10px">🔍</div><div class="fs08" data-key="chartPlaceholderText">ارفع شارت واضغط تحليل</div></div>
       </div>
     </div>
   </div>
@@ -594,43 +601,43 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 <div id="page-journal" class="page">
   <div class="st"><span data-key="navJournal">📓 Trade Journal</span></div>
   <div class="g4 mb">
-    <div class="sc"><div class="sc-label">Win Rate</div><div class="sc-value text-g" id="j-wr">0%</div></div>
-    <div class="sc"><div class="sc-label">Average R</div><div class="sc-value" id="j-avgr">0.0R</div></div>
-    <div class="sc"><div class="sc-label">Expectancy</div><div class="sc-value" id="j-exp">0.0R</div></div>
-    <div class="sc"><div class="sc-label">Total R</div><div class="sc-value" id="j-totalr">0.0R</div></div>
+    <div class="sc"><div class="sc-label" data-key="winRate">Win Rate</div><div class="sc-value text-g" id="j-wr">0%</div></div>
+    <div class="sc"><div class="sc-label" data-key="avgR">Average R</div><div class="sc-value" id="j-avgr">0.0R</div></div>
+    <div class="sc"><div class="sc-label" data-key="expectancy">Expectancy</div><div class="sc-value" id="j-exp">0.0R</div></div>
+    <div class="sc"><div class="sc-label" data-key="totalR">Total R</div><div class="sc-value" id="j-totalr">0.0R</div></div>
   </div>
   <div class="g31 mb">
     <div class="card">
       <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="addEntryTitle">تسجيل صفقة جديدة</span></div></div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">
-        <div class="ig"><label class="il">التاريخ</label><input type="date" class="if" id="j-date"></div>
-        <div class="ig"><label class="il">الأصل</label><input type="text" class="if" id="j-asset" placeholder="EURUSD"></div>
-        <div class="ig"><label class="il">الاتجاه</label><select class="sf" id="j-dir"><option value="long">LONG</option><option value="short">SHORT</option></select></div>
+        <div class="ig"><label class="il" data-key="dateLabel">التاريخ</label><input type="date" class="if" id="j-date"></div>
+        <div class="ig"><label class="il" data-key="assetLabel">الأصل</label><input type="text" class="if" id="j-asset" placeholder="EURUSD"></div>
+        <div class="ig"><label class="il" data-key="tradeDirLabel">الاتجاه</label><select class="sf" id="j-dir"><option value="long">LONG</option><option value="short">SHORT</option></select></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
         <div class="ig"><label class="il">Setup</label><select class="sf" id="j-setup"><option>Break &amp; Retest</option><option>Liquidity Sweep</option><option>Trend Continuation</option><option>Order Block</option><option>FVG / Imbalance</option></select></div>
-        <div class="ig"><label class="il">Session</label><select class="sf" id="j-session"><option>London</option><option>New York</option><option>Asian</option><option>Overlap</option></select></div>
+        <div class="ig"><label class="il" data-key="sessionLabel">Session</label><select class="sf" id="j-session"><option>London</option><option>New York</option><option>Asian</option><option>Overlap</option></select></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px">
-        <div class="ig"><label class="il">الدخول</label><input type="number" class="if" id="j-entry" step="0.00001"></div>
+        <div class="ig"><label class="il" data-key="tdEntry">الدخول</label><input type="number" class="if" id="j-entry" step="0.00001"></div>
         <div class="ig"><label class="il">SL</label><input type="number" class="if" id="j-sl" step="0.00001"></div>
         <div class="ig"><label class="il">TP</label><input type="number" class="if" id="j-tp" step="0.00001"></div>
       </div>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:7px">
-        <div class="ig"><label class="il">النتيجة (R)</label><input type="number" class="if" id="j-r" step="0.1" placeholder="+2 or -1"></div>
-        <div class="ig"><label class="il">الحالة</label><select class="sf" id="j-outcome"><option value="win">✅ Win</option><option value="loss">❌ Loss</option><option value="be">⟷ BE</option><option value="open">🔓 Open</option></select></div>
+        <div class="ig"><label class="il" data-key="resultRLabel">النتيجة (R)</label><input type="number" class="if" id="j-r" step="0.1" placeholder="+2 or -1"></div>
+        <div class="ig"><label class="il" data-key="statusLabel">الحالة</label><select class="sf" id="j-outcome"><option value="win">✅ Win</option><option value="loss">❌ Loss</option><option value="be">⟷ BE</option><option value="open">🔓 Open</option></select></div>
       </div>
-      <div class="ig"><label class="il">الملاحظات والأخطاء</label><textarea class="tf" id="j-notes" placeholder="هل اتبعت الخطة؟ الأخطاء؟ الدرس؟"></textarea></div>
+      <div class="ig"><label class="il" data-key="notesLabel">الملاحظات والأخطاء</label><textarea class="tf" id="j-notes" placeholder="هل اتبعت الخطة؟ الأخطاء؟ الدرس؟"></textarea></div>
       <button class="btn btn-gold w100" onclick="addEntry()" data-key="addTradeBtn">+ إضافة الصفقة</button>
     </div>
     <div>
-      <div class="card mb"><div class="ch"><div class="ch-title"><span class="gem"></span>منحنى الرأس المال</div></div><div class="chart-wrap"><canvas id="equityChart"></canvas></div></div>
-      <div class="card"><div class="ch"><div class="ch-title"><span class="gem"></span>توزيع النتائج</div></div><div class="chart-wrap"><canvas id="distChart"></canvas></div></div>
+      <div class="card mb"><div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="equityChartTitle">منحنى الرأس المال</span></div></div><div class="chart-wrap"><canvas id="equityChart"></canvas></div></div>
+      <div class="card"><div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="distChartTitle">توزيع النتائج</span></div></div><div class="chart-wrap"><canvas id="distChart"></canvas></div></div>
     </div>
   </div>
   <div class="card">
-    <div class="ch"><div class="ch-title"><span class="gem"></span>سجل الصفقات</div><button class="btn btn-ghost" style="font-size:.7rem;padding:4px 9px" onclick="exportCSV()">📥 CSV</button></div>
-    <div class="table-wrap"><table class="jt"><thead><tr><th>التاريخ</th><th>الأصل</th><th>الاتجاه</th><th>Setup</th><th>Session</th><th>الدخول</th><th>SL</th><th>TP</th><th>الحالة</th><th>R</th><th>ملاحظات</th><th></th></tr></thead><tbody id="jBody"></tbody></table></div>
+    <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="tradeHistoryTitle">سجل الصفقات</span></div><button class="btn btn-ghost" style="font-size:.7rem;padding:4px 9px" onclick="exportCSV()">📥 CSV</button></div>
+    <div class="table-wrap"><table class="jt"><thead><tr><th data-key="dateLabel">التاريخ</th><th data-key="assetLabel">الأصل</th><th data-key="tradeDirLabel">الاتجاه</th><th>Setup</th><th data-key="sessionLabel">Session</th><th data-key="tdEntry">الدخول</th><th>SL</th><th>TP</th><th data-key="statusLabel">الحالة</th><th>R</th><th data-key="notesLabel">ملاحظات</th><th></th></tr></thead><tbody id="jBody"></tbody></table></div>
   </div>
 </div>
 
@@ -639,51 +646,61 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="st"><span data-key="navReport">📊 التقرير الأسبوعي</span></div>
   <div class="g2 mb">
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span>إحصائيات الأسبوع</div></div>
+      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="weeklyStatsTitle">إحصائيات الأسبوع</span></div></div>
       <div style="display:flex;flex-direction:column;gap:5px">
-        <div class="rr-row"><span class="rr-label">Win Rate</span><span class="rr-value v-ok" id="rw-wr">0%</span></div>
-        <div class="rr-row"><span class="rr-label">Total Trades</span><span class="rr-value" id="rw-t">0</span></div>
-        <div class="rr-row"><span class="rr-label">Avg R/Trade</span><span class="rr-value" id="rw-avg">0R</span></div>
-        <div class="rr-row"><span class="rr-label">Total R</span><span class="rr-value" id="rw-tr">0R</span></div>
-        <div class="rr-row"><span class="rr-label">Best Setup</span><span class="rr-value text-a" id="rw-best">—</span></div>
+        <div class="rr-row"><span class="rr-label" data-key="winRate">Win Rate</span><span class="rr-value v-ok" id="rw-wr">0%</span></div>
+        <div class="rr-row"><span class="rr-label" data-key="totalTradesLabel">Total Trades</span><span class="rr-value" id="rw-t">0</span></div>
+        <div class="rr-row"><span class="rr-label" data-key="avgRTradeLabel">Avg R/Trade</span><span class="rr-value" id="rw-avg">0R</span></div>
+        <div class="rr-row"><span class="rr-label" data-key="totalR">Total R</span><span class="rr-value" id="rw-tr">0R</span></div>
+        <div class="rr-row"><span class="rr-label" data-key="bestSetupLabel">Best Setup</span><span class="rr-value text-a" id="rw-best">—</span></div>
       </div>
       <div class="chart-wrap mt"><canvas id="setupChart"></canvas></div>
     </div>
     <div class="card">
       <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="genReport">إنشاء التقرير</span></div></div>
-      <div class="ig"><label class="il">ملاحظاتك عن الأسبوع</label><textarea class="tf" id="weekNotes" placeholder="اللي شغل، اللي ما شغل..." style="min-height:90px"></textarea></div>
-      <div class="ig"><label class="il">هدفك للأسبوع القادم</label><input type="text" class="if" id="weekGoal" placeholder="مثال: تحسين تطبيق Liquidity Sweep"></div>
+      <div class="ig"><label class="il" data-key="weekNotesLabel">ملاحظاتك عن الأسبوع</label><textarea class="tf" id="weekNotes" placeholder="اللي شغل، اللي ما شغل..." style="min-height:90px"></textarea></div>
+      <div class="ig"><label class="il" data-key="weekGoalLabel">هدفك للأسبوع القادم</label><input type="text" class="if" id="weekGoal" placeholder="مثال: تحسين تطبيق Liquidity Sweep"></div>
       <button class="btn btn-gold w100" onclick="genReport()" data-key="genReportBtn">📊 إنشاء التقرير الأسبوعي</button>
-      <div id="reportLoading" class="loading" style="display:none"><div class="spinner"></div>جاري تحليل أسبوعك...</div>
+      <div id="reportLoading" class="loading" style="display:none"><div class="spinner"></div><span data-key="reportLoadingText">جاري تحليل أسبوعك...</span></div>
     </div>
   </div>
-  <div id="reportBox" class="ai-box mb"><div class="ai-head"><div class="ai-pulse"></div>تقرير الأسبوع</div><div class="ai-body" id="reportText"></div></div>
+  <div id="reportBox" class="ai-box mb"><div class="ai-head"><div class="ai-pulse"></div><span data-key="reportResultTitle">تقرير الأسبوع</span></div><div class="ai-body" id="reportText"></div></div>
 </div>
 
-<!-- AI CHAT -->
+<!-- CHAT & ASSISTANT -->
 <div id="page-chat" class="page">
   <div class="st"><span data-key="navChat">💬 المساعد الذكي</span></div>
   <div class="g13">
-    <div>
-      <div class="card mb">
-        <div class="ch"><div class="ch-title"><span class="gem"></span>أسئلة شائعة</div></div>
+    <div style="display:flex; flex-direction:column; gap:1rem;">
+      <div class="card">
+        <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="chatFaq">أسئلة شائعة</span></div></div>
         <div style="display:flex;flex-direction:column;gap:5px">
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما الفرق بين Break and Retest و Liquidity Sweep؟')">🔁 Break & Retest vs Liquidity Sweep؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أحدد الـ Bias الصحيح على D1 و H4؟')">📊 كيف أحدد الـ Bias الصحيح؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('متى أحرك الـ Stop Loss لـ Break-even؟')">📍 متى أحرك SL لـ Break-even؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أتعامل مع سلسلة الخسائر المتتالية نفسياً؟')">🧠 كيف أتعامل مع الخسائر المتتالية؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما أهم الأخطاء التي يقع فيها المتداول المبتدئ؟')">⚠️ أهم أخطاء المتداول المبتدئ؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أقرأ Market Structure على التشارت؟')">🏗️ كيف أقرأ Market Structure؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما الفرق بين Trading Sessions وأيها أفضل؟')">⏰ أفضل Session للتداول؟</button>
-          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما هو Order Block وكيف أستخدمه في التداول؟')">🧲 ما هو Order Block؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما الفرق بين Break and Retest و Liquidity Sweep؟')" data-key="q1">🔁 Break & Retest vs Liquidity Sweep؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أحدد الـ Bias الصحيح على D1 و H4؟')" data-key="q2">📊 كيف أحدد الـ Bias الصحيح؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('متى أحرك الـ Stop Loss لـ Break-even؟')" data-key="q3">📍 متى أحرك SL لـ Break-even؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أتعامل مع سلسلة الخسائر المتتالية نفسياً؟')" data-key="q4">🧠 كيف أتعامل مع الخسائر المتتالية؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما أهم الأخطاء التي يقع فيها المتداول المبتدئ؟')" data-key="q5">⚠️ أهم أخطاء المتداول المبتدئ؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('كيف أقرأ Market Structure على التشارت؟')" data-key="q6">🏗️ كيف أقرأ Market Structure؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما الفرق بين Trading Sessions وأيها أفضل؟')" data-key="q7">⏰ أفضل Session للتداول؟</button>
+          <button class="btn btn-ghost w100" style="justify-content:flex-start;font-size:.78rem" onclick="askQ('ما هو Order Block وكيف أستخدمه في التداول؟')" data-key="q8">🧲 ما هو Order Block؟</button>
+        </div>
+      </div>
+      
+      <!-- Contact Us Section -->
+      <div class="card">
+        <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="contactUsTitle">تواصل معنا</span></div></div>
+        <div style="display:flex; flex-direction:column; gap:8px;">
+          <a href="mailto:your-email@example.com" target="_blank" class="btn btn-ghost w100" style="text-decoration:none; justify-content:center; color:var(--text);">📧 <span data-key="emailBtn">البريد الإلكتروني</span></a>
+          <a href="https://t.me/yourtelegram" target="_blank" class="btn btn-ghost w100" style="text-decoration:none; justify-content:center; color:var(--blue2); border-color:rgba(59,127,212,.3);">✈️ <span data-key="telegramBtn">تليجرام</span></a>
         </div>
       </div>
     </div>
+    
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span>المحادثة مع المساعد</div><button class="btn btn-ghost" style="font-size:.7rem;padding:4px 9px" onclick="clearChat()">مسح</button></div>
+      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="chatTitleCard">المحادثة مع المساعد</span></div><button class="btn btn-ghost" style="font-size:.7rem;padding:4px 9px" onclick="clearChat()" data-key="clearBtn">مسح</button></div>
       <div class="chat-wrap">
         <div class="chat-area" id="chatArea">
-          <div class="msg ai"><strong>مرحباً!</strong> أنا مساعدك التداولي لنظام Al Hammadi Trading.<br>اسألني أي شيء عن التداول، التحليل الفني، أو إدارة المخاطر.</div>
+          <div class="msg ai"><span data-key="chatWelcomeMsg"><strong>مرحباً!</strong> أنا مساعدك التداولي لنظام Al Hammadi Trading.<br>اسألني أي شيء عن التداول، التحليل الفني، أو إدارة المخاطر.</span></div>
         </div>
         <div class="chat-input-row">
           <input type="text" class="if" id="chatInput" placeholder="اكتب سؤالك هنا..." onkeydown="if(event.key==='Enter')sendChat()">
@@ -700,6 +717,13 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div data-key="footerDisclaimer">ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة، ولا تتحمل أي جهة أخرى أي مسؤولية عن النتائج.</div>
   <div class="credit">design by Mohamed AlHammadi</div>
 </footer>
+
+<!-- Floating Contact Button -->
+<button class="fab-contact" onclick="showPage('chat', document.getElementById('navChatBtn'))">
+  <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+  </svg>
+</button>
 
 <script>
 const API_URL = '/api/chat';
@@ -820,7 +844,69 @@ const translations = {
     genReportBtn: "📊 Create Report",
     chatTitle: "💬 Smart Assistant",
     newsSource: "Sources: FXStreet, ForexLive, CoinTelegraph",
-    footerDisclaimer: "Trading in financial markets involves high risk and may result in the loss of your capital. All trading decisions are strictly your own responsibility, and no other party assumes any liability for the results."
+    footerDisclaimer: "Trading in financial markets involves high risk and may result in the loss of your capital. All trading decisions are strictly your own responsibility, and no other party assumes any liability for the results.",
+    
+    // New Translations added
+    chatFaq: "Frequently Asked Questions",
+    contactUsTitle: "Contact Us",
+    emailBtn: "Email Support",
+    telegramBtn: "Telegram",
+    chatTitleCard: "Chat with Assistant",
+    clearBtn: "Clear Chat",
+    chatWelcomeMsg: "<strong>Hello!</strong> I am your Al Hammadi Trading assistant.<br>Ask me anything about trading, technical analysis, or risk management.",
+    chatInputPlaceholder: "Type your question here...",
+    q1: "Break & Retest vs Liquidity Sweep?",
+    q2: "How to determine correct Bias?",
+    q3: "When to move SL to Break-even?",
+    q4: "How to mentally handle a losing streak?",
+    q5: "Common beginner mistakes?",
+    q6: "How to read Market Structure?",
+    q7: "Best Trading Session?",
+    q8: "What is an Order Block?",
+    winRate: "Win Rate",
+    avgR: "Average R",
+    expectancy: "Expectancy",
+    totalR: "Total R",
+    dateLabel: "Date",
+    sessionLabel: "Session",
+    tdEntry: "Entry",
+    resultRLabel: "Result (R)",
+    statusLabel: "Status",
+    notesLabel: "Notes & Mistakes",
+    equityChartTitle: "Equity Curve",
+    distChartTitle: "Results Distribution",
+    tradeHistoryTitle: "Trade History",
+    weeklyStatsTitle: "Weekly Stats",
+    totalTradesLabel: "Total Trades",
+    avgRTradeLabel: "Avg R/Trade",
+    bestSetupLabel: "Best Setup",
+    weekNotesLabel: "Notes about the week",
+    weekGoalLabel: "Goal for next week",
+    reportLoadingText: "Analyzing your week...",
+    reportResultTitle: "Weekly Report",
+    tpAutoInfo: "💡 <strong>TP is calculated automatically</strong> based on RR 2:1, 3:1, and 4:1",
+    tp1Label: "🎯 TP1 (2R) — Close 50%",
+    tp2Label: "🎯 TP2 (3R) — Close 25%",
+    profit1Label: "Profit at TP1",
+    profit2Label: "Profit at TP2",
+    profit3Label: "Profit at TP3",
+    tradeRulesTitle: "Trade Management Rules",
+    at1R: "At 1R",
+    moveSlToEntry: "Move SL to Entry",
+    atTP1: "At TP1 (2R)",
+    close50: "Close 50% | Move SL to +0.5R",
+    atTP2: "At TP2 (3R)",
+    close25: "Close 25% | Leave rest to TP3",
+    strictLimits: "Strict Limits",
+    biasCurrentLabel: "Current Bias",
+    chartBiasLong: "Long — Looking for Buys",
+    chartBiasShort: "Short — Looking for Sells",
+    chartBiasNeutral: "Neutral — Need Assistant's opinion",
+    chartQLabel: "Your Question or Notes",
+    tradeAnalysisTitle: "Trading Analysis",
+    proposedTradeDetails: "Proposed Trade Details",
+    tdSetup: "Setup",
+    chartPlaceholderText: "Upload a chart and click Analyze"
   },
   ar: {
     logoSub: "نظام التداول الاحترافي",
@@ -911,14 +997,76 @@ const translations = {
     genReportBtn: "📊 إنشاء التقرير الأسبوعي",
     chatTitle: "💬 المساعد الذكي",
     newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph",
-    footerDisclaimer: "ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة، ولا تتحمل أي جهة أخرى أي مسؤولية عن النتائج."
+    footerDisclaimer: "ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة، ولا تتحمل أي جهة أخرى أي مسؤولية عن النتائج.",
+    
+    // New Translations added
+    chatFaq: "أسئلة شائعة",
+    contactUsTitle: "تواصل معنا",
+    emailBtn: "البريد الإلكتروني",
+    telegramBtn: "تليجرام",
+    chatTitleCard: "المحادثة مع المساعد",
+    clearBtn: "مسح",
+    chatWelcomeMsg: "<strong>مرحباً!</strong> أنا مساعدك التداولي لنظام Al Hammadi Trading.<br>اسألني أي شيء عن التداول، التحليل الفني، أو إدارة المخاطر.",
+    chatInputPlaceholder: "اكتب سؤالك هنا...",
+    q1: "🔁 Break & Retest vs Liquidity Sweep؟",
+    q2: "📊 كيف أحدد الـ Bias الصحيح؟",
+    q3: "📍 متى أحرك SL لـ Break-even؟",
+    q4: "🧠 كيف أتعامل مع الخسائر المتتالية؟",
+    q5: "⚠️ أهم أخطاء المتداول المبتدئ؟",
+    q6: "🏗️ كيف أقرأ Market Structure؟",
+    q7: "⏰ أفضل Session للتداول؟",
+    q8: "🧲 ما هو Order Block؟",
+    winRate: "Win Rate",
+    avgR: "Average R",
+    expectancy: "Expectancy",
+    totalR: "Total R",
+    dateLabel: "التاريخ",
+    sessionLabel: "Session",
+    tdEntry: "الدخول",
+    resultRLabel: "النتيجة (R)",
+    statusLabel: "الحالة",
+    notesLabel: "الملاحظات والأخطاء",
+    equityChartTitle: "منحنى الرأس المال",
+    distChartTitle: "توزيع النتائج",
+    tradeHistoryTitle: "سجل الصفقات",
+    weeklyStatsTitle: "إحصائيات الأسبوع",
+    totalTradesLabel: "Total Trades",
+    avgRTradeLabel: "Avg R/Trade",
+    bestSetupLabel: "Best Setup",
+    weekNotesLabel: "ملاحظاتك عن الأسبوع",
+    weekGoalLabel: "هدفك للأسبوع القادم",
+    reportLoadingText: "جاري تحليل أسبوعك...",
+    reportResultTitle: "تقرير الأسبوع",
+    tpAutoInfo: "💡 <strong>الـ TP يُحسب أوتوماتيك</strong> بناءً على RR 2:1 و3:1 و4:1",
+    tp1Label: "🎯 TP1 (2R) — اغلق 50%",
+    tp2Label: "🎯 TP2 (3R) — اغلق 25%",
+    profit1Label: "ربح عند TP1",
+    profit2Label: "ربح عند TP2",
+    profit3Label: "ربح عند TP3",
+    tradeRulesTitle: "قواعد إدارة الصفقة",
+    at1R: "عند 1R",
+    moveSlToEntry: "حرّك SL إلى نقطة الدخول",
+    atTP1: "عند TP1 (2R)",
+    close50: "اغلق 50% | حرّك SL لـ +0.5R",
+    atTP2: "عند TP2 (3R)",
+    close25: "اغلق 25% | اتركها حتى TP3",
+    strictLimits: "حدود صارمة",
+    biasCurrentLabel: "الـ Bias الحالي",
+    chartBiasLong: "Long — أبحث عن شراء",
+    chartBiasShort: "Short — أبحث عن بيع",
+    chartBiasNeutral: "Neutral — محتاج رأي المساعد",
+    chartQLabel: "سؤالك أو ملاحظاتك",
+    tradeAnalysisTitle: "التحليل التداولي",
+    proposedTradeDetails: "تفاصيل الصفقة المقترحة",
+    tdSetup: "Setup",
+    chartPlaceholderText: "ارفع شارت واضغط تحليل"
   }
 };
 
 function buildFinalSignals(aiSignals) {
     let finalArray = Array.isArray(aiSignals) ? aiSignals.slice(0, 8) : [];
     
-    // إذا لم يتوفر أي تحليل من الـ AI
+    // إذا لم يتوفر أي تحليل من السوق
     if (finalArray.length === 0) {
         finalArray = JSON.parse(JSON.stringify(defaultSignals)); 
     }
@@ -939,7 +1087,7 @@ async function loadLiveSignals() {
     grid.innerHTML = `
         <div class="loading" style="justify-content:center; grid-column: 1/-1; padding: 4rem; flex-direction:column; gap:15px;">
             <div class="spinner" style="width:30px; height:30px; border-width:3px;"></div>
-            <span style="color:var(--accent2); font-weight:bold;">جاري تحليل وتحديث التوصيات الحية...</span>
+            <span style="color:var(--accent2); font-weight:bold;">${S.lang === 'ar' ? 'جاري التحديث وجلب التوصيات...' : 'Fetching and updating signals...'}</span>
         </div>`;
 
     try {
@@ -1047,7 +1195,7 @@ function renderSignalsUI(signals) {
             <div style="background:var(--surface); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">TP</div><div class="mono fw7 text-g" style="font-size:0.85rem">${s.tp}</div></div>
             <div style="background:var(--surface); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">SL</div><div class="mono fw7 text-r" style="font-size:0.85rem">${s.sl}</div></div>
           </div>
-          <button class="btn btn-gold w100" onclick="applySignal(${s.id})" style="border-color:var(--accent); color:var(--accent2);">${btnText}</button>
+          <button class="btn btn-gold w100" onclick="applySignal('${s.id}')">${btnText}</button>
         </div>
         `;
     }).join('');
@@ -1057,7 +1205,6 @@ function applySignal(id) {
     const signal = S.currentSignals.find(s => s.id === id);
     if(!signal) return;
 
-    // 1. تحديد الأصل
     const assetSelect = document.getElementById('tradeAsset');
     let found = false;
     for(let i=0; i<assetSelect.options.length; i++) {
@@ -1073,10 +1220,8 @@ function applySignal(id) {
         assetSelect.selectedIndex = assetSelect.options.length - 1;
     }
     
-    // 2. تحديد الاتجاه
     setBias(signal.dir);
 
-    // 3. تعبئة إعدادات الـ Structure تلقائياً
     if(signal.structure) {
         document.getElementById('dailyStr').value = signal.structure.daily || (signal.dir==='long'?'bullish':'bearish');
         document.getElementById('h4Str').value = signal.structure.h4 || (signal.dir==='long'?'bullish':'bearish');
@@ -1087,7 +1232,6 @@ function applySignal(id) {
         chkBias(); 
     }
 
-    // 4. اختيار نموذج الدخول تلقائياً
     if(signal.setupId) {
         for(let i=1; i<=5; i++) {
             document.getElementById('m'+i).classList.remove('checked');
@@ -1095,7 +1239,6 @@ function applySignal(id) {
         document.getElementById('m'+signal.setupId).classList.add('checked');
     }
 
-    // 5. وضع علامات الصح على الشيك لست تلقائياً
     if(signal.checks && signal.checks.length > 0) {
         for(let i=1; i<=20; i++) {
             const chk = document.getElementById('chk'+i);
@@ -1108,7 +1251,6 @@ function applySignal(id) {
         updateScore();
     }
 
-    // 6. تعبئة الحاسبة
     document.getElementById('entryP').value = signal.entry;
     document.getElementById('slP').value = signal.sl;
     
@@ -1121,14 +1263,13 @@ function applySignal(id) {
     
     calcRisk();
 
-    // 7. الانتقال لصفحة ما قبل الصفقة
     const tabs = document.querySelectorAll('.nav-tab');
     let precheckTab = null;
     tabs.forEach(t => { if(t.getAttribute('data-key') === 'navPrecheck') precheckTab = t; });
     showPage('precheck', precheckTab);
 }
 
-// دالة سحب الأخبار الحية الأصلية 100% كما كانت في V7
+// دالة سحب الأخبار الحية الأصلية 100%
 async function fetchLiveRSSNews() {
     const container = document.getElementById('rssNewsContainer');
     if(!container) return;
@@ -1238,7 +1379,13 @@ function toggleLang() {
   
   document.querySelectorAll('[data-key]').forEach(el => {
     const key = el.getAttribute('data-key');
-    if (translations[S.lang][key]) el.innerHTML = translations[S.lang][key]; 
+    if (translations[S.lang][key]) {
+      if (el.tagName.toLowerCase() === 'input' || el.tagName.toLowerCase() === 'textarea') {
+         if(el.hasAttribute('placeholder')) el.setAttribute('placeholder', translations[S.lang][key]);
+      } else {
+         el.innerHTML = translations[S.lang][key]; 
+      }
+    }
   });
 
   const btn = document.getElementById('themeBtn');
@@ -1247,7 +1394,7 @@ function toggleLang() {
   
   changeTVSymbol();
   fetchLiveRSSNews(); 
-  renderSignalsUI(S.currentSignals);
+  if(S.currentSignals && S.currentSignals.length > 0) renderSignalsUI(S.currentSignals);
 }
 
 function showPage(name, el) {
@@ -1602,15 +1749,15 @@ async function askQ(q){
 
 function clearChat(){
   S.chatHistory=[];
-  document.getElementById('chatArea').innerHTML=`<div class="msg ai">${S.lang==='ar'?'المحادثة مُسحت. كيف يمكنني مساعدتك؟':'Chat cleared. How can I help you?'}</div>`;
+  document.getElementById('chatArea').innerHTML=`<div class="msg ai"><span data-key="chatWelcomeMsg">${S.lang==='ar'?'المحادثة مُسحت. كيف يمكنني مساعدتك؟':'Chat cleared. How can I help you?'}</span></div>`;
 }
 
 document.addEventListener('DOMContentLoaded',()=>{
   document.getElementById('j-date').value=new Date().toISOString().split('T')[0];
   calcRisk();
   renderJournal();
-  changeTVSymbol(); // Initialize the technical analysis widget
-  fetchLiveRSSNews(); // Fetch RSS news strictly as per v7
+  changeTVSymbol(); 
+  fetchLiveRSSNews(); 
 });
 </script>
 </body>
