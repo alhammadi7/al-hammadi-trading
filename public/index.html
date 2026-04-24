@@ -93,7 +93,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
 .ai-body{font-size:.82rem;color:var(--text2);line-height:1.8;white-space:pre-wrap;}
 .ai-body strong{color:var(--text);}
-.loading{display:flex;align-items:center;gap:8px;color:var(--accent2);font-size:.82rem;padding:.5rem 0;}
+.loading{display:flex;align-items:center;gap:8px;color:var(--accent2);font-size:.82rem;padding:.5rem 0;justify-content:center;}
 .spinner{width:16px;height:16px;border-radius:50%;border:2px solid rgba(201,168,76,.2);border-top-color:var(--accent2);animation:spin .7s linear infinite;}
 @keyframes spin{to{transform:rotate(360deg)}}
 .chat-wrap{display:flex;flex-direction:column;height:480px;}
@@ -146,6 +146,13 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 .tdi-label{font-size:.63rem;color:var(--text3);}
 .tdi-value{font-size:.88rem;font-weight:700;font-family:'JetBrains Mono',monospace;}
 .section-cat{font-size:.65rem;color:var(--accent2);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin:8px 0 5px;}
+
+/* Custom styles for RSS News Feed */
+.news-item{display:block;padding:12px;border-radius:8px;background:var(--surface);border:1px solid var(--border);transition:all .2s;text-decoration:none;margin-bottom:8px;}
+.news-item:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,0.1);}
+.news-time{font-size:.65rem;color:var(--accent2);margin-bottom:5px;font-weight:700;font-family:'JetBrains Mono',monospace;}
+.news-title{font-size:.82rem;font-weight:700;color:var(--text);line-height:1.5;}
+
 @media(max-width:900px){.g2,.g3,.g4,.g13,.g31{grid-template-columns:1fr;}}
 @media(max-width:600px){.topbar{padding:0 .75rem;}.main{padding:112px .75rem 2rem;}.nav-tab{padding:4px 8px;font-size:.7rem;}}
 </style>
@@ -242,24 +249,15 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   </div>
 
   <div class="g2 mb">
-    <!-- الأخبار الحية -->
+    <!-- الأخبار الحية المحدثة لتعمل عبر FXS RSS -->
     <div class="card">
-      <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (Live Market News)</span></div></div>
-      <div class="widget-box">
-        <div class="tradingview-widget-container">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-timeline.js" async>
-          {
-            "feedMode": "all_symbols",
-            "colorTheme": "dark",
-            "isTransparent": true,
-            "displayMode": "regular",
-            "width": "100%",
-            "height": "100%",
-            "locale": "ar"
-          }
-          </script>
-        </div>
+      <div class="ch">
+        <div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (FXStreet Live)</span></div>
+        <button class="btn btn-ghost" style="padding:4px 8px;font-size:.7rem" onclick="fetchLiveRSSNews()">🔄</button>
+      </div>
+      <div class="widget-box" style="overflow-y:auto; padding:10px; background:var(--surface2);" id="rssNewsContainer">
+        <!-- Live News will be injected here via JS -->
+        <div class="loading" style="height:100%;"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري جلب الأخبار...</span></div>
       </div>
     </div>
 
@@ -268,12 +266,37 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <div class="ch"><div class="ch-title"><span class="gem"></span><span data-key="techAnalysis">توقعات الأصول (التحليل الآلي)</span></div></div>
       <div class="ig"><label class="il" data-key="assetSelectLabel">اختر الأصل للتحليل:</label>
         <select class="sf" id="tvSymbolSelect" onchange="changeTVSymbol()">
-            <option value="FX:EURUSD">EUR/USD</option>
-            <option value="FX:GBPUSD">GBP/USD</option>
-            <option value="FX:USDJPY">USD/JPY</option>
-            <option value="TVC:GOLD">Gold (XAU/USD)</option>
-            <option value="NASDAQ:QQQ">US100 (Nasdaq)</option>
-            <option value="BINANCE:BTCUSD">BTC/USD</option>
+            <optgroup label="الفوركس — أزواج الدولار">
+                <option value="FX:EURUSD">EUR/USD (يورو/دولار)</option>
+                <option value="FX:GBPUSD">GBP/USD (باوند/دولار)</option>
+                <option value="FX:USDJPY">USD/JPY (دولار/ين)</option>
+                <option value="FX:AUDUSD">AUD/USD (استرالي/دولار)</option>
+                <option value="FX:USDCAD">USD/CAD (دولار/كندي)</option>
+                <option value="FX:USDCHF">USD/CHF (دولار/فرنك)</option>
+                <option value="FX:NZDUSD">NZD/USD (نيوزلندي/دولار)</option>
+            </optgroup>
+            <optgroup label="الفوركس — التقاطعات (Crosses)">
+                <option value="FX:GBPJPY">GBP/JPY (باوند/ين)</option>
+                <option value="FX:EURJPY">EUR/JPY (يورو/ين)</option>
+                <option value="FX:EURGBP">EUR/GBP (يورو/باوند)</option>
+                <option value="FX:AUDJPY">AUD/JPY (استرالي/ين)</option>
+            </optgroup>
+            <optgroup label="المعادن والطاقة">
+                <option value="TVC:GOLD">Gold (الذهب XAU/USD)</option>
+                <option value="TVC:SILVER">Silver (الفضة XAG/USD)</option>
+                <option value="TVC:USOIL">WTI Crude Oil (النفط الأمريكي)</option>
+            </optgroup>
+            <optgroup label="المؤشرات والأسهم">
+                <option value="NASDAQ:QQQ">US100 (الناسداك)</option>
+                <option value="SP:SPX">S&P 500 (إس آند بي)</option>
+                <option value="DJ:DJI">US30 (الداو جونز)</option>
+            </optgroup>
+            <optgroup label="العملات الرقمية (Crypto)">
+                <option value="BINANCE:BTCUSD">BTC/USD (البتكوين)</option>
+                <option value="BINANCE:ETHUSD">ETH/USD (الإيثريوم)</option>
+                <option value="BINANCE:SOLUSD">SOL/USD (سولانا)</option>
+                <option value="BINANCE:XRPUSD">XRP/USD (الريبل)</option>
+            </optgroup>
         </select>
       </div>
       <div class="widget-box" id="techAnalysisContainer" style="height:310px">
@@ -640,7 +663,7 @@ const translations = {
     macroBadge: "Live Dashboard",
     currencyHeatmap: "Currency Heatmap",
     economicCalendar: "Economic Calendar",
-    liveNews: "Live Market News",
+    liveNews: "Live Market News (FXStreet)",
     techAnalysis: "Technical Analysis (Auto)",
     assetSelectLabel: "Select Asset:",
     liveScreener: "Live Market Screener",
@@ -727,7 +750,7 @@ const translations = {
     macroBadge: "شاشات حية",
     currencyHeatmap: "خريطة قوة العملات (Heatmap)",
     economicCalendar: "التقويم الاقتصادي (Economic Calendar)",
-    liveNews: "الأخبار الحية (Live Market News)",
+    liveNews: "الأخبار الحية (FXStreet Live)",
     techAnalysis: "توقعات الأصول (التحليل الآلي)",
     assetSelectLabel: "اختر الأصل للتحليل:",
     liveScreener: "رادار الأسواق المباشر (Live Screener)",
@@ -799,6 +822,38 @@ const translations = {
   }
 };
 
+async function fetchLiveRSSNews() {
+    const container = document.getElementById('rssNewsContainer');
+    if(!container) return;
+    
+    // إظهار علامة التحميل
+    container.innerHTML = '<div class="loading" style="justify-content:center;height:100%"><div class="spinner"></div></div>';
+    
+    try {
+        // سحب الـ RSS الخاص بـ FXStreet عبر وسيط يحوله لـ JSON
+        const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.fxstreet.com%2Fnews%2Frss');
+        const data = await res.json();
+        
+        if(data.status === 'ok') {
+            let html = '<div style="display:flex;flex-direction:column;gap:8px">';
+            // عرض أحدث 15 خبر
+            data.items.slice(0, 15).forEach(item => {
+                const date = new Date(item.pubDate).toLocaleTimeString(S.lang === 'ar' ? 'ar-SA' : 'en-US', {hour: '2-digit', minute:'2-digit'});
+                html += `<a href="${item.link}" target="_blank" class="news-item">
+                    <div class="news-time">${date} • FXStreet Live</div>
+                    <div class="news-title">${item.title}</div>
+                </a>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+        } else {
+            throw new Error('Failed to load RSS');
+        }
+    } catch(e) {
+        container.innerHTML = `<div style="text-align:center;color:var(--red2);padding:20px;font-size:0.8rem">⚠️ ${S.lang === 'ar' ? 'تعذر جلب الأخبار المباشرة' : 'Failed to fetch live news'}</div>`;
+    }
+}
+
 function changeTVSymbol() {
     const symbol = document.getElementById('tvSymbolSelect').value;
     const container = document.getElementById('techAnalysisContainer');
@@ -855,7 +910,8 @@ function toggleLang() {
   const t = html.getAttribute('data-theme');
   btn.textContent = t === 'dark' ? (S.lang === 'ar' ? '☀️ نهاري' : '☀️ Day') : (S.lang === 'ar' ? '🌙 ليلي' : '🌙 Night');
   
-  changeTVSymbol(); 
+  changeTVSymbol();
+  fetchLiveRSSNews(); // Refresh news on language change 
 }
 
 function showPage(name, el) {
@@ -1217,6 +1273,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   calcRisk();
   renderJournal();
   changeTVSymbol(); // Initialize the technical analysis widget
+  fetchLiveRSSNews(); // Fetch FXStreet news on load
 });
 </script>
 </body>
