@@ -249,10 +249,10 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   </div>
 
   <div class="g2 mb">
-    <!-- الأخبار الحية المحدثة لتعمل عبر FXS RSS -->
+    <!-- الأخبار الحية المحدثة لتعمل عبر RSS -->
     <div class="card">
       <div class="ch">
-        <div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (FXStreet Live)</span></div>
+        <div class="ch-title"><span class="gem"></span><span data-key="liveNews">الأخبار الحية (Market Live)</span></div>
         <button class="btn btn-ghost" style="padding:4px 8px;font-size:.7rem" onclick="fetchLiveRSSNews()">🔄</button>
       </div>
       <div class="widget-box" style="overflow-y:auto; padding:10px; background:var(--surface2);" id="rssNewsContainer">
@@ -750,7 +750,7 @@ const translations = {
     macroBadge: "شاشات حية",
     currencyHeatmap: "خريطة قوة العملات (Heatmap)",
     economicCalendar: "التقويم الاقتصادي (Economic Calendar)",
-    liveNews: "الأخبار الحية (FXStreet Live)",
+    liveNews: "الأخبار الحية (Market Live)",
     techAnalysis: "توقعات الأصول (التحليل الآلي)",
     assetSelectLabel: "اختر الأصل للتحليل:",
     liveScreener: "رادار الأسواق المباشر (Live Screener)",
@@ -830,27 +830,51 @@ async function fetchLiveRSSNews() {
     container.innerHTML = '<div class="loading" style="justify-content:center;height:100%"><div class="spinner"></div></div>';
     
     try {
-        // سحب الـ RSS الخاص بـ FXStreet عبر وسيط يحوله لـ JSON
-        const res = await fetch('https://api.rss2json.com/v1/api.json?rss_url=https%3A%2F%2Fwww.fxstreet.com%2Fnews%2Frss');
-        const data = await res.json();
-        
-        if(data.status === 'ok') {
+        // نظراً لأن FXStreet تستخدم حماية قوية (Cloudflare) تقوم بحظر الطلبات، 
+        // قمنا بتطوير ميكانيكية (خطة أ، ب، ج) لضمان عدم تعطل الشاشة عند حظر أي مصدر.
+        const feeds = [
+            'https://www.fxstreet.com/news/rss',
+            'https://www.forexlive.com/feed/news', // بديل 1: أخبار الفوركس المباشرة
+            'https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=10000664' // بديل 2: أخبار الأسواق المالية
+        ];
+
+        let items = [];
+        for (let url of feeds) {
+            try {
+                // نستخدم وسيط rss2json لأنه الأكثر استقراراً في تحويل الروابط
+                const res = await fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(url)}`);
+                if (!res.ok) continue;
+                const data = await res.json();
+                
+                if (data.status === 'ok' && data.items && data.items.length > 0) {
+                    items = data.items;
+                    break; // تم جلب الأخبار بنجاح، توقف عن البحث
+                }
+            } catch(e) {
+                console.warn('Feed blocked or failed:', url);
+            }
+        }
+
+        if(items.length > 0) {
             let html = '<div style="display:flex;flex-direction:column;gap:8px">';
             // عرض أحدث 15 خبر
-            data.items.slice(0, 15).forEach(item => {
-                const date = new Date(item.pubDate).toLocaleTimeString(S.lang === 'ar' ? 'ar-SA' : 'en-US', {hour: '2-digit', minute:'2-digit'});
+            items.slice(0, 15).forEach(item => {
+                const pubDate = item.pubDate || new Date().toISOString();
+                const date = new Date(pubDate).toLocaleTimeString(S.lang === 'ar' ? 'ar-SA' : 'en-US', {hour: '2-digit', minute:'2-digit'});
+                
                 html += `<a href="${item.link}" target="_blank" class="news-item">
-                    <div class="news-time">${date} • FXStreet Live</div>
+                    <div class="news-time">${date} • Market News</div>
                     <div class="news-title">${item.title}</div>
                 </a>`;
             });
             html += '</div>';
             container.innerHTML = html;
         } else {
-            throw new Error('Failed to load RSS');
+            throw new Error('No items found in any RSS feed');
         }
     } catch(e) {
-        container.innerHTML = `<div style="text-align:center;color:var(--red2);padding:20px;font-size:0.8rem">⚠️ ${S.lang === 'ar' ? 'تعذر جلب الأخبار المباشرة' : 'Failed to fetch live news'}</div>`;
+        console.error("RSS Error:", e);
+        container.innerHTML = `<div style="text-align:center;color:var(--red2);padding:20px;font-size:0.8rem">⚠️ ${S.lang === 'ar' ? 'تعذر جلب الأخبار المباشرة (حظر من المصدر)' : 'Failed to fetch live news (Source protection)'}</div>`;
     }
 }
 
