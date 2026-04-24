@@ -10,7 +10,7 @@
 [data-theme="dark"]{--bg:#060810;--bg2:#0a0d16;--surface:#0f1219;--surface2:#141824;--surface3:#1a2030;--border:#1e2738;--border2:#263045;--text:#e8edf5;--text2:#8fa3bf;--text3:#4a5f7a;--accent:#c9a84c;--accent2:#e8c86e;--accent3:rgba(201,168,76,0.12);--green:#1db87a;--green2:#35d494;--red:#e03c3c;--red2:#f06060;--blue:#3b7fd4;--blue2:#5a9ae8;--shadow:0 8px 32px rgba(0,0,0,0.5);--glow:0 0 20px rgba(201,168,76,0.15);}
 [data-theme="light"]{--bg:#f0f2f7;--bg2:#e8ebf2;--surface:#fff;--surface2:#f4f6fb;--surface3:#eaecf3;--border:#dde2ee;--border2:#c8d0e0;--text:#1a2235;--text2:#4a5f7a;--text3:#8a9ab8;--accent:#b8922a;--accent2:#c9a84c;--accent3:rgba(201,168,76,0.1);--green:#0ea86a;--green2:#1db87a;--red:#c83232;--red2:#e03c3c;--blue:#2563c0;--blue2:#3b7fd4;--shadow:0 4px 20px rgba(0,0,0,0.12);--glow:0 0 20px rgba(201,168,76,0.1);}
 *{margin:0;padding:0;box-sizing:border-box;}
-body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s;}
+body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s; display:flex; flex-direction:column;}
 .topbar{position:fixed;top:0;left:0;right:0;z-index:1000;height:56px;background:rgba(6,8,16,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 1rem;gap:.75rem;transition:background .3s;}
 [data-theme="light"] .topbar{background:rgba(240,242,247,.95);}
 .logo{display:flex;align-items:center;gap:8px;text-decoration:none;flex-shrink:0;}
@@ -27,7 +27,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 .ctrl-btn{padding:5px 10px;border-radius:7px;border:1px solid var(--border);background:var(--surface2);color:var(--text2);cursor:pointer;font-size:.72rem;font-weight:600;font-family:inherit;transition:all .2s;white-space:nowrap;}
 .ctrl-btn:hover{border-color:var(--accent);color:var(--accent2);}
 .tv-bar{position:fixed;top:56px;left:0;right:0;z-index:999;height:46px;background:var(--surface);border-bottom:1px solid var(--border);}
-.main{padding:112px 1.25rem 2rem;max-width:1440px;margin:0 auto;}
+.main{padding:112px 1.25rem 2rem;max-width:1440px;margin:0 auto;flex:1;width:100%;}
 .page{display:none;animation:fadeUp .3s ease;}
 .page.active{display:block;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
@@ -153,6 +153,10 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 .news-time{font-size:.65rem;color:var(--accent2);margin-bottom:5px;font-weight:700;font-family:'JetBrains Mono',monospace;}
 .news-title{font-size:.82rem;font-weight:700;color:var(--text);line-height:1.5;}
 .source-label{font-size:.55rem;color:var(--text3);text-transform:uppercase;letter-spacing:.05em;margin-top:4px;display:block;}
+
+/* Footer Styles */
+.site-footer { text-align: center; padding: 2rem 1.25rem; margin-top: auto; border-top: 1px solid var(--border); color: var(--text3); font-size: 0.75rem; line-height: 1.6; }
+.site-footer .credit { font-size: 0.65rem; margin-top: 10px; opacity: 0.7; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; }
 
 @media(max-width:900px){.g2,.g3,.g4,.g13,.g31{grid-template-columns:1fr;}}
 @media(max-width:600px){.topbar{padding:0 .75rem;}.main{padding:112px .75rem 2rem;}.nav-tab{padding:4px 8px;font-size:.7rem;}}
@@ -414,21 +418,9 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div style="display:flex; justify-content:center; margin-bottom:1.5rem;">
     <button class="btn btn-gold" style="padding:10px 20px;font-size:.9rem; font-weight:800;" onclick="loadLiveSignals()" data-key="acSaveBtn">🔄 لإظهار التوصيات والتحديثات اضغط هنا</button>
   </div>
-
-  <!-- Quick Transfer Tool -->
-  <div class="card mb">
-    <div class="ch" style="margin-bottom: 0.5rem;"><div class="ch-title"><span class="gem"></span><span data-key="quickTransfer">أداة النقل السريع (Quick Transfer)</span></div></div>
-    <div class="g4">
-      <div class="ig"><label class="il" data-key="assetLabel">الأصل</label><input type="text" class="if" id="qt-asset" placeholder="مثال: EURUSD"></div>
-      <div class="ig"><label class="il" data-key="tradeDirLabel">الاتجاه</label><select class="sf" id="qt-dir"><option value="long">LONG (شراء)</option><option value="short">SHORT (بيع)</option></select></div>
-      <div class="ig"><label class="il" data-key="entryLabel">سعر الدخول</label><input type="number" class="if" id="qt-entry" step="0.00001"></div>
-      <div class="ig"><label class="il" data-key="slLabel">الوقف (SL)</label><input type="number" class="if" id="qt-sl" step="0.00001"></div>
-    </div>
-    <button class="btn btn-gold w100 mt" onclick="quickTransferSignal()" data-key="sendToPreTrade">✅ نقل إلى (ما قبل الصفقة)</button>
-  </div>
   
   <!-- Signals Grid -->
-  <div id="signalsGridContainer" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem; margin-top:1rem;">
+  <div id="signalsGridContainer" style="display:grid; grid-template-columns:repeat(4, 1fr); gap:1rem; margin-top:1rem;">
     <!-- Signals injected via JS -->
   </div>
 </div>
@@ -702,6 +694,13 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   </div>
 </div>
 
+</main>
+
+<footer class="site-footer">
+  <div data-key="footerDisclaimer">ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة، ولا تتحمل أي جهة أخرى أي مسؤولية عن النتائج.</div>
+  <div class="credit">design by Mohamed AlHammadi</div>
+</footer>
+
 <script>
 const API_URL = '/api/chat';
 
@@ -715,27 +714,17 @@ const S = {
   currentSignals: [] 
 };
 
-// أمثلة التوصيات كاحتياطي (Fallback)
-const mockSignals = [
+// التوصيات الافتراضية
+const defaultSignals = [
     { 
-      id: 1, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: '10:30 AM', timeframe: 'H1', desc: 'ارتداد من منطقة دعم قوية (Demand Zone)', 
-      setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
+      id: 991, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: 'Now', timeframe: 'H1', desc: 'توصية افتراضية حتى تتوفر التوصية', 
+      isDefault: true, setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
       checks: [4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16] 
     },
     { 
-      id: 2, asset: 'XAUUSD', dir: 'long', entry: 2350.50, tp: 2380.00, sl: 2335.00, time: '09:15 AM', timeframe: 'H4', desc: 'كسر مستوى مقاومة وإعادة اختبار (B&R)',
-      setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
-      checks: [4, 5, 6, 7, 8, 9, 11, 12, 15, 16] 
-    },
-    { 
-      id: 3, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: '08:45 AM', timeframe: 'M30', desc: 'تشبع شرائي مع ظهور شمعة ابتلاعية سلبية',
-      setupId: 2, structure: { daily: 'bearish', h4: 'bearish', h1: 'bearish', ma200: 'below', ma50: 'below', rsi: 'ob' }, 
+      id: 992, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: 'Now', timeframe: 'M30', desc: 'توصية افتراضية حتى تتوفر التوصية',
+      isDefault: true, setupId: 2, structure: { daily: 'bearish', h4: 'bearish', h1: 'bearish', ma200: 'below', ma50: 'below', rsi: 'ob' }, 
       checks: [4, 5, 6, 7, 8, 9, 10, 15, 16] 
-    },
-    { 
-      id: 4, asset: 'USDJPY', dir: 'long', entry: 154.200, tp: 155.500, sl: 153.500, time: '07:20 AM', timeframe: 'H1', desc: 'استمرار الترند الصاعد بعد تجميع سيولة',
-      setupId: 3, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
-      checks: [4, 5, 6, 7, 8, 9, 13, 15, 16] 
     }
 ];
 
@@ -762,7 +751,6 @@ const translations = {
     liveScreener: "Live Market Screener",
     signalsTitle: "🎯 Live Signals",
     acSaveBtn: "🔄 Click here to show signals & updates",
-    quickTransfer: "Quick Transfer Tool",
     sendToPreTrade: "✅ Send to Pre-Trade",
     preTradeTitle: "✅ Pre-Trade",
     preTradeBadge: "Full Checklist",
@@ -831,7 +819,8 @@ const translations = {
     genReport: "Generate Report",
     genReportBtn: "📊 Create Report",
     chatTitle: "💬 Smart Assistant",
-    newsSource: "Sources: FXStreet, ForexLive, CoinTelegraph"
+    newsSource: "Sources: FXStreet, ForexLive, CoinTelegraph",
+    footerDisclaimer: "Trading in financial markets involves high risk and may result in the loss of your capital. All trading decisions are strictly your own responsibility, and no other party assumes any liability for the results."
   },
   ar: {
     logoSub: "نظام التداول الاحترافي",
@@ -855,7 +844,6 @@ const translations = {
     liveScreener: "رادار الأسواق المباشر (Live Screener)",
     signalsTitle: "🎯 التوصيات الحية",
     acSaveBtn: "🔄 لإظهار التوصيات والتحديثات اضغط هنا",
-    quickTransfer: "أداة النقل السريع (Quick Transfer)",
     sendToPreTrade: "✅ نقل إلى (ما قبل الصفقة)",
     preTradeTitle: "✅ ما قبل الصفقة",
     preTradeBadge: "Checklist كامل",
@@ -922,16 +910,32 @@ const translations = {
     genReport: "إنشاء التقرير",
     genReportBtn: "📊 إنشاء التقرير الأسبوعي",
     chatTitle: "💬 المساعد الذكي",
-    newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph"
+    newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph",
+    footerDisclaimer: "ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة، ولا تتحمل أي جهة أخرى أي مسؤولية عن النتائج."
   }
 };
 
-// دالة جلب التوصيات باستخدام الذكاء الاصطناعي ولكن معروضة كأداة تحليل
+function buildFinalSignals(aiSignals) {
+    let finalArray = Array.isArray(aiSignals) ? aiSignals.slice(0, 8) : [];
+    
+    // إذا لم يتوفر أي تحليل من الـ AI
+    if (finalArray.length === 0) {
+        finalArray = JSON.parse(JSON.stringify(defaultSignals)); 
+    }
+    
+    finalArray.forEach((sig, i) => { if(!sig.id) sig.id = Date.now() + i; });
+
+    // إكمال العدد إلى 8 مربعات بحالة انتظار
+    while(finalArray.length < 8) {
+        finalArray.push({ isWaiting: true, id: 'wait_' + finalArray.length });
+    }
+    return finalArray;
+}
+
 async function loadLiveSignals() {
     const grid = document.getElementById('signalsGridContainer');
     if(!grid) return;
     
-    // شاشة تحميل ذكية
     grid.innerHTML = `
         <div class="loading" style="justify-content:center; grid-column: 1/-1; padding: 4rem; flex-direction:column; gap:15px;">
             <div class="spinner" style="width:30px; height:30px; border-width:3px;"></div>
@@ -939,7 +943,6 @@ async function loadLiveSignals() {
         </div>`;
 
     try {
-        // 1. سحب آخر التحليلات من مصادر مجانية للـ RSS
         const feeds = [
             'https://www.forexlive.com/feed/technicalanalysis',
             'https://www.fxstreet.com/news/rss'
@@ -960,28 +963,23 @@ async function loadLiveSignals() {
             }
         }
 
-        if(rawTexts.length < 50) {
-            rawTexts = "Gold is showing strong bullish momentum above 2330, targeting 2380. Stop loss should be placed below 2315. EURUSD is breaking below 1.0850 support, looking bearish towards 1.0780, SL 1.0890.";
-        }
-
-        // 2. إرسال النصوص للذكاء الاصطناعي لاستخراج التوصيات
-        const prompt = `You are a Trading Signal Extractor for Al Hammadi Trading System. Read the following market analysis and extract 3 to 4 distinct trading setups.
+        const prompt = `You are a Trading Signal Extractor for Al Hammadi Trading System. Read the following market analysis and extract up to 8 distinct trading setups.
 Return ONLY a valid JSON array. Do NOT wrap it in markdown block like \`\`\`json.
 Format strictly like this:
 [
   {
     "id": 1,
-    "asset": "EURUSD", // strictly uppercase symbol
-    "dir": "short", // "long" or "short"
-    "entry": 1.0850, // number
-    "tp": 1.0780, // number
-    "sl": 1.0890, // number
+    "asset": "EURUSD",
+    "dir": "short",
+    "entry": 1.0850,
+    "tp": 1.0780,
+    "sl": 1.0890,
     "time": "Now",
-    "timeframe": "H1", // e.g., M30, H1, H4
+    "timeframe": "H1",
     "desc": "Short explanation in Arabic (e.g. كسر مستوى دعم واضح)",
-    "setupId": 1, // 1 to 5 (1=Break&Retest, 2=Liq Sweep, 3=Trend Cont, 4=Order Block, 5=FVG)
+    "setupId": 1,
     "structure": {"daily":"bearish", "h4":"bearish", "h1":"bearish", "ma200":"below", "ma50":"below", "rsi":"neutral"},
-    "checks": [4,5,6,9,15,16] // relevant checklist items from 1 to 20
+    "checks": [4,5,6,9,15,16]
   }
 ]
 
@@ -998,8 +996,7 @@ ${rawTexts.substring(0, 3500)}`;
         const responseData = await res.json();
         let textResponse = responseData.content[0].text;
         
-        // 3. تنظيف واستخراج الـ JSON
-        let extractedSignals = mockSignals; // Fallback
+        let extractedSignals = [];
         const jsonMatch = textResponse.match(/\[\s*\{.*\}\s*\]/s);
         
         if (jsonMatch) {
@@ -1008,20 +1005,13 @@ ${rawTexts.substring(0, 3500)}`;
             extractedSignals = JSON.parse(textResponse);
         }
 
-        if(!Array.isArray(extractedSignals) || extractedSignals.length === 0) {
-            extractedSignals = mockSignals;
-        }
-
-        extractedSignals.forEach((sig, index) => sig.id = Date.now() + index);
-        S.currentSignals = extractedSignals;
-
+        S.currentSignals = buildFinalSignals(extractedSignals);
         renderSignalsUI(S.currentSignals);
 
     } catch (error) {
         console.error('Error in Signals:', error);
-        grid.innerHTML = `<div style="text-align:center; color:var(--red2); grid-column: 1/-1; padding: 2rem;">⚠️ تعذر التحديث الآن (الرجاء المحاولة لاحقاً). تم عرض التوصيات المحفوظة.</div>`;
-        S.currentSignals = mockSignals; 
-        setTimeout(() => renderSignalsUI(S.currentSignals), 2500);
+        S.currentSignals = buildFinalSignals([]); 
+        renderSignalsUI(S.currentSignals);
     }
 }
 
@@ -1030,12 +1020,22 @@ function renderSignalsUI(signals) {
     if(!grid) return;
     const isAr = S.lang === 'ar';
     grid.innerHTML = signals.map(s => {
+        if(s.isWaiting) {
+            return `
+            <div class="card signal-card" style="border: 1px dashed var(--border2); display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; min-height:300px; opacity:0.6;">
+                <div style="font-size:2rem; margin-bottom:10px;">⏳</div>
+                <div class="fs08 text-m">${isAr ? 'انتظر لحين توفر التوصية' : 'Wait until signal is available'}</div>
+            </div>`;
+        }
+
         const dirClass = s.dir === 'long' ? 'bg-g' : 'bg-r';
         const dirText = s.dir === 'long' ? (isAr ? 'شراء (BUY)' : 'BUY') : (isAr ? 'بيع (SELL)' : 'SELL');
         const btnText = isAr ? translations.ar.sendToPreTrade : translations.en.sendToPreTrade;
+        const defaultBadge = s.isDefault ? `<div style="background:var(--accent3); color:var(--accent2); padding:3px 8px; border-radius:4px; font-size:0.6rem; text-align:center; margin-bottom:8px; font-weight:bold;">⚠️ ${isAr ? 'توصية افتراضية (بانتظار السوق)' : 'Default Signal (Waiting)'}</div>` : '';
         
         return `
         <div class="card signal-card" style="border: 1px solid rgba(201,168,76,0.3); background: linear-gradient(180deg, var(--surface) 0%, var(--surface2) 100%);">
+          ${defaultBadge}
           <div class="ch mb05" style="margin-bottom:0">
             <div class="ch-title" style="font-size:1.1rem; letter-spacing:0;">${s.asset} <span style="font-size:0.6rem; color:var(--text3)">${s.timeframe || 'H1'}</span></div>
             <span class="bg ${dirClass}">${dirText}</span>
@@ -1051,82 +1051,6 @@ function renderSignalsUI(signals) {
         </div>
         `;
     }).join('');
-}
-
-function quickTransferSignal() {
-    const asset = document.getElementById('qt-asset').value.trim().toUpperCase();
-    const dir = document.getElementById('qt-dir').value;
-    const entry = parseFloat(document.getElementById('qt-entry').value) || 0;
-    const sl = parseFloat(document.getElementById('qt-sl').value) || 0;
-
-    if(!asset) {
-        alert(S.lang === 'ar' ? 'الرجاء إدخال اسم الأصل' : 'Please enter asset name');
-        return;
-    }
-
-    // 1. تحديد الأصل
-    const assetSelect = document.getElementById('tradeAsset');
-    let found = false;
-    for(let i=0; i<assetSelect.options.length; i++) {
-        if(assetSelect.options[i].text.replace(/\s/g,'').includes(asset)) {
-            assetSelect.selectedIndex = i;
-            found = true; break;
-        }
-    }
-    if(!found) {
-        const opt = document.createElement('option');
-        opt.text = asset;
-        assetSelect.add(opt);
-        assetSelect.selectedIndex = assetSelect.options.length - 1;
-    }
-    
-    // 2. تحديد الاتجاه
-    setBias(dir);
-
-    // 3. تعبئة إعدادات الـ Structure تلقائياً بناءً على التوصية المباشرة
-    document.getElementById('dailyStr').value = dir === 'long' ? 'bullish' : 'bearish';
-    document.getElementById('h4Str').value = dir === 'long' ? 'bullish' : 'bearish';
-    document.getElementById('h1Str').value = dir === 'long' ? 'bullish' : 'bearish';
-    document.getElementById('ma200').value = dir === 'long' ? 'above' : 'below';
-    document.getElementById('ma50').value = dir === 'long' ? 'above' : 'below';
-    document.getElementById('rsiS').value = 'neutral';
-    chkBias(); 
-
-    // 4. اختيار نموذج الدخول تلقائياً (الافتراضي للتحليل الفني هو B&R أو Trend)
-    for(let i=1; i<=5; i++) document.getElementById('m'+i).classList.remove('checked');
-    document.getElementById('m1').classList.add('checked'); // Break & Retest كافتراضي للتوصيات الفنية
-
-    // 5. وضع علامات الصح على الشيك لست الأساسية لتوفير الوقت
-    for(let i=1; i<=20; i++) {
-        const chk = document.getElementById('chk'+i);
-        if(chk) chk.classList.remove('checked');
-    }
-    // تفعيل شروط (الاستركشر واضح، توافق الفريمات، مستوى قوي، ترند، وإدارة مخاطر)
-    const autoChecks = [4, 5, 6, 7, 8, 9, 11, 13, 15, 16];
-    autoChecks.forEach(c => {
-        const chk = document.getElementById('chk'+c);
-        if(chk) chk.classList.add('checked');
-    });
-    updateScore();
-
-    // 6. تعبئة الحاسبة
-    if(entry > 0) document.getElementById('entryP').value = entry;
-    if(sl > 0) document.getElementById('slP').value = sl;
-    
-    const riskAsset = document.getElementById('assetType');
-    if(asset.includes('XAU')) riskAsset.value = 'gold';
-    else if(asset.includes('BTC') || asset.includes('ETH')) riskAsset.value = 'btc';
-    else if(asset.includes('US100') || asset.includes('SPX')) riskAsset.value = 'indices_usd';
-    else if(asset.includes('JPY')) riskAsset.value = 'forex_yen';
-    else riskAsset.value = 'forex_major';
-    
-    calcRisk();
-
-    // 7. الانتقال لصفحة ما قبل الصفقة لتكملة وتعديل الشيك لست يدوياً
-    const tabs = document.querySelectorAll('.nav-tab');
-    let precheckTab = null;
-    tabs.forEach(t => { if(t.getAttribute('data-key') === 'navPrecheck') precheckTab = t; });
-    showPage('precheck', precheckTab);
 }
 
 function applySignal(id) {
@@ -1323,6 +1247,7 @@ function toggleLang() {
   
   changeTVSymbol();
   fetchLiveRSSNews(); 
+  renderSignalsUI(S.currentSignals);
 }
 
 function showPage(name, el) {
@@ -1330,6 +1255,7 @@ function showPage(name, el) {
   document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
   document.getElementById('page-' + name).classList.add('active');
   if (el) el.classList.add('active');
+  if (name === 'signals' && S.currentSignals.length === 0) { loadLiveSignals(); }
   if (name === 'journal') { renderJournal(); buildCharts(); }
   if (name === 'report') updateReport();
 }
