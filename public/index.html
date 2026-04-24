@@ -177,6 +177,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="nav-scroll">
     <div class="nav-tabs">
       <button class="nav-tab active" onclick="showPage('macro',this)" data-key="navMacro">📡 ماكرو سكان</button>
+      <button class="nav-tab" onclick="showPage('signals',this)" data-key="navSignals">🎯 التوصيات</button>
       <button class="nav-tab" onclick="showPage('precheck',this)" data-key="navPrecheck">✅ ما قبل الصفقة</button>
       <button class="nav-tab" onclick="showPage('risk',this)" data-key="navRisk">💰 حاسبة الريسك</button>
       <button class="nav-tab" onclick="showPage('chart',this)" data-key="navChart">📸 تحليل الشارت</button>
@@ -403,6 +404,19 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
         </script>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- SIGNALS & TRADE IDEAS -->
+<div id="page-signals" class="page">
+  <div class="st">
+    <span data-key="signalsTitle">🎯 التوصيات الحية (Trading Central & Ideas)</span> 
+  </div>
+  <div style="padding:10px 15px; border-radius:10px; background:rgba(201,168,76,0.1); border:1px solid rgba(201,168,76,0.2); color:var(--accent2); font-size:0.8rem; margin-bottom:1rem; line-height:1.6;" data-key="signalsDisclaimer">
+     💡 هذه المساحة مخصصة لعرض توصياتك الجاهزة (مثل Trading Central). اضغط على "نقل إلى ما قبل الصفقة" لتحويل تفاصيل الصفقة (الدخول، الهدف، الوقف) مباشرة إلى قائمة المراجعة وحاسبة الريسك!
+  </div>
+  <div id="signalsGridContainer" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1rem; margin-bottom:1rem;">
+    <!-- Signals injected via JS -->
   </div>
 </div>
 
@@ -689,10 +703,18 @@ const S = {
   lang: 'ar'
 };
 
+const mockSignals = [
+    { id: 1, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: '10:30 AM', timeframe: 'H1', desc: 'ارتداد من منطقة دعم قوية (Demand Zone)' },
+    { id: 2, asset: 'XAUUSD', dir: 'long', entry: 2350.50, tp: 2380.00, sl: 2335.00, time: '09:15 AM', timeframe: 'H4', desc: 'كسر مستوى مقاومة وإعادة اختبار (B&R)' },
+    { id: 3, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: '08:45 AM', timeframe: 'M30', desc: 'تشبع شرائي مع ظهور شمعة ابتلاعية سلبية' },
+    { id: 4, asset: 'USDJPY', dir: 'long', entry: 154.200, tp: 155.500, sl: 153.500, time: '07:20 AM', timeframe: 'H1', desc: 'استمرار الترند الصاعد بعد تجميع سيولة' }
+];
+
 const translations = {
   en: {
     logoSub: "Professional Trading System",
     navMacro: "📡 Macro Scan",
+    navSignals: "🎯 Signals",
     navPrecheck: "✅ Pre-Trade",
     navRisk: "💰 Risk Calc",
     navChart: "📸 Analysis",
@@ -709,6 +731,9 @@ const translations = {
     techAnalysis: "Technical Analysis (Auto)",
     assetSelectLabel: "Select Asset:",
     liveScreener: "Live Market Screener",
+    signalsTitle: "🎯 Live Trading Signals (Trading Central & Ideas)",
+    signalsDisclaimer: "💡 This space is reserved for your ready signals (like Trading Central). Click 'Send to Pre-Trade' to transfer entry, TP, and SL directly to your checklist and risk calculator!",
+    sendToPreTrade: "✅ Send to Pre-Trade",
     preTradeTitle: "✅ Pre-Trade",
     preTradeBadge: "Full Checklist",
     biasSection: "Directional Bias",
@@ -782,6 +807,7 @@ const translations = {
   ar: {
     logoSub: "نظام التداول الاحترافي",
     navMacro: "📡 ماكرو سكان",
+    navSignals: "🎯 التوصيات",
     navPrecheck: "✅ ما قبل الصفقة",
     navRisk: "💰 حاسبة الريسك",
     navChart: "📸 تحليل الشارت",
@@ -798,6 +824,9 @@ const translations = {
     techAnalysis: "توقعات الأصول (التحليل الآلي)",
     assetSelectLabel: "اختر الأصل للتحليل:",
     liveScreener: "رادار الأسواق المباشر (Live Screener)",
+    signalsTitle: "🎯 التوصيات الحية (Trading Central & Ideas)",
+    signalsDisclaimer: "💡 هذه المساحة مخصصة لعرض توصياتك الجاهزة (مثل Trading Central). اضغط على 'نقل إلى ما قبل الصفقة' لتحويل تفاصيل الصفقة (الدخول، الهدف، الوقف) مباشرة إلى قائمة المراجعة وحاسبة الريسك!",
+    sendToPreTrade: "✅ نقل إلى (ما قبل الصفقة)",
     preTradeTitle: "✅ ما قبل الصفقة",
     preTradeBadge: "Checklist كامل",
     biasSection: "الاتجاه — Directional Bias",
@@ -867,6 +896,77 @@ const translations = {
     newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph"
   }
 };
+
+function renderSignalsUI() {
+    const grid = document.getElementById('signalsGridContainer');
+    if(!grid) return;
+    const isAr = S.lang === 'ar';
+    grid.innerHTML = mockSignals.map(s => {
+        const dirClass = s.dir === 'long' ? 'bg-g' : 'bg-r';
+        const dirText = s.dir === 'long' ? (isAr ? 'شراء (BUY)' : 'BUY') : (isAr ? 'بيع (SELL)' : 'SELL');
+        const btnText = isAr ? translations.ar.sendToPreTrade : translations.en.sendToPreTrade;
+        return `
+        <div class="card signal-card">
+          <div class="ch mb05" style="margin-bottom:0">
+            <div class="ch-title" style="font-size:1.1rem; letter-spacing:0;">${s.asset} <span style="font-size:0.6rem; color:var(--text3)">${s.timeframe}</span></div>
+            <span class="bg ${dirClass}">${dirText}</span>
+          </div>
+          <div class="fs07 text-m mb1">🕒 ${s.time}</div>
+          <div style="height:140px; background:var(--surface2); border:1px dashed var(--border2); border-radius:8px; margin-bottom:12px; display:flex; flex-direction:column; align-items:center; justify-content:center; color:var(--text3); position:relative; overflow:hidden;">
+             <div style="font-size:2.5rem; opacity:0.5; margin-bottom:5px;">📊</div>
+             <div style="font-size:0.7rem;">Trading Central Image Placeholder</div>
+          </div>
+          <div class="fs07 text-m mb1" style="line-height:1.4;">📝 ${s.desc}</div>
+          <div class="g3 mb1" style="gap:5px; text-align:center;">
+            <div style="background:var(--surface2); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">Entry</div><div class="mono fw7" style="font-size:0.85rem">${s.entry}</div></div>
+            <div style="background:var(--surface2); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">TP</div><div class="mono fw7 text-g" style="font-size:0.85rem">${s.tp}</div></div>
+            <div style="background:var(--surface2); padding:6px; border-radius:6px; border:1px solid var(--border);"><div class="fs07 text-m">SL</div><div class="mono fw7 text-r" style="font-size:0.85rem">${s.sl}</div></div>
+          </div>
+          <button class="btn btn-ghost w100" onclick="applySignal('${s.asset}', '${s.dir}', ${s.entry}, ${s.sl})" style="border-color:var(--accent); color:var(--accent2);">${btnText}</button>
+        </div>
+        `;
+    }).join('');
+}
+
+function applySignal(asset, dir, entry, sl) {
+    // 1. Set Asset in Pre-Trade
+    const assetSelect = document.getElementById('tradeAsset');
+    let found = false;
+    for(let i=0; i<assetSelect.options.length; i++) {
+        if(assetSelect.options[i].text.replace(/\s/g,'').includes(asset)) {
+            assetSelect.selectedIndex = i;
+            found = true; break;
+        }
+    }
+    if(!found) {
+        const opt = document.createElement('option');
+        opt.text = asset;
+        assetSelect.add(opt);
+        assetSelect.selectedIndex = assetSelect.options.length - 1;
+    }
+    
+    // 2. Set Direction Bias
+    setBias(dir);
+
+    // 3. Set Values in Risk Calculator
+    document.getElementById('entryP').value = entry;
+    document.getElementById('slP').value = sl;
+    
+    const riskAsset = document.getElementById('assetType');
+    if(asset.includes('XAU')) riskAsset.value = 'gold';
+    else if(asset.includes('BTC') || asset.includes('ETH')) riskAsset.value = 'btc';
+    else if(asset.includes('US100') || asset.includes('SPX')) riskAsset.value = 'indices_usd';
+    else if(asset.includes('JPY')) riskAsset.value = 'forex_yen';
+    else riskAsset.value = 'forex_major';
+    
+    calcRisk();
+
+    // 4. Switch to Pre-Trade Tab
+    const tabs = document.querySelectorAll('.nav-tab');
+    let precheckTab = null;
+    tabs.forEach(t => { if(t.getAttribute('data-key') === 'navPrecheck') precheckTab = t; });
+    showPage('precheck', precheckTab);
+}
 
 async function fetchLiveRSSNews() {
     const container = document.getElementById('rssNewsContainer');
@@ -994,6 +1094,7 @@ function toggleLang() {
   
   changeTVSymbol();
   fetchLiveRSSNews(); // Refresh news on language change 
+  renderSignalsUI(); // Refresh signals translations
 }
 
 function showPage(name, el) {
@@ -1356,6 +1457,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   renderJournal();
   changeTVSymbol(); // Initialize the technical analysis widget
   fetchLiveRSSNews(); // Fetch FXStreet news on load
+  renderSignalsUI(); // Render the mock signals
 });
 </script>
 </body>
