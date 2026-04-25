@@ -1,189 +1,96 @@
 export default async function handler(req, res) {
-    // التأكد من أن الطلب من نوع POST
-    if (req.method !== 'POST') {
-        return res.status(405).json({ error: 'Method Not Allowed' });
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' });
+
+    const { system, prompt, history = [], images = [], maxTokens = 1500 } = req.body;
+
+    const CONFIG = {
+        anthropic: {
+            key: process.env.CLAUDE_API_KEY,
+            url: 'https://api.anthropic.com/v1/messages',
+            model: 'claude-3-5-sonnet-20240620'
+        },
+        openai: {
+            key: process.env.CHATGPT_API_KEY, 
+            url: 'https://api.openai.com/v1/chat/completions',
+            model: 'gpt-4o'
+        },
+        gemini: {
+            key: process.env.GEMINI_API_KEY,
+            // التعديل هنا: استخدام الإصدار v1 المستقر لحل مشكلة "الموديل غير موجود"
+            url: 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
+            model: 'gemini-1.5-flash'
+        }
+    };
+
+    const WATERFALL_ORDER = ['anthropic', 'openai', 'gemini'];
+
+    function buildPayload(provider) {
+        if (provider === 'anthropic') {
+            const content = images.map(img => ({ type: 'image', source: { type: 'base64', media_type: img.type, data: img.base64 } }));
+            content.push({ type: 'text', text: prompt });
+            return {
+                url: CONFIG.anthropic.url,
+                headers: { 'x-api-key': CONFIG.anthropic.key, 'anthropic-version': '2023-06-01', 'Content-Type': 'application/json', 'anthropic-dangerous-direct-browser-access': 'true' },
+                body: { model: CONFIG.anthropic.model, system, max_tokens: maxTokens, messages: [...history, { role: 'user', content }] }
+            };
+        }
+        if (provider === 'openai') {
+            const content = [{ type: 'text', text: prompt }];
+            images.forEach(img => content.push({ type: 'image_url', image_url: { url: `data:${img.type};base64,${img.base64}` } }));
+            return {
+                url: CONFIG.openai.url,
+                headers: { 'Authorization': `Bearer ${CONFIG.openai.key}`, 'Content-Type': 'application/json' },
+                body: { model: CONFIG.openai.model, messages: [{ role: 'system', content: system }, ...history, { role: 'user', content }] }
+            };
+        }
+        if (provider === 'gemini') {
+            const contents = [];
+            // إضافة تاريخ المحادثة لجمناي
+            history.forEach(m => {
+                contents.push({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] });
+            });
+            const parts = [{ text: prompt }];
+            images.forEach(img => parts.push({ inlineData: { mimeType: img.type, data: img.base64 } }));
+            contents.push({ role: 'user', parts });
+
+            return {
+                url: `${CONFIG.gemini.url}?key=${CONFIG.gemini.key}`,
+                headers: { 'Content-Type': 'application/json' },
+                body: { 
+                    contents: contents,
+                    systemInstruction: { parts: [{ text: system }] }
+                }
+            };
+        }
     }
 
-    try {
-        const { system, prompt, history = [], images = [], maxTokens = 1500 } = req.body;
-
-        // قراءة المفاتيح من بيئة Vercel (آمن جداً)
-        const AI_CONFIG = {
-            claude: {
-                key: process.env.CLAUDE_API_KEY,
-                url: 'https://api.anthropic.com/v1/messages',
-                model: 'claude-3-5-sonnet-20240620'
-            },
-            openai: {
-                key: process.env.OPENAI_API_KEY,
-                url: 'https://api.openai.com/v1/chat/completions',
-                model: 'gpt-4o'
-            },
-            gemini: {
-                key: process.env.GEMINI_API_KEY,
-                url: 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
-                model: 'gemini-1.5-flash'
-            }
-        };
-
-        const AI_PROVIDERS_ORDER = ['claude', 'openai', 'gemini'];
-
-        // 1. مترجم الطلبات (Translates the generic request to specific API formats)
-        function formatAIRequest(provider) {
-            if (provider === 'claude') {
-                const messages = [...history];
-                let content = [];
-                if (images.length > 0) {
-                    images.forEach(img => {
-                        content.push({ type: 'image', source: { type: 'base64', media_type: img.type, data: img.base64 } });
-                    });
-                }
-                if (prompt) content.push({ type: 'text', text: prompt });
-                
-                // Claude needs at least one user message
-                if (messages.length === 0 && content.length === 0) {
-                     content.push({ type: 'text', text: "Hello" });
-                }
-                
-                if (content.length > 0) {
-                    messages.push({ role: 'user', content: content });
-                }
-
-                return {
-                    url: AI_CONFIG.claude.url,
-                    headers: {
-                        'x-api-key': AI_CONFIG.claude.key,
-                        'anthropic-version': '2023-06-01',
-                        'content-type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        model: AI_CONFIG.claude.model,
-                        max_tokens: maxTokens,
-                        system: system || '',
-                        messages: messages
-                    })
-                };
-            } 
-            
-            else if (provider === 'openai') {
-                const messages = [];
-                if (system) messages.push({ role: 'system', content: system });
-                history.forEach(m => messages.push({ role: m.role, content: m.content }));
-                
-                let content = [];
-                if (prompt) content.push({ type: 'text', text: prompt });
-                if (images.length > 0) {
-                    images.forEach(img => {
-                        content.push({ type: 'image_url', image_url: { url: `data:${img.type};base64,${img.base64}` } });
-                    });
-                }
-                
-                if (content.length > 0) {
-                    messages.push({ role: 'user', content: content });
-                }
-
-                return {
-                    url: AI_CONFIG.openai.url,
-                    headers: {
-                        'Authorization': `Bearer ${AI_CONFIG.openai.key}`,
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        model: AI_CONFIG.openai.model,
-                        max_tokens: maxTokens,
-                        messages: messages
-                    })
-                };
-            } 
-            
-            else if (provider === 'gemini') {
-                const urlWithKey = `${AI_CONFIG.gemini.url}?key=${AI_CONFIG.gemini.key}`;
-                const contents = [];
-                
-                history.forEach(m => {
-                    contents.push({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] });
-                });
-
-                const currentParts = [];
-                if (prompt) currentParts.push({ text: prompt });
-                if (images.length > 0) {
-                    images.forEach(img => {
-                        currentParts.push({ inlineData: { mimeType: img.type, data: img.base64 } });
-                    });
-                }
-                
-                if (currentParts.length > 0) {
-                     contents.push({ role: 'user', parts: currentParts });
-                }
-
-                const payload = { contents: contents };
-                if (system) payload.systemInstruction = { parts: [{ text: system }] };
-
-                return {
-                    url: urlWithKey,
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify(payload)
-                };
-            }
-        }
-
-        // 2. مترجم الاستجابات (Parses specific API responses to a generic text)
-        function parseAIResponse(provider, responseData) {
-            if (provider === 'claude') {
-                return responseData.content?.map(c => c.text || '').join('') || '';
-            } else if (provider === 'openai') {
-                return responseData.choices?.[0]?.message?.content || '';
-            } else if (provider === 'gemini') {
-                return responseData.candidates?.[0]?.content?.parts?.map(p => p.text || '').join('') || '';
-            }
-            return '';
-        }
-
-        // 3. تنفيذ نظام الشلال (Waterfall Executor)
-        let lastError = null;
-
-        for (let provider of AI_PROVIDERS_ORDER) {
-            // تخطي المحرك إذا لم يكن له مفتاح في بيئة Vercel
-            if (!AI_CONFIG[provider].key) {
-                console.log(`[Waterfall] Skipping ${provider} - No API key found.`);
-                continue;
-            }
-
-            console.log(`[Waterfall] Trying ${provider}...`);
-            try {
-                const requestData = formatAIRequest(provider);
-                const fetchResponse = await fetch(requestData.url, {
-                    method: 'POST',
-                    headers: requestData.headers,
-                    body: requestData.body
-                });
-
-                const data = await fetchResponse.json();
-                
-                if (!fetchResponse.ok) {
-                    throw new Error(data.error?.message || data.error || `HTTP ${fetchResponse.status}`);
-                }
-
-                const extractedText = parseAIResponse(provider, data);
-                if (!extractedText) throw new Error('Empty response from provider');
-                
-                console.log(`[Waterfall] Success with ${provider}!`);
-                
-                // إرجاع النتيجة للواجهة الأمامية
-                return res.status(200).json({ content: extractedText, provider_used: provider });
-                
-            } catch (error) {
-                console.error(`[Waterfall] ${provider} failed:`, error.message);
-                lastError = error;
-                // الاستمرار لتجربة المحرك التالي
-            }
-        }
-
-        // إذا فشلت كل المحركات
-        throw new Error('All AI providers failed. Last error: ' + (lastError?.message || 'Unknown'));
-
-    } catch (error) {
-        console.error('API Error:', error);
-        return res.status(500).json({ error: error.message || 'Internal Server Error' });
+    function parseResponse(provider, data) {
+        try {
+            if (provider === 'anthropic') return data.content[0].text;
+            if (provider === 'openai') return data.choices[0].message.content;
+            if (provider === 'gemini') return data.candidates[0].content.parts[0].text;
+        } catch (e) { return null; }
     }
+
+    let lastError = "لم يتم العثور على مفاتيح فعالة";
+    for (const provider of WATERFALL_ORDER) {
+        if (!CONFIG[provider].key) continue;
+        try {
+            const payload = buildPayload(provider);
+            const response = await fetch(payload.url, {
+                method: 'POST',
+                headers: payload.headers,
+                body: JSON.stringify(payload.body)
+            });
+            const data = await response.json();
+            if (!response.ok) throw new Error(data.error?.message || data.error || "خطأ من المزود");
+            
+            const content = parseResponse(provider, data);
+            if (content) return res.status(200).json({ content, provider });
+        } catch (e) {
+            lastError = e.message;
+        }
+    }
+
+    res.status(500).json({ error: "فشلت جميع المحركات. آخر خطأ: " + lastError });
 }
