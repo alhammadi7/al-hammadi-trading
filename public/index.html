@@ -8,6 +8,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.0/chart.umd.min.js"></script>
 <style>
 [data-theme="dark"]{--bg:#060810;--bg2:#0a0d16;--surface:#0f1219;--surface2:#141824;--surface3:#1a2030;--border:#1e2738;--border2:#263045;--text:#e8edf5;--text2:#8fa3bf;--text3:#4a5f7a;--accent:#c9a84c;--accent2:#e8c86e;--accent3:rgba(201,168,76,0.12);--green:#1db87a;--green2:#35d494;--red:#e03c3c;--red2:#f06060;--blue:#3b7fd4;--blue2:#5a9ae8;--shadow:0 8px 32px rgba(0,0,0,0.5);--glow:0 0 20px rgba(201,168,76,0.15);}
+/* الألوان النهارية الهادئة الجديدة والمريحة للعين مع نصوص واضحة */
 [data-theme="light"]{--bg:#f0f2f5;--bg2:#e4e7eb;--surface:#ffffff;--surface2:#f8f9fa;--surface3:#f1f3f5;--border:#cbd5e1;--border2:#9ca3af;--text:#0f172a;--text2:#334155;--text3:#475569;--accent:#b48529;--accent2:#926b1c;--accent3:rgba(180,133,41,0.12);--green:#059669;--green2:#10b981;--red:#dc2626;--red2:#ef4444;--blue:#2563eb;--blue2:#3b82f6;--shadow:0 4px 20px rgba(0,0,0,0.08);--glow:0 0 20px rgba(184,146,42,0.1);}
 *{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;transition:background .3s,color .3s; display:flex; flex-direction:column;}
@@ -214,7 +215,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="st"><span data-key="navMacro">📡 Macro Scan</span> <span class="st-badge" data-key="macroBadge">أسبوعي / يومي</span></div>
   
   <div class="g2 mb">
-    <!-- الأخبار الحية المحدثة عبر RSS -->
+    <!-- الأخبار الحية המحدثة عبر RSS -->
     <div class="card">
       <div class="ch">
         <div>
@@ -631,44 +632,8 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 </button>
 
 <script>
-// ==========================================
-// الاتصال بالـ Backend الآمن (Vercel)
-// ==========================================
 const API_URL = '/api/chat';
 
-async function callAI(system, prompt, history = [], images = [], maxTokens = 1500) {
-    try {
-        const payload = {
-            system: system,
-            prompt: prompt,
-            history: history,
-            images: images,
-            maxTokens: maxTokens
-        };
-
-        const res = await fetch(API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            throw new Error(err.error || `HTTP ${res.status}`);
-        }
-
-        const data = await res.json();
-        return data.content || '';
-
-    } catch (error) {
-        console.error("API Call Error:", error);
-        throw error;
-    }
-}
-
-// ==========================================
-// المتغيرات والترجمات
-// ==========================================
 const S = {
   bias: null,
   uploadedImages: [],
@@ -680,58 +645,418 @@ const S = {
 };
 
 const defaultSignals = [
-    { id: 991, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: 'Now', timeframe: 'H1', desc: '', isDefault: true, setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, checks: [4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16] },
-    { id: 992, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: 'Now', timeframe: 'M30', desc: '', isDefault: true, setupId: 2, structure: { daily: 'bearish', h4: 'bearish', h1: 'bearish', ma200: 'below', ma50: 'below', rsi: 'ob' }, checks: [4, 5, 6, 7, 8, 9, 10, 15, 16] }
+    { 
+      id: 991, asset: 'EURUSD', dir: 'long', entry: 1.08500, tp: 1.09200, sl: 1.08100, time: 'Now', timeframe: 'H1', desc: '', 
+      isDefault: true, setupId: 1, structure: { daily: 'bullish', h4: 'bullish', h1: 'bullish', ma200: 'above', ma50: 'above', rsi: 'neutral' }, 
+      checks: [4, 5, 6, 7, 8, 9, 10, 11, 13, 15, 16] 
+    },
+    { 
+      id: 992, asset: 'GBPUSD', dir: 'short', entry: 1.26800, tp: 1.25900, sl: 1.27200, time: 'Now', timeframe: 'M30', desc: '',
+      isDefault: true, setupId: 2, structure: { daily: 'bearish', h4: 'bearish', h1: 'bearish', ma200: 'below', ma50: 'below', rsi: 'ob' }, 
+      checks: [4, 5, 6, 7, 8, 9, 10, 15, 16] 
+    }
 ];
 
 const translations = {
   en: {
     logoSub: "Professional Trading System",
-    navMacro: "📡 Macro Scan", navSignals: "🎯 Signals", navPrecheck: "✅ Pre-Trade", navRisk: "💰 Risk Calc", navChart: "📸 Analysis", navJournal: "📓 Journal", navReport: "📊 Report", navChat: "💬 Assistant",
-    themeDay: "☀️ Day", themeNight: "🌙 Night",
-    macroScan: "📡 Macro Scan", macroBadge: "Live Dashboard", currencyHeatmap: "Currency Heatmap", economicCalendar: "Economic Calendar", liveNews: "Live Market News", techAnalysis: "Technical Analysis (Auto)", assetSelectLabel: "Select Asset:", liveScreener: "Live Market Screener",
-    signalsTitle: "🎯 Live Signals", acSaveBtn: "🔄 Click here to show signals & updates", sendToPreTrade: "✅ Send to Pre-Trade",
-    preTradeTitle: "✅ Pre-Trade", preTradeBadge: "Full Checklist", biasSection: "Directional Bias", assetLabel: "Asset", tradeDirLabel: "Direction", ma200Label: "Price vs 200 MA", above200: "Above 200 MA ← BUY", below200: "Below 200 MA ← SELL", onMA: "At MA - Wait", ma50Label: "Price vs 50 MA", above50: "Above 50 MA", below50: "Below 50 MA", neutralRSI: "Neutral 40-60", osRSI: "Oversold < 30", obRSI: "Overbought > 70", biasWarning: "⚠️ Bias conflict with Structure!", setupModel: "Entry Setup", setup1: "🔁 Break & Retest", setup1Desc: " - Break + Retest + Rejection", setup2: "🎯 Liquidity Sweep", setup2Desc: " - Fake breakout + Reversal", setup3: "📊 Trend Continuation", setup3Desc: " - Clear trend + Pullback", setup4: "🧲 Order Block", setup4Desc: " - Entry from OB + Conf", setup5: "🔀 FVG / Imbalance", setup5Desc: " - Fair Value Gap entry",
-    fullChecklist: "Full Checklist Score", macroLayer: "-- MACRO LAYER --", check1: "Market Environment", check1Desc: " - Risk On/Off clear", check2: "No Major News", check2Desc: " - Avoid 30m before/after", check3: "DXY Alignment", tradeScore: "Trade Score",
-    riskCalcTitle: "💰 Risk Calculator", tradeInputs: "Trade Inputs", capitalLabel: "Account Capital ($)", riskPctLabel: "Risk %", riskDollarLabel: "Risk $", assetTypeLabel: "Asset Type", longTrade: "LONG - Buy", shortTrade: "SHORT - Sell", entryLabel: "Entry Price", slLabel: "Stop Loss", calcResults: "Calculation Results", riskAmtRes: "Risk Amount", riskPctRes: "Risk %", slPipsRes: "SL Pips", lotRes: "Recommended Lot", tpAutoInfo: "💡 <strong>TP is calculated automatically</strong> based on RR 2:1, 3:1, and 4:1", tp1Label: "🎯 TP1 (2R) — Close 50%", tp2Label: "🎯 TP2 (3R) — Close 25%", profit1Label: "Profit at TP1", profit2Label: "Profit at TP2", profit3Label: "Profit at TP3", tradeRulesTitle: "Trade Management Rules", at1R: "At 1R", moveSlToEntry: "Move SL to Entry", atTP1: "At TP1 (2R)", close50: "Close 50% | Move SL to +0.5R", atTP2: "At TP2 (3R)", close25: "Close 25% | Leave rest to TP3", strictLimits: "Strict Limits",
-    chartAnalysis: "📸 AI Chart Analysis", uploadTitle: "Upload Chart", uploadClick: "Click to upload image", contextTitle: "Context", contextInputLabel: "Asset & Timeframe", analyzeBtn: "🤖 Analyze Chart", aiAnalysisLoading: "Analyzing...", aiAnalysisTitle: "Analysis Result", biasCurrentLabel: "Current Bias", chartBiasLong: "Long — Looking for Buys", chartBiasShort: "Short — Looking for Sells", chartBiasNeutral: "Neutral — Need Assistant's opinion", chartQLabel: "Your Question or Notes", tradeAnalysisTitle: "Trading Analysis", proposedTradeDetails: "Proposed Trade Details", tdSetup: "Setup", chartPlaceholderText: "Upload a chart and click Analyze", chartCtxPlaceholder: "Example: XAUUSD — D1 / H4 / H1", chartQPlaceholder: "Example: Is this a valid Break & Retest? Where should I place SL?",
-    journalTitle: "📓 Trade Journal", addEntryTitle: "Add New Trade", addTradeBtn: "+ Add Trade", tableAsset: "Asset", tableR: "R", winRate: "Win Rate", avgR: "Average R", expectancy: "Expectancy", totalR: "Total R", dateLabel: "Date", sessionLabel: "Session", tdEntry: "Entry", resultRLabel: "Result (R)", statusLabel: "Status", notesLabel: "Notes & Mistakes", equityChartTitle: "Equity Curve", distChartTitle: "Results Distribution", tradeHistoryTitle: "Trade History", jNotesPlaceholder: "Did you follow the plan? Mistakes? Lesson?",
-    reportTitle: "📊 Weekly Report", genReport: "Generate Report", genReportBtn: "📊 Create Report", weeklyStatsTitle: "Weekly Stats", totalTradesLabel: "Total Trades", avgRTradeLabel: "Avg R/Trade", bestSetupLabel: "Best Setup", weekNotesLabel: "Notes about the week", weekGoalLabel: "Goal for next week", reportLoadingText: "Analyzing your week...", reportResultTitle: "Weekly Report", weekNotesPlaceholder: "What worked, what didn't...", weekGoalPlaceholder: "Example: Improve Liquidity Sweep execution",
-    chatTitle: "💬 Smart Assistant", newsSource: "Sources: FXStreet, ForexLive, CoinTelegraph", footerDisclaimer: "Trading in financial markets involves high risk and may result in the loss of your capital. All trading decisions are strictly your own responsibility, and no other party assumes any liability for the results.", chatFaq: "Frequently Asked Questions", contactUsTitle: "Contact Us", emailBtn: "Email Support", telegramBtn: "Telegram", chatTitleCard: "Chat with Assistant", clearBtn: "Clear Chat", chatWelcomeMsg: "<strong>Hello!</strong> I am your Al Hammadi Trading assistant.<br>Ask me anything about trading, technical analysis, or risk management.", chatInputPlaceholder: "Type your question here...",
-    q1: "Break & Retest vs Liquidity Sweep?", q2: "How to determine correct Bias?", q3: "When to move SL to Break-even?", q4: "How to mentally handle a losing streak?", q5: "Common beginner mistakes?", q6: "How to read Market Structure?", q7: "Best Trading Session?", q8: "What is an Order Block?",
-    dailyBiasClear: "Daily Bias is clear", h4Aligns: "H4 aligns with Daily", ma200Supports: "200 MA supports Bias", ma50Supports: "50 MA supports Bias", hhhlForms: "HH/HL is forming", hhhlDesc: "for Buy / LH/LL for Sell", setupClear: "Setup is clear (One of the 5 models)", confCandle: "Confirmation Candle", confDesc: "— Engulfing / Pin Bar", strongLevel: "Strong Level", levelDesc: "— S/R or Order Block", atrSuff: "ATR / Volatility is sufficient", confluence: "Confluence", confPattern: "— S/R + MA + Pattern", goodSession: "Good Session", sessionDesc: "— London/NY is stronger", slBehindStr: "SL is behind Structure / Swing", rrGood: "RR ≥ 2:1", rrDesc: "— Trade is worth it", risk1Pct: "Risk ≤ 1% of account", dailyLoss: "Daily Loss < 2%", noCorr: "No Correlation conflict", mentalState: "Mental state is stable",
-    optGroupForexMajor: "Forex — Majors", optGroupForexCross: "Forex — Crosses", optGroupMetals: "Metals & Energy", optGroupIndices: "Indices & Stocks", optGroupCrypto: "Crypto"
+    navMacro: "📡 Macro Scan",
+    navSignals: "🎯 Signals",
+    navPrecheck: "✅ Pre-Trade",
+    navRisk: "💰 Risk Calc",
+    navChart: "📸 Analysis",
+    navJournal: "📓 Journal",
+    navReport: "📊 Report",
+    navChat: "💬 Assistant",
+    themeDay: "☀️ Day",
+    themeNight: "🌙 Night",
+    macroScan: "📡 Macro Scan",
+    macroBadge: "Live Dashboard",
+    currencyHeatmap: "Currency Heatmap",
+    economicCalendar: "Economic Calendar",
+    liveNews: "Live Market News",
+    techAnalysis: "Technical Analysis (Auto)",
+    assetSelectLabel: "Select Asset:",
+    liveScreener: "Live Market Screener",
+    signalsTitle: "🎯 Live Signals",
+    acSaveBtn: "🔄 Click here to show signals & updates",
+    sendToPreTrade: "✅ Send to Pre-Trade",
+    preTradeTitle: "✅ Pre-Trade",
+    preTradeBadge: "Full Checklist",
+    biasSection: "Directional Bias",
+    assetLabel: "Asset",
+    tradeDirLabel: "Direction",
+    ma200Label: "Price vs 200 MA",
+    above200: "Above 200 MA ← BUY",
+    below200: "Below 200 MA ← SELL",
+    onMA: "At MA - Wait",
+    ma50Label: "Price vs 50 MA",
+    above50: "Above 50 MA",
+    below50: "Below 50 MA",
+    neutralRSI: "Neutral 40-60",
+    osRSI: "Oversold < 30",
+    obRSI: "Overbought > 70",
+    biasWarning: "⚠️ Bias conflict with Structure!",
+    setupModel: "Entry Setup",
+    setup1: "🔁 Break & Retest",
+    setup1Desc: " - Break + Retest + Rejection",
+    setup2: "🎯 Liquidity Sweep",
+    setup2Desc: " - Fake breakout + Reversal",
+    setup3: "📊 Trend Continuation",
+    setup3Desc: " - Clear trend + Pullback",
+    setup4: "🧲 Order Block",
+    setup4Desc: " - Entry from OB + Conf",
+    setup5: "🔀 FVG / Imbalance",
+    setup5Desc: " - Fair Value Gap entry",
+    fullChecklist: "Full Checklist Score",
+    macroLayer: "-- MACRO LAYER --",
+    check1: "Market Environment",
+    check1Desc: " - Risk On/Off clear",
+    check2: "No Major News",
+    check2Desc: " - Avoid 30m before/after",
+    check3: "DXY Alignment",
+    tradeScore: "Trade Score",
+    riskCalcTitle: "💰 Risk Calculator",
+    tradeInputs: "Trade Inputs",
+    capitalLabel: "Account Capital ($)",
+    riskPctLabel: "Risk %",
+    riskDollarLabel: "Risk $",
+    assetTypeLabel: "Asset Type",
+    longTrade: "LONG - Buy",
+    shortTrade: "SHORT - Sell",
+    entryLabel: "Entry Price",
+    slLabel: "Stop Loss",
+    calcResults: "Calculation Results",
+    riskAmtRes: "Risk Amount",
+    riskPctRes: "Risk %",
+    slPipsRes: "SL Pips",
+    lotRes: "Recommended Lot",
+    chartAnalysis: "📸 AI Chart Analysis",
+    uploadTitle: "Upload Chart",
+    uploadClick: "Click to upload image",
+    contextTitle: "Context",
+    contextInputLabel: "Asset & Timeframe",
+    analyzeBtn: "🤖 Analyze Chart",
+    aiAnalysisLoading: "Analyzing...",
+    aiAnalysisTitle: "Analysis Result",
+    journalTitle: "📓 Trade Journal",
+    addEntryTitle: "Add New Trade",
+    addTradeBtn: "+ Add Trade",
+    tableAsset: "Asset",
+    tableR: "R",
+    reportTitle: "📊 Weekly Report",
+    genReport: "Generate Report",
+    genReportBtn: "📊 Create Report",
+    chatTitle: "💬 Smart Assistant",
+    newsSource: "Sources: FXStreet, ForexLive, CoinTelegraph",
+    footerDisclaimer: "Trading in financial markets involves high risk and may result in the loss of your capital. All trading decisions are strictly your own responsibility, and no other party assumes any liability for the results.",
+    
+    chatFaq: "Frequently Asked Questions",
+    contactUsTitle: "Contact Us",
+    emailBtn: "Email Support",
+    telegramBtn: "Telegram",
+    chatTitleCard: "Chat with Assistant",
+    clearBtn: "Clear Chat",
+    chatWelcomeMsg: "<strong>Hello!</strong> I am your Al Hammadi Trading assistant.<br>Ask me anything about trading, technical analysis, or risk management.",
+    chatInputPlaceholder: "Type your question here...",
+    q1: "Break & Retest vs Liquidity Sweep?",
+    q2: "How to determine correct Bias?",
+    q3: "When to move SL to Break-even?",
+    q4: "How to mentally handle a losing streak?",
+    q5: "Common beginner mistakes?",
+    q6: "How to read Market Structure?",
+    q7: "Best Trading Session?",
+    q8: "What is an Order Block?",
+    winRate: "Win Rate",
+    avgR: "Average R",
+    expectancy: "Expectancy",
+    totalR: "Total R",
+    dateLabel: "Date",
+    sessionLabel: "Session",
+    tdEntry: "Entry",
+    resultRLabel: "Result (R)",
+    statusLabel: "Status",
+    notesLabel: "Notes & Mistakes",
+    equityChartTitle: "Equity Curve",
+    distChartTitle: "Results Distribution",
+    tradeHistoryTitle: "Trade History",
+    weeklyStatsTitle: "Weekly Stats",
+    totalTradesLabel: "Total Trades",
+    avgRTradeLabel: "Avg R/Trade",
+    bestSetupLabel: "Best Setup",
+    weekNotesLabel: "Notes about the week",
+    weekGoalLabel: "Goal for next week",
+    reportLoadingText: "Analyzing your week...",
+    reportResultTitle: "Weekly Report",
+    tpAutoInfo: "💡 <strong>TP is calculated automatically</strong> based on RR 2:1, 3:1, and 4:1",
+    tp1Label: "🎯 TP1 (2R) — Close 50%",
+    tp2Label: "🎯 TP2 (3R) — Close 25%",
+    profit1Label: "Profit at TP1",
+    profit2Label: "Profit at TP2",
+    profit3Label: "Profit at TP3",
+    tradeRulesTitle: "Trade Management Rules",
+    at1R: "At 1R",
+    moveSlToEntry: "Move SL to Entry",
+    atTP1: "At TP1 (2R)",
+    close50: "Close 50% | Move SL to +0.5R",
+    atTP2: "At TP2 (3R)",
+    close25: "Close 25% | Leave rest to TP3",
+    strictLimits: "Strict Limits",
+    biasCurrentLabel: "Current Bias",
+    chartBiasLong: "Long — Looking for Buys",
+    chartBiasShort: "Short — Looking for Sells",
+    chartBiasNeutral: "Neutral — Need Assistant's opinion",
+    chartQLabel: "Your Question or Notes",
+    tradeAnalysisTitle: "Trading Analysis",
+    proposedTradeDetails: "Proposed Trade Details",
+    tdSetup: "Setup",
+    chartPlaceholderText: "Upload a chart and click Analyze",
+
+    dailyBiasClear: "Daily Bias is clear",
+    h4Aligns: "H4 aligns with Daily",
+    ma200Supports: "200 MA supports Bias",
+    ma50Supports: "50 MA supports Bias",
+    hhhlForms: "HH/HL is forming",
+    hhhlDesc: "for Buy / LH/LL for Sell",
+    setupClear: "Setup is clear (One of the 5 models)",
+    confCandle: "Confirmation Candle",
+    confDesc: "— Engulfing / Pin Bar",
+    strongLevel: "Strong Level",
+    levelDesc: "— S/R or Order Block",
+    atrSuff: "ATR / Volatility is sufficient",
+    confluence: "Confluence",
+    confPattern: "— S/R + MA + Pattern",
+    goodSession: "Good Session",
+    sessionDesc: "— London/NY is stronger",
+    slBehindStr: "SL is behind Structure / Swing",
+    rrGood: "RR ≥ 2:1",
+    rrDesc: "— Trade is worth it",
+    risk1Pct: "Risk ≤ 1% of account",
+    dailyLoss: "Daily Loss < 2%",
+    noCorr: "No Correlation conflict",
+    mentalState: "Mental state is stable",
+    optGroupForexMajor: "Forex — Majors",
+    optGroupForexCross: "Forex — Crosses",
+    optGroupMetals: "Metals & Energy",
+    optGroupIndices: "Indices & Stocks",
+    optGroupCrypto: "Crypto",
+    qtAssetPlaceholder: "Example: EURUSD",
+    qtLong: "LONG (Buy)",
+    qtShort: "SHORT (Sell)",
+    chartCtxPlaceholder: "Example: XAUUSD — D1 / H4 / H1",
+    chartQPlaceholder: "Example: Is this a valid Break & Retest? Where should I place SL?",
+    jNotesPlaceholder: "Did you follow the plan? Mistakes? Lesson?",
+    weekNotesPlaceholder: "What worked, what didn't...",
+    weekGoalPlaceholder: "Example: Improve Liquidity Sweep execution"
   },
   ar: {
     logoSub: "نظام التداول الاحترافي",
-    navMacro: "📡 ماكرو سكان", navSignals: "🎯 التوصيات", navPrecheck: "✅ ما قبل الصفقة", navRisk: "💰 حاسبة الريسك", navChart: "📸 تحليل الشارت", navJournal: "📓 الجورنال", navReport: "📊 التقرير الأسبوعي", navChat: "💬 المساعد",
-    themeDay: "☀️ نهاري", themeNight: "🌙 ليلي",
-    macroScan: "📡 ماكرو سكان", macroBadge: "شاشات حية", currencyHeatmap: "خريطة قوة العملات (Heatmap)", economicCalendar: "التقويم الاقتصادي (Economic Calendar)", liveNews: "الأخبار الحية (Market Live)", techAnalysis: "توقعات الأصول (التحليل الآلي)", assetSelectLabel: "اختر الأصل للتحليل:", liveScreener: "رادار الأسواق المباشر (Live Screener)",
-    signalsTitle: "🎯 التوصيات الحية", acSaveBtn: "🔄 لإظهار التوصيات والتحديثات اضغط هنا", sendToPreTrade: "✅ نقل إلى (ما قبل الصفقة)",
-    preTradeTitle: "✅ ما قبل الصفقة", preTradeBadge: "Checklist كامل", biasSection: "الاتجاه — Directional Bias", assetLabel: "الأصل", tradeDirLabel: "الاتجاه", ma200Label: "موقع السعر من 200 MA", above200: "فوق 200 MA ← BUY Bias", below200: "تحت 200 MA ← SELL Bias", onMA: "على المتوسط — لا تدخل", ma50Label: "موقع السعر من 50 MA", above50: "فوق 50 MA", below50: "تحت 50 MA", neutralRSI: "محايد 40-60", osRSI: "Oversold — تحت 30", obRSI: "Overbought — فوق 70", biasWarning: "⚠️ تعارض بين الـ Bias والـ Structure! راجع تحليلك.", setupModel: "نموذج الدخول — Setup", setup1: "🔁 Break & Retest", setup1Desc: " — كسر مستوى قوي + رجوع + رفض", setup2: "🎯 Liquidity Sweep", setup2Desc: " — كسر وهمي + رجوع سريع", setup3: "📊 Trend Continuation", setup3Desc: " — Trend واضح + Pullback", setup4: "🧲 Order Block", setup4Desc: " — دخول من OB + تأكيد", setup5: "🔀 FVG / Imbalance", setup5Desc: " — دخول من Fair Value Gap",
-    fullChecklist: "Checklist الكامل", macroLayer: "— MACRO LAYER —", check1: "بيئة السوق محددة", check1Desc: "— Risk-On/Off واضح", check2: "لا خبر قوي الآن", check2Desc: "— تجنب 30 دقيقة قبل/بعد", check3: "DXY يدعم الاتجاه", tradeScore: "Score الصفقة",
-    riskCalcTitle: "💰 حاسبة الريسك الاحترافية", tradeInputs: "مدخلات الصفقة", capitalLabel: "رأس المال الكلي ($)", riskPctLabel: "الريسك %", riskDollarLabel: "أو الريسك $", assetTypeLabel: "نوع الأصل", longTrade: "LONG — شراء", shortTrade: "SHORT — بيع", entryLabel: "سعر الدخول", slLabel: "Stop Loss", calcResults: "نتائج الحساب", riskAmtRes: "مبلغ الريسك", riskPctRes: "نسبة الريسك", slPipsRes: "حجم الـ SL (نقاط)", lotRes: "اللوت الموصى", tpAutoInfo: "💡 <strong>الـ TP يُحسب أوتوماتيك</strong> بناءً على RR 2:1 و3:1 و4:1", tp1Label: "🎯 TP1 (2R) — اغلق 50%", tp2Label: "🎯 TP2 (3R) — اغلق 25%", profit1Label: "ربح عند TP1", profit2Label: "ربح عند TP2", profit3Label: "ربح عند TP3", tradeRulesTitle: "قواعد إدارة الصفقة", at1R: "عند 1R", moveSlToEntry: "حرّك SL إلى نقطة الدخول", atTP1: "عند TP1 (2R)", close50: "اغلق 50% | حرّك SL لـ +0.5R", atTP2: "عند TP2 (3R)", close25: "اغلق 25% | اتركها حتى TP3", strictLimits: "حدود صارمة",
-    chartAnalysis: "📸 تحليل الشارت", uploadTitle: "رفع الشارت (حتى 6 صور)", uploadClick: "اضغط لاختيار صورة", contextTitle: "سياق الصفقة", contextInputLabel: "الأصل والـ Timeframe", analyzeBtn: "🤖 تحليل الشارت", aiAnalysisLoading: "جاري تحليل الشارت...", aiAnalysisTitle: "نتيجة التحليل", biasCurrentLabel: "الـ Bias الحالي", chartBiasLong: "Long — أبحث عن شراء", chartBiasShort: "Short — أبحث عن بيع", chartBiasNeutral: "Neutral — محتاج رأي المساعد", chartQLabel: "سؤالك أو ملاحظاتك", tradeAnalysisTitle: "التحليل التداولي", proposedTradeDetails: "تفاصيل الصفقة المقترحة", tdSetup: "Setup", chartPlaceholderText: "ارفع شارت واضغط تحليل", chartCtxPlaceholder: "مثال: XAUUSD — D1 / H4 / H1", chartQPlaceholder: "مثال: هل هذا Break & Retest صحيح؟ وين أضع الـ SL؟",
-    journalTitle: "📓 Trade Journal", addEntryTitle: "تسجيل صفقة جديدة", addTradeBtn: "+ إضافة الصفقة", tableAsset: "الأصل", tableR: "R", winRate: "Win Rate", avgR: "Average R", expectancy: "Expectancy", totalR: "Total R", dateLabel: "التاريخ", sessionLabel: "Session", tdEntry: "الدخول", resultRLabel: "النتيجة (R)", statusLabel: "الحالة", notesLabel: "الملاحظات والأخطاء", equityChartTitle: "منحنى الرأس المال", distChartTitle: "توزيع النتائج", tradeHistoryTitle: "سجل الصفقات", jNotesPlaceholder: "هل اتبعت الخطة؟ الأخطاء؟ الدرس؟",
-    reportTitle: "📊 التقرير الأسبوعي", genReport: "إنشاء التقرير", genReportBtn: "📊 إنشاء التقرير الأسبوعي", weeklyStatsTitle: "إحصائيات الأسبوع", totalTradesLabel: "Total Trades", avgRTradeLabel: "Avg R/Trade", bestSetupLabel: "Best Setup", weekNotesLabel: "ملاحظاتك عن الأسبوع", weekGoalLabel: "هدفك للأسبوع القادم", reportLoadingText: "جاري تحليل أسبوعك...", reportResultTitle: "تقرير الأسبوع", weekNotesPlaceholder: "اللي شغل، اللي ما شغل...", weekGoalPlaceholder: "مثال: تحسين تطبيق Liquidity Sweep",
-    chatTitle: "💬 المساعد الذكي", newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph", footerDisclaimer: "ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة، ولا تتحمل أي جهة أخرى أي مسؤولية عن النتائج.", chatFaq: "أسئلة شائعة", contactUsTitle: "تواصل معنا", emailBtn: "البريد الإلكتروني", telegramBtn: "تليجرام", chatTitleCard: "المحادثة مع المساعد", clearBtn: "مسح", chatWelcomeMsg: "<strong>مرحباً!</strong> أنا مساعدك التداولي لنظام Al Hammadi Trading.<br>اسألني أي شيء عن التداول، التحليل الفني، أو إدارة المخاطر.", chatInputPlaceholder: "اكتب سؤالك هنا...",
-    q1: "🔁 Break & Retest vs Liquidity Sweep؟", q2: "📊 كيف أحدد الـ Bias الصحيح؟", q3: "📍 متى أحرك SL لـ Break-even؟", q4: "🧠 كيف أتعامل مع الخسائر المتتالية؟", q5: "⚠️ أهم أخطاء المتداول المبتدئ؟", q6: "🏗️ كيف أقرأ Market Structure؟", q7: "⏰ أفضل Session للتداول؟", q8: "🧲 ما هو Order Block؟",
-    dailyBiasClear: "Daily Bias واضح", h4Aligns: "H4 يتوافق مع Daily", ma200Supports: "200 MA يدعم الـ Bias", ma50Supports: "50 MA يدعم الـ Bias", hhhlForms: "HH/HL يتشكل", hhhlDesc: "للـ Buy / LH/LL للـ Sell", setupClear: "Setup واضح (أحد النماذج الخمسة)", confCandle: "Confirmation Candle", confDesc: "— Engulfing / Pin Bar", strongLevel: "مستوى قوي", levelDesc: "— S/R أو Order Block", atrSuff: "ATR / Volatility كافية", confluence: "Confluence", confPattern: "— تقاطع S/R + MA + Pattern", goodSession: "Session مناسبة", sessionDesc: "— London/NY أقوى", slBehindStr: "SL وراء Structure / Swing", rrGood: "RR ≥ 2:1", rrDesc: "— الصفقة تستاهل", risk1Pct: "Risk ≤ 1% من الحساب", dailyLoss: "Daily Loss < 2%", noCorr: "لا Correlation تعارض", mentalState: "حالتك النفسية مستقرة",
-    optGroupForexMajor: "الفوركس — أزواج الدولار", optGroupForexCross: "الفوركس — التقاطعات (Crosses)", optGroupMetals: "المعادن والطاقة", optGroupIndices: "المؤشرات والأسهم", optGroupCrypto: "العملات الرقمية (Crypto)"
+    navMacro: "📡 ماكرو سكان",
+    navSignals: "🎯 التوصيات",
+    navPrecheck: "✅ ما قبل الصفقة",
+    navRisk: "💰 حاسبة الريسك",
+    navChart: "📸 تحليل الشارت",
+    navJournal: "📓 الجورنال",
+    navReport: "📊 التقرير الأسبوعي",
+    navChat: "💬 المساعد",
+    themeDay: "☀️ نهاري",
+    themeNight: "🌙 ليلي",
+    macroScan: "📡 ماكرو سكان",
+    macroBadge: "شاشات حية",
+    currencyHeatmap: "خريطة قوة العملات (Heatmap)",
+    economicCalendar: "التقويم الاقتصادي (Economic Calendar)",
+    liveNews: "الأخبار الحية (Market Live)",
+    techAnalysis: "توقعات الأصول (التحليل الآلي)",
+    assetSelectLabel: "اختر الأصل للتحليل:",
+    liveScreener: "رادار الأسواق المباشر (Live Screener)",
+    signalsTitle: "🎯 التوصيات الحية",
+    acSaveBtn: "🔄 لإظهار التوصيات والتحديثات اضغط هنا",
+    sendToPreTrade: "✅ نقل إلى (ما قبل الصفقة)",
+    preTradeTitle: "✅ ما قبل الصفقة",
+    preTradeBadge: "Checklist كامل",
+    biasSection: "الاتجاه — Directional Bias",
+    assetLabel: "الأصل",
+    tradeDirLabel: "الاتجاه",
+    ma200Label: "موقع السعر من 200 MA",
+    above200: "فوق 200 MA ← BUY Bias",
+    below200: "تحت 200 MA ← SELL Bias",
+    onMA: "على المتوسط — لا تدخل",
+    ma50Label: "موقع السعر من 50 MA",
+    above50: "فوق 50 MA",
+    below50: "تحت 50 MA",
+    neutralRSI: "محايد 40-60",
+    osRSI: "Oversold — تحت 30",
+    obRSI: "Overbought — فوق 70",
+    biasWarning: "⚠️ تعارض بين الـ Bias والـ Structure! راجع تحليلك.",
+    setupModel: "نموذج الدخول — Setup",
+    setup1: "🔁 Break & Retest",
+    setup1Desc: " — كسر مستوى قوي + رجوع + رفض",
+    setup2: "🎯 Liquidity Sweep",
+    setup2Desc: " — كسر وهمي + رجوع سريع",
+    setup3: "📊 Trend Continuation",
+    setup3Desc: " — Trend واضح + Pullback",
+    setup4: "🧲 Order Block",
+    setup4Desc: " — دخول من OB + تأكيد",
+    setup5: "🔀 FVG / Imbalance",
+    setup5Desc: " — دخول من Fair Value Gap",
+    fullChecklist: "Checklist الكامل",
+    macroLayer: "— MACRO LAYER —",
+    check1: "بيئة السوق محددة",
+    check1Desc: "— Risk-On/Off واضح",
+    check2: "لا خبر قوي الآن",
+    check2Desc: "— تجنب 30 دقيقة قبل/بعد",
+    check3: "DXY يدعم الاتجاه",
+    tradeScore: "Score الصفقة",
+    riskCalcTitle: "💰 حاسبة الريسك الاحترافية",
+    tradeInputs: "مدخلات الصفقة",
+    capitalLabel: "رأس المال الكلي ($)",
+    riskPctLabel: "الريسك %",
+    riskDollarLabel: "أو الريسك $",
+    assetTypeLabel: "نوع الأصل",
+    longTrade: "LONG — شراء",
+    shortTrade: "SHORT — بيع",
+    entryLabel: "سعر الدخول",
+    slLabel: "Stop Loss",
+    calcResults: "نتائج الحساب",
+    riskAmtRes: "مبلغ الريسك",
+    riskPctRes: "نسبة الريسك",
+    slPipsRes: "حجم الـ SL (نقاط)",
+    lotRes: "اللوت الموصى",
+    chartAnalysis: "📸 تحليل الشارت",
+    uploadTitle: "رفع الشارت (حتى 6 صور)",
+    uploadClick: "اضغط لاختيار صورة",
+    contextTitle: "سياق الصفقة",
+    contextInputLabel: "الأصل والـ Timeframe",
+    analyzeBtn: "🤖 تحليل الشارت",
+    aiAnalysisLoading: "جاري تحليل الشارت...",
+    aiAnalysisTitle: "نتيجة التحليل",
+    journalTitle: "📓 Trade Journal",
+    addEntryTitle: "تسجيل صفقة جديدة",
+    addTradeBtn: "+ إضافة الصفقة",
+    reportTitle: "📊 التقرير الأسبوعي",
+    genReport: "إنشاء التقرير",
+    genReportBtn: "📊 إنشاء التقرير الأسبوعي",
+    chatTitle: "💬 المساعد الذكي",
+    newsSource: "المصادر: FXStreet, ForexLive, CoinTelegraph",
+    footerDisclaimer: "ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة، ولا تتحمل أي جهة أخرى أي مسؤولية عن النتائج.",
+    
+    chatFaq: "أسئلة شائعة",
+    contactUsTitle: "تواصل معنا",
+    emailBtn: "البريد الإلكتروني",
+    telegramBtn: "تليجرام",
+    chatTitleCard: "المحادثة مع المساعد",
+    clearBtn: "مسح",
+    chatWelcomeMsg: "<strong>مرحباً!</strong> أنا مساعدك التداولي لنظام Al Hammadi Trading.<br>اسألني أي شيء عن التداول، التحليل الفني، أو إدارة المخاطر.",
+    chatInputPlaceholder: "اكتب سؤالك هنا...",
+    q1: "🔁 Break & Retest vs Liquidity Sweep؟",
+    q2: "📊 كيف أحدد الـ Bias الصحيح؟",
+    q3: "📍 متى أحرك SL لـ Break-even؟",
+    q4: "🧠 كيف أتعامل مع الخسائر المتتالية؟",
+    q5: "⚠️ أهم أخطاء المتداول المبتدئ؟",
+    q6: "🏗️ كيف أقرأ Market Structure؟",
+    q7: "⏰ أفضل Session للتداول؟",
+    q8: "🧲 ما هو Order Block؟",
+    winRate: "Win Rate",
+    avgR: "Average R",
+    expectancy: "Expectancy",
+    totalR: "Total R",
+    dateLabel: "التاريخ",
+    sessionLabel: "Session",
+    tdEntry: "الدخول",
+    resultRLabel: "النتيجة (R)",
+    statusLabel: "الحالة",
+    notesLabel: "الملاحظات والأخطاء",
+    equityChartTitle: "منحنى الرأس المال",
+    distChartTitle: "توزيع النتائج",
+    tradeHistoryTitle: "سجل الصفقات",
+    weeklyStatsTitle: "إحصائيات الأسبوع",
+    totalTradesLabel: "Total Trades",
+    avgRTradeLabel: "Avg R/Trade",
+    bestSetupLabel: "Best Setup",
+    weekNotesLabel: "ملاحظاتك عن الأسبوع",
+    weekGoalLabel: "هدفك للأسبوع القادم",
+    reportLoadingText: "جاري تحليل أسبوعك...",
+    reportResultTitle: "تقرير الأسبوع",
+    tpAutoInfo: "💡 <strong>الـ TP يُحسب أوتوماتيك</strong> بناءً على RR 2:1 و3:1 و4:1",
+    tp1Label: "🎯 TP1 (2R) — اغلق 50%",
+    tp2Label: "🎯 TP2 (3R) — اغلق 25%",
+    profit1Label: "ربح عند TP1",
+    profit2Label: "ربح عند TP2",
+    profit3Label: "ربح عند TP3",
+    tradeRulesTitle: "قواعد إدارة الصفقة",
+    at1R: "عند 1R",
+    moveSlToEntry: "حرّك SL إلى نقطة الدخول",
+    atTP1: "عند TP1 (2R)",
+    close50: "اغلق 50% | حرّك SL لـ +0.5R",
+    atTP2: "عند TP2 (3R)",
+    close25: "اغلق 25% | اتركها حتى TP3",
+    strictLimits: "حدود صارمة",
+    biasCurrentLabel: "الـ Bias الحالي",
+    chartBiasLong: "Long — أبحث عن شراء",
+    chartBiasShort: "Short — أبحث عن بيع",
+    chartBiasNeutral: "Neutral — محتاج رأي المساعد",
+    chartQLabel: "سؤالك أو ملاحظاتك",
+    tradeAnalysisTitle: "التحليل التداولي",
+    proposedTradeDetails: "تفاصيل الصفقة المقترحة",
+    tdSetup: "Setup",
+    chartPlaceholderText: "ارفع شارت واضغط تحليل",
+
+    dailyBiasClear: "Daily Bias واضح",
+    h4Aligns: "H4 يتوافق مع Daily",
+    ma200Supports: "200 MA يدعم الـ Bias",
+    ma50Supports: "50 MA يدعم الـ Bias",
+    hhhlForms: "HH/HL يتشكل",
+    hhhlDesc: "للـ Buy / LH/LL للـ Sell",
+    setupClear: "Setup واضح (أحد النماذج الخمسة)",
+    confCandle: "Confirmation Candle",
+    confDesc: "— Engulfing / Pin Bar",
+    strongLevel: "مستوى قوي",
+    levelDesc: "— S/R أو Order Block",
+    atrSuff: "ATR / Volatility كافية",
+    confluence: "Confluence",
+    confPattern: "— تقاطع S/R + MA + Pattern",
+    goodSession: "Session مناسبة",
+    sessionDesc: "— London/NY أقوى",
+    slBehindStr: "SL وراء Structure / Swing",
+    rrGood: "RR ≥ 2:1",
+    rrDesc: "— الصفقة تستاهل",
+    risk1Pct: "Risk ≤ 1% من الحساب",
+    dailyLoss: "Daily Loss < 2%",
+    noCorr: "لا Correlation تعارض",
+    mentalState: "حالتك النفسية مستقرة",
+    optGroupForexMajor: "الفوركس — أزواج الدولار",
+    optGroupForexCross: "الفوركس — التقاطعات (Crosses)",
+    optGroupMetals: "المعادن والطاقة",
+    optGroupIndices: "المؤشرات والأسهم",
+    optGroupCrypto: "العملات الرقمية (Crypto)",
+    qtAssetPlaceholder: "مثال: EURUSD",
+    qtLong: "LONG (شراء)",
+    qtShort: "SHORT (بيع)",
+    chartCtxPlaceholder: "مثال: XAUUSD — D1 / H4 / H1",
+    chartQPlaceholder: "مثال: هل هذا Break & Retest صحيح؟ وين أضع الـ SL؟",
+    jNotesPlaceholder: "هل اتبعت الخطة؟ الأخطاء؟ الدرس؟",
+    weekNotesPlaceholder: "اللي شغل، اللي ما شغل...",
+    weekGoalPlaceholder: "مثال: تحسين تطبيق Liquidity Sweep"
   }
 };
 
 function buildFinalSignals(aiSignals) {
     let finalArray = Array.isArray(aiSignals) ? aiSignals.slice(0, 8) : [];
-    if (finalArray.length === 0) finalArray = JSON.parse(JSON.stringify(defaultSignals)); 
+    
+    // إذا لم يتوفر أي تحليل من السوق
+    if (finalArray.length === 0) {
+        finalArray = JSON.parse(JSON.stringify(defaultSignals)); 
+    }
+    
     finalArray.forEach((sig, i) => { if(!sig.id) sig.id = Date.now() + i; });
-    while(finalArray.length < 8) finalArray.push({ isWaiting: true, id: 'wait_' + finalArray.length });
+
+    // إكمال العدد إلى 8 مربعات بحالة انتظار
+    while(finalArray.length < 8) {
+        finalArray.push({ isWaiting: true, id: 'wait_' + finalArray.length });
+    }
     return finalArray;
 }
 
-// ---------------------------------------------------------
-// تحديث التوصيات الذكية
-// ---------------------------------------------------------
 async function loadLiveSignals() {
     const grid = document.getElementById('signalsGridContainer');
     if(!grid) return;
@@ -758,7 +1083,9 @@ async function loadLiveSignals() {
                         rawTexts += `Title: ${item.title}\nContent: ${item.description}\n\n`;
                     });
                 }
-            } catch(e) { console.warn('Failed to fetch from:', url); }
+            } catch(e) {
+                console.warn('Failed to fetch from:', url);
+            }
         }
 
         const prompt = `You are a Trading Signal Extractor for Al Hammadi Trading System. Read the following market analysis and extract up to 8 distinct trading setups.
@@ -784,13 +1111,24 @@ Format strictly like this:
 Market Analysis Texts:
 ${rawTexts.substring(0, 3500)}`;
 
-        const textResponse = await callAI('', prompt);
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model: 'claude-3-5-sonnet-20240620', max_tokens: 1500, messages: [{role: 'user', content: prompt}] })
+        });
+
+        if (!res.ok) throw new Error('API Error');
+        const responseData = await res.json();
+        let textResponse = responseData.content[0].text;
         
         let extractedSignals = [];
         const jsonMatch = textResponse.match(/\[\s*\{.*\}\s*\]/s);
         
-        if (jsonMatch) extractedSignals = JSON.parse(jsonMatch[0]);
-        else extractedSignals = JSON.parse(textResponse);
+        if (jsonMatch) {
+            extractedSignals = JSON.parse(jsonMatch[0]);
+        } else {
+            extractedSignals = JSON.parse(textResponse);
+        }
 
         S.currentSignals = buildFinalSignals(extractedSignals);
         renderSignalsUI(S.currentSignals);
@@ -879,7 +1217,9 @@ function applySignal(id) {
     }
 
     if(signal.setupId) {
-        for(let i=1; i<=5; i++) { document.getElementById('m'+i).classList.remove('checked'); }
+        for(let i=1; i<=5; i++) {
+            document.getElementById('m'+i).classList.remove('checked');
+        }
         document.getElementById('m'+signal.setupId).classList.add('checked');
     }
 
@@ -916,40 +1256,64 @@ function applySignal(id) {
 async function fetchLiveRSSNews() {
     const container = document.getElementById('rssNewsContainer');
     if(!container) return;
+    
     container.innerHTML = '<div class="loading" style="justify-content:center;height:100%"><div class="spinner"></div><span data-key="aiAnalysisLoading">جاري جلب الأخبار...</span></div>';
+    
     try {
         const feeds = [
             { url: 'https://www.fxstreet.com/news/rss', name: 'FXStreet' },
             { url: 'https://www.forexlive.com/feed/news', name: 'ForexLive' },
             { url: 'https://cointelegraph.com/rss', name: 'CoinTelegraph' }
         ];
+
         let allItems = [];
+
         const promises = feeds.map(feed => 
             fetch(`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`)
             .then(res => res.json())
             .then(data => {
-                if (data.status === 'ok' && data.items) return data.items.map(item => ({ ...item, sourceName: feed.name }));
+                if (data.status === 'ok' && data.items) {
+                    return data.items.map(item => ({ ...item, sourceName: feed.name }));
+                }
                 return [];
-            }).catch(e => [])
+            })
+            .catch(e => {
+                console.warn(`Failed to fetch ${feed.name}:`, e);
+                return [];
+            })
         );
+
         const results = await Promise.all(promises);
-        results.forEach(items => { allItems = allItems.concat(items); });
+        
+        results.forEach(items => {
+            allItems = allItems.concat(items);
+        });
+
         allItems.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+
         if(allItems.length > 0) {
             let html = '<div style="display:flex;flex-direction:column;gap:8px">';
             allItems.slice(0, 20).forEach(item => {
                 const pubDate = item.pubDate || new Date().toISOString();
                 const date = new Date(pubDate).toLocaleTimeString(S.lang === 'ar' ? 'ar-SA' : 'en-US', {hour: '2-digit', minute:'2-digit'});
-                html += `<a href="${item.link}" target="_blank" class="news-item"><div class="news-time">${date} • ${item.sourceName}</div><div class="news-title">${item.title}</div></a>`;
+                
+                html += `<a href="${item.link}" target="_blank" class="news-item">
+                    <div class="news-time">${date} • ${item.sourceName}</div>
+                    <div class="news-title">${item.title}</div>
+                </a>`;
             });
             html += '</div>';
             container.innerHTML = html;
-        } else { throw new Error('No items found'); }
+        } else {
+            throw new Error('No items found in any RSS feed');
+        }
     } catch(e) {
+        console.error("RSS Error:", e);
         container.innerHTML = `<div style="text-align:center;color:var(--red2);padding:20px;font-size:0.8rem">⚠️ ${S.lang === 'ar' ? 'تعذر جلب الأخبار المباشرة' : 'Failed to fetch live news'}</div>`;
     }
 }
 
+// وظيفة جديدة لإعادة رسم ودجات TradingView بألوان تتناسب مع الثيم (نهاري/ليلي)
 function renderTVWidgets() {
     const t = document.documentElement.getAttribute('data-theme');
     const locale = S.lang;
@@ -974,8 +1338,13 @@ function renderTVWidgets() {
         script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-events.js';
         script.async = true;
         script.innerHTML = JSON.stringify({
-            "colorTheme": t, "isTransparent": true, "width": "100%", "height": "100%", "locale": locale,
-            "importanceFilter": "-1,0,1", "currencyFilter": "USD,EUR,GBP,JPY,AUD,CAD,CHF,NZD"
+            "colorTheme": t,
+            "isTransparent": true,
+            "width": "100%",
+            "height": "100%",
+            "locale": locale,
+            "importanceFilter": "-1,0,1",
+            "currencyFilter": "USD,EUR,GBP,JPY,AUD,CAD,CHF,NZD"
         });
         calendar.appendChild(script);
     }
@@ -987,8 +1356,12 @@ function renderTVWidgets() {
         script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-forex-heat-map.js';
         script.async = true;
         script.innerHTML = JSON.stringify({
-            "width": "100%", "height": "100%", "currencies": ["EUR", "USD", "JPY", "GBP", "CHF", "AUD", "CAD", "NZD"],
-            "isTransparent": true, "colorTheme": t, "locale": locale
+            "width": "100%",
+            "height": "100%",
+            "currencies": ["EUR", "USD", "JPY", "GBP", "CHF", "AUD", "CAD", "NZD"],
+            "isTransparent": true,
+            "colorTheme": t,
+            "locale": locale
         });
         heatmap.appendChild(script);
     }
@@ -1000,12 +1373,24 @@ function renderTVWidgets() {
         script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-market-overview.js';
         script.async = true;
         script.innerHTML = JSON.stringify({
-            "colorTheme": t, "dateRange": "12M", "showChart": true, "locale": locale, "width": "100%", "height": "100%",
-            "largeChartUrl": "", "isTransparent": true, "showSymbolLogo": true, "showFloatingTooltip": true,
-            "plotLineColorGrowing": "rgba(29, 184, 122, 1)", "plotLineColorFalling": "rgba(224, 60, 60, 1)",
-            "gridLineColor": "rgba(38, 48, 69, 0)", "scaleFontColor": t === 'dark' ? "rgba(143, 163, 191, 1)" : "rgba(71, 85, 105, 1)",
-            "belowLineFillColorGrowing": "rgba(29, 184, 122, 0.12)", "belowLineFillColorFalling": "rgba(224, 60, 60, 0.12)",
-            "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)", "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
+            "colorTheme": t,
+            "dateRange": "12M",
+            "showChart": true,
+            "locale": locale,
+            "width": "100%",
+            "height": "100%",
+            "largeChartUrl": "",
+            "isTransparent": true,
+            "showSymbolLogo": true,
+            "showFloatingTooltip": true,
+            "plotLineColorGrowing": "rgba(29, 184, 122, 1)",
+            "plotLineColorFalling": "rgba(224, 60, 60, 1)",
+            "gridLineColor": "rgba(38, 48, 69, 0)",
+            "scaleFontColor": t === 'dark' ? "rgba(143, 163, 191, 1)" : "rgba(71, 85, 105, 1)",
+            "belowLineFillColorGrowing": "rgba(29, 184, 122, 0.12)",
+            "belowLineFillColorFalling": "rgba(224, 60, 60, 0.12)",
+            "belowLineFillColorGrowingBottom": "rgba(41, 98, 255, 0)",
+            "belowLineFillColorFallingBottom": "rgba(41, 98, 255, 0)",
             "symbolActiveColor": "rgba(41, 98, 255, 0.12)",
             "tabs": [
                 { "title": locale === 'en' ? "Forex" : "الفوركس (Forex)", "symbols": [ {"s": "FX:EURUSD", "d": "EUR/USD"}, {"s": "FX:GBPUSD", "d": "GBP/USD"}, {"s": "FX:USDJPY", "d": "USD/JPY"}, {"s": "FX:AUDUSD", "d": "AUD/USD"}, {"s": "FX:USDCAD", "d": "USD/CAD"}, {"s": "FX:USDCHF", "d": "USD/CHF"}, {"s": "FX:NZDUSD", "d": "NZD/USD"}, {"s": "FX:GBPJPY", "d": "GBP/JPY"}, {"s": "FX:EURJPY", "d": "EUR/JPY"}, {"s": "FX:EURGBP", "d": "EUR/GBP"}, {"s": "FX:AUDJPY", "d": "AUD/JPY"} ] },
@@ -1035,7 +1420,16 @@ function changeTVSymbol() {
     script.type = 'text/javascript';
     script.src = 'https://s3.tradingview.com/external-embedding/embed-widget-technical-analysis.js';
     script.async = true;
-    script.innerHTML = JSON.stringify({ "interval": "1h", "width": "100%", "isTransparent": true, "height": "100%", "symbol": symbol, "showIntervalTabs": true, "locale": S.lang, "colorTheme": t });
+    script.innerHTML = JSON.stringify({
+        "interval": "1h",
+        "width": "100%",
+        "isTransparent": true,
+        "height": "100%",
+        "symbol": symbol,
+        "showIntervalTabs": true,
+        "locale": S.lang,
+        "colorTheme": t
+    });
     
     wrapper.appendChild(widgetDiv);
     wrapper.appendChild(script);
@@ -1048,8 +1442,11 @@ function toggleTheme() {
   html.setAttribute('data-theme', t);
   const btn = document.getElementById('themeBtn');
   btn.textContent = t === 'dark' ? (S.lang === 'ar' ? '☀️ نهاري' : '☀️ Day') : (S.lang === 'ar' ? '🌙 ليلي' : '🌙 Night');
+  
+  // تحديث الودجات لتتطابق مع الثيم الجديد
   renderTVWidgets();
   changeTVSymbol();
+  
   setTimeout(buildCharts, 150);
 }
 
@@ -1073,7 +1470,9 @@ function toggleLang() {
 
   document.querySelectorAll('[data-label-key]').forEach(el => {
     const key = el.getAttribute('data-label-key');
-    if (translations[S.lang][key]) el.setAttribute('label', translations[S.lang][key]);
+    if (translations[S.lang][key]) {
+      el.setAttribute('label', translations[S.lang][key]);
+    }
   });
 
   const btn = document.getElementById('themeBtn');
@@ -1094,6 +1493,20 @@ function showPage(name, el) {
   if (name === 'signals' && S.currentSignals.length === 0) { loadLiveSignals(); }
   if (name === 'journal') { renderJournal(); buildCharts(); }
   if (name === 'report') updateReport();
+}
+
+async function callClaude(messages, maxTokens = 1000) {
+  const res = await fetch(API_URL, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ model: 'claude-3-5-sonnet-20240620', max_tokens: maxTokens, messages })
+  });
+  if (!res.ok) {
+    const err = await res.json().catch(() => ({}));
+    throw new Error(err.error || `HTTP ${res.status}`);
+  }
+  const data = await res.json();
+  return data.content?.map(c => c.text || '').join('') || '';
 }
 
 function setBias(b){
@@ -1181,9 +1594,6 @@ function renderUploadGrid(){
     <button class="rm-btn" onclick="S.uploadedImages.splice(${i},1);renderUploadGrid()">✕</button></div>`).join('');
 }
 
-// ---------------------------------------------------------
-// تحليل الشارت بنظام الباك إند الجديد
-// ---------------------------------------------------------
 async function analyzeChart(){
   if(!S.uploadedImages.length){alert(S.lang==='ar'?'ارفع شارت أولاً':'Upload chart first');return;}
   const ctx=document.getElementById('chartCtx').value;
@@ -1196,12 +1606,9 @@ async function analyzeChart(){
   document.getElementById('chartAIBox').classList.remove('show');
   document.getElementById('tradeDetailCard').style.display='none';
   
-  const systemPrompt = S.lang === 'ar' ? 
-`أنت محلل تداول خبير متخصص في Price Action و Smart Money Concepts.` :
-`You are an expert trading analyst specializing in Price Action and Smart Money Concepts.`;
-
-  const prompt = S.lang === 'ar' ? 
-`${S.uploadedImages.length>1?`لديك ${S.uploadedImages.length} صور من timeframes مختلفة.`:''}
+  const prompt= S.lang === 'ar' ? 
+`أنت محلل تداول خبير متخصص في Price Action و Smart Money Concepts.
+${S.uploadedImages.length>1?`لديك ${S.uploadedImages.length} صور من timeframes مختلفة.`:''}
 السياق: ${ctx||'غير محدد'} | Bias: ${bias} | سؤال: ${q||'تحليل شامل'}
 نظام التداول: Break&Retest | Liquidity Sweep | Trend Continuation | Order Block | FVG | Risk: TP1=2R TP2=3R TP3=4R
 
@@ -1218,7 +1625,8 @@ async function analyzeChart(){
    - TP3 (4R): [السعر]
 **6. تحذيرات وملاحظات**
 **7. الحكم النهائي:** ✅ ادخل | ⏳ انتظر | ❌ لا تدخل` : 
-`Context: ${ctx||'N/A'} | Bias: ${bias} | Question: ${q||'Full analysis'}
+`You are an expert trading analyst specializing in Price Action and Smart Money Concepts.
+Context: ${ctx||'N/A'} | Bias: ${bias} | Question: ${q||'Full analysis'}
 Trading System: Break&Retest | Liquidity Sweep | Trend Continuation | Order Block | FVG | Risk: TP1=2R TP2=3R TP3=4R
 
 Analyze and answer:
@@ -1235,13 +1643,22 @@ Analyze and answer:
 **6. Warnings & Notes**
 **7. Final Verdict:** ✅ Enter | ⏳ Wait | ❌ Do not enter`;
 
-  try {
-    const text = await callAI(systemPrompt, prompt, [], S.uploadedImages, 1000);
-    document.getElementById('chartAIText').innerHTML = text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  try{
+    const res=await fetch(API_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({
+      model:'claude-3-5-sonnet-20240620',max_tokens:1000,
+      messages:[{role:'user',content:[
+        ...S.uploadedImages.map(img=>({type:'image',source:{type:'base64',media_type:img.type,data:img.base64}})),
+        {type:'text',text:prompt}
+      ]}]
+    })});
+    if(!res.ok){const e=await res.json();throw new Error(e.error||'API Error');}
+    const data=await res.json();
+    const text=data.content?.map(c=>c.text||'').join('')||'لم أستطع التحليل.';
+    document.getElementById('chartAIText').innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
     document.getElementById('chartAIBox').classList.add('show');
-    extractTrade(text, bias);
-  } catch(e) {
-    document.getElementById('chartAIText').textContent = 'خطأ: ' + e.message;
+    extractTrade(text,bias);
+  }catch(e){
+    document.getElementById('chartAIText').textContent='خطأ: '+e.message;
     document.getElementById('chartAIBox').classList.add('show');
   }
   document.getElementById('chartLoading').style.display='none';
@@ -1360,9 +1777,6 @@ function updateReport(){
   buildSetup();
 }
 
-// ---------------------------------------------------------
-// توليد التقرير بنظام الباك إند الجديد
-// ---------------------------------------------------------
 async function genReport(){
   const j=S.journal;
   if(!j.length){alert(S.lang==='ar'?'لا يوجد صفقات في الجورنال':'No trades in journal');return;}
@@ -1377,11 +1791,11 @@ async function genReport(){
   `You are a pro trading coach. Stats: ${stats}. Log: ${summary}. Notes: ${document.getElementById('weekNotes').value||'None'}. Goal: ${document.getElementById('weekGoal').value||'None'}.
 Write a comprehensive weekly report including: Performance Evaluation | Strengths | Weaknesses | Best Setup | Action Plan (3 steps) | Recommendations. Be direct.`;
 
-  try {
-    const text = await callAI('', prompt, [], [], 1000);
+  try{
+    const text=await callClaude([{role:'user',content:prompt}]);
     document.getElementById('reportText').innerHTML=text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
     document.getElementById('reportBox').classList.add('show');
-  } catch(e) {
+  }catch(e){
     document.getElementById('reportText').textContent='Error: '+e.message;
     document.getElementById('reportBox').classList.add('show');
   }
@@ -1395,28 +1809,26 @@ async function sendChat(){
   await askQ(q);
 }
 
-// ---------------------------------------------------------
-// الدردشة بنظام الباك إند الجديد
-// ---------------------------------------------------------
 async function askQ(q){
   const area=document.getElementById('chatArea');
   area.innerHTML+=`<div class="msg user">${q}</div>`;
   area.innerHTML+=`<div class="msg ai" id="typing"><div class="loading" style="padding:0"><div class="spinner"></div></div></div>`;
   area.scrollTop=area.scrollHeight;
+  S.chatHistory.push({role:'user',content:q});
   
   const sysMsg= S.lang === 'ar' ? 
   `أنت مساعد تداول متخصص لنظام Al Hammadi Trading. متخصص في: Price Action | SMC | Break&Retest | Liquidity Sweep | Order Block | FVG | Risk Management (1% risk, TP1=2R, TP2=3R, TP3=4R). أجب بالعربية بشكل مختصر ومفيد وعملي.` :
   `You are an expert trading assistant for Al Hammadi Trading System. Specialized in: Price Action | SMC | Break&Retest | Liquidity Sweep | Order Block | FVG | Risk Management. Answer in English briefly and practically.`;
 
-  try {
-    const text = await callAI(sysMsg, q, S.chatHistory.slice(-8), [], 1000);
-
-    S.chatHistory.push({role: 'user', content: q});
-    S.chatHistory.push({role: 'assistant', content: text});
-    
+  try{
+    const msgs=S.chatHistory.length<=1
+      ?[{role:'user',content:sysMsg+'\n\nQuestion: '+q}]
+      :[{role:'user',content:sysMsg},...S.chatHistory.slice(-8)];
+    const text=await callClaude(msgs);
+    S.chatHistory.push({role:'assistant',content:text});
     const t=document.getElementById('typing');
     if(t)t.outerHTML=`<div class="msg ai">${text.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}</div>`;
-  } catch(e) {
+  }catch(e){
     const t=document.getElementById('typing');
     if(t)t.outerHTML=`<div class="msg ai" style="color:var(--red2)">Error: ${e.message}</div>`;
   }
