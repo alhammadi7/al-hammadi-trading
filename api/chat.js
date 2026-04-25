@@ -21,7 +21,7 @@ export default async function handler(req, res) {
         gemini: {
             key: process.env.GEMINI_API_KEY,
             // نستخدم الإصدار المستقر v1 لضمان توفر الموديل Flash المجاني
-            url: 'https://generativelanguage.googleapis.com/v1/models/gemini-1.5-flash:generateContent',
+            url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent',
             model: 'gemini-1.5-flash'
         }
     };
