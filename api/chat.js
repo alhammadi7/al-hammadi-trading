@@ -18,11 +18,11 @@ export default async function handler(req, res) {
             url: 'https://api.openai.com/v1/chat/completions',
             model: 'gpt-4o'
         },
-        gemini: {
-            key: process.env.GEMINI_API_KEY,
-            // نستخدم الإصدار المستقر v1 لضمان توفر الموديل Flash المجاني
-            url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent',
-            model: 'gemini-1.5-flash'
+       gemini: {
+    key: process.env.GEMINI_API_KEY,
+    url: 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent',
+    model: 'gemini-2.0-flash'
+}
         }
     };
 
