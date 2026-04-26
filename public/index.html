@@ -267,7 +267,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 <body>
 
 <!-- ===== AUTH MODAL ===== -->
-<div class="modal-overlay" id="authModal">
+<div class="modal-overlay hidden" id="authModal">
   <div class="modal-box" style="max-width:420px">
     <div style="text-align:center;margin-bottom:1.5rem">
       <div style="width:52px;height:52px;background:linear-gradient(135deg,#c9a84c,#e8c86e);border-radius:14px;display:flex;align-items:center;justify-content:center;margin:0 auto .75rem">
@@ -1596,6 +1596,12 @@ function selModel(n) { document.getElementById('m'+n)?.classList.toggle('checked
 // ============================================================
 function syncRisk(from) {
   const cap = parseFloat(document.getElementById('capital').value)||0;
+  if (!cap) {
+    document.getElementById('riskDollar').value = '0';
+    document.getElementById('riskPct').value = '0';
+    calcRisk();
+    return;
+  }
   if (from==='pct') { const p=parseFloat(document.getElementById('riskPct').value)||0; document.getElementById('riskDollar').value=(cap*p/100).toFixed(2); }
   else { const d=parseFloat(document.getElementById('riskDollar').value)||0; document.getElementById('riskPct').value=(d/cap*100).toFixed(2); }
   calcRisk();
