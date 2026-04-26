@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ش<!DOCTYPE html>
 <html lang="ar" dir="rtl" data-theme="dark">
 <head>
 <meta charset="UTF-8">
@@ -277,8 +277,8 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <div style="font-size:.72rem;color:var(--text3);margin-top:3px;">نظام التداول الاحترافي</div>
     </div>
     <div class="tabs-switch">
-      <button class="tab-btn active" id="loginTabBtn" onclick="switchAuthTab('login')">تسجيل الدخول</button>
-      <button class="tab-btn" id="signupTabBtn" onclick="switchAuthTab('signup')">إنشاء حساب</button>
+      <button class="tab-btn active" id="loginTabBtn" onclick="switchAuthTab('login')" data-key="authLoginTab">تسجيل الدخول</button>
+      <button class="tab-btn" id="signupTabBtn" onclick="switchAuthTab('signup')" data-key="authSignupTab">إنشاء حساب</button>
     </div>
     <!-- LOGIN FORM -->
     <div id="loginForm">
@@ -308,7 +308,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 <!-- ===== TERMS MODAL (on first login) ===== -->
 <div class="modal-overlay hidden" id="termsModal">
   <div class="modal-box" style="max-width:560px">
-    <div class="modal-title">📋 الشروط والأحكام وإخلاء المسؤولية</div>
+    <div class="modal-title" data-key="termsModalTitle">📋 الشروط والأحكام وإخلاء المسؤولية</div>
     <div class="terms-scroll" id="termsScrollBox">
       <h3>1. قبول الشروط</h3>
       <p>باستخدامك لهذا الموقع/التطبيق ("المنصة")، فإنك توافق على الالتزام بهذه الشروط والأحكام. في حال عدم الموافقة، يجب عليك التوقف عن الاستخدام فوراً.</p>
@@ -339,9 +339,9 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
     </div>
     <label class="tc-agree" id="tcAgreeLabel">
       <input type="checkbox" id="tcCheckbox" onchange="document.getElementById('tcAcceptBtn').disabled=!this.checked">
-      <span>أقر بأنني قرأت وفهمت الشروط والأحكام وإخلاء المسؤولية وأوافق عليها</span>
+      <span data-key="termsAgreeText">أقر بأنني قرأت وفهمت الشروط والأحكام وإخلاء المسؤولية وأوافق عليها</span>
     </label>
-    <button class="btn btn-gold w100" id="tcAcceptBtn" disabled onclick="acceptTerms()">✅ أوافق وأبدأ الاستخدام</button>
+    <button class="btn btn-gold w100" id="tcAcceptBtn" disabled onclick="acceptTerms()" data-key="termsAcceptBtn">✅ أوافق وأبدأ الاستخدام</button>
   </div>
 </div>
 
@@ -349,7 +349,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 <div class="modal-overlay hidden" id="settingsModal">
   <div class="modal-box" style="max-width:500px">
     <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
-    <div class="modal-title">⚙️ إعدادات المساعد الافتراضي</div>
+    <div class="modal-title" data-key="settingsTitle">⚙️ إعدادات المساعد الافتراضي</div>
     <div class="ig"><label class="il" data-key="aiCoreBackendLabel">🟡 Al Hammadi AI — Core Backend URL</label><input type="text" class="if" id="cfgClaudeUrl" placeholder="/api/chat"></div>
     <div style="font-size:.78rem;color:var(--text2);margin-bottom:1rem;padding:8px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);" data-key="aiWaterfallNote">
       🔄 <strong>نظام الاستمرارية:</strong> النظام الأساسي ← مزود احتياطي 1 ← مزود احتياطي 2 ← مزود احتياطي 3
@@ -358,7 +358,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
     <div class="ig"><label class="il">🔵 Google Gemini API Key</label><input type="text" class="if" id="cfgGoogle" placeholder="AIza..."></div>
     <div class="ig"><label class="il">🔴 Grok API Key (xAI)</label><input type="text" class="if" id="cfgGrok" placeholder="xai-..."></div>
     <div id="apiStatusRow" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:1rem;"></div>
-    <button class="btn btn-gold w100" onclick="saveSettings()">💾 حفظ الإعدادات</button>
+    <button class="btn btn-gold w100" onclick="saveSettings()" data-key="settingsSaveBtn">💾 حفظ الإعدادات</button>
   </div>
 </div>
 
@@ -399,7 +399,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <div class="user-avatar" id="userAvatarIcon">م</div>
       <span id="userBadgeName" style="font-size:.72rem;max-width:80px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis">مستخدم</span>
     </div>
-    <button class="ctrl-btn btn-red" onclick="doLogout()" style="font-size:.68rem">خروج</button>
+    <button class="ctrl-btn btn-red" onclick="doLogout()" style="font-size:.68rem" data-key="logoutBtn">خروج</button>
   </div>
 </header>
 
@@ -1114,6 +1114,14 @@ const I18N = {
     authPassShort: 'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
     authEmailExists: 'هذا البريد الإلكتروني مسجل مسبقاً',
     planActivationNote: '✅ لتفعيل خطة {{plan}}، يرجى التواصل معنا لإتمام عملية الدفع.',
+    authLoginTab: 'تسجيل الدخول',
+    authSignupTab: 'إنشاء حساب',
+    termsModalTitle: '📋 الشروط والأحكام وإخلاء المسؤولية',
+    termsAgreeText: 'أقر بأنني قرأت وفهمت الشروط والأحكام وإخلاء المسؤولية وأوافق عليها',
+    termsAcceptBtn: '✅ أوافق وأبدأ الاستخدام',
+    settingsTitle: '⚙️ إعدادات المساعد الافتراضي',
+    settingsSaveBtn: '💾 حفظ الإعدادات',
+    logoutBtn: 'خروج',
     openTradeWarn: '⚠️ تنبيه: يوجد صفقة مفتوحة على {{asset}}. لا يُنصح بفتح صفقة جديدة على نفس الزوج.'
   },
   en: {
@@ -1215,6 +1223,14 @@ const I18N = {
     authPassShort: 'Password must be at least 6 characters',
     authEmailExists: 'This email is already registered',
     planActivationNote: '✅ To activate the {{plan}} plan, please contact us to complete payment.',
+    authLoginTab: 'Login',
+    authSignupTab: 'Create account',
+    termsModalTitle: '📋 Terms & Conditions / Disclaimer',
+    termsAgreeText: 'I confirm that I have read, understood, and agree to the Terms & Conditions and Disclaimer',
+    termsAcceptBtn: '✅ I agree and start',
+    settingsTitle: '⚙️ Assistant Settings',
+    settingsSaveBtn: '💾 Save settings',
+    logoutBtn: 'Logout',
     openTradeWarn: '⚠️ Warning: Open trade exists on {{asset}}. Avoid opening another trade on the same asset.'
   }
 };
