@@ -254,7 +254,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 /* ===== API STATUS INDICATOR ===== */
 .api-status{display:flex;align-items:center;gap:5px;font-size:.62rem;color:var(--text3);padding:3px 8px;border-radius:5px;background:var(--surface2);border:1px solid var(--border);}
 .api-dot{width:5px;height:5px;border-radius:50%;}
-.api-dot.claude{background:#e8c86e;}
+.api-dot.core{background:#e8c86e;}
 .api-dot.gpt{background:#10b981;}
 .api-dot.google{background:#5a9ae8;}
 .api-dot.grok{background:#f06060;}
@@ -282,25 +282,25 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
     </div>
     <!-- LOGIN FORM -->
     <div id="loginForm">
-      <div class="ig"><label class="il">البريد الإلكتروني</label><input type="email" class="if" id="loginEmail" placeholder="example@email.com"></div>
-      <div class="ig"><label class="il">كلمة المرور</label><input type="password" class="if" id="loginPass" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+  <div class="ig"><label class="il" data-key="loginEmailLabel">البريد الإلكتروني</label><input type="email" class="if" id="loginEmail" data-ph-key="loginEmailPh" placeholder="example@email.com"></div>
+  <div class="ig"><label class="il" data-key="loginPassLabel">كلمة المرور</label><input type="password" class="if" id="loginPass" data-ph-key="loginPassPh" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
       <div id="loginErr" style="display:none;color:var(--red2);font-size:.78rem;margin-bottom:.65rem;padding:7px;background:rgba(224,60,60,.08);border-radius:7px;border:1px solid rgba(224,60,60,.2)"></div>
-      <button class="btn btn-gold w100" onclick="doLogin()">🔑 تسجيل الدخول</button>
+  <button class="btn btn-gold w100" onclick="doLogin()" data-key="loginBtn">🔑 تسجيل الدخول</button>
     </div>
     <!-- SIGNUP FORM -->
     <div id="signupForm" style="display:none">
-      <div class="ig"><label class="il">الاسم الكامل</label><input type="text" class="if" id="signupName" placeholder="محمد الحمادي"></div>
-      <div class="ig"><label class="il">البريد الإلكتروني</label><input type="email" class="if" id="signupEmail" placeholder="example@email.com"></div>
-      <div class="ig"><label class="il">كلمة المرور (6 أحرف على الأقل)</label><input type="password" class="if" id="signupPass" placeholder="••••••••"></div>
+  <div class="ig"><label class="il" data-key="signupNameLabel">الاسم الكامل</label><input type="text" class="if" id="signupName" data-ph-key="signupNamePh" placeholder="محمد الحمادي"></div>
+  <div class="ig"><label class="il" data-key="signupEmailLabel">البريد الإلكتروني</label><input type="email" class="if" id="signupEmail" data-ph-key="signupEmailPh" placeholder="example@email.com"></div>
+  <div class="ig"><label class="il" data-key="signupPassLabel">كلمة المرور (6 أحرف على الأقل)</label><input type="password" class="if" id="signupPass" data-ph-key="signupPassPh" placeholder="••••••••"></div>
       <div class="ig">
-        <label class="il">نوع الاشتراك</label>
+  <label class="il" data-key="signupPlanLabel">نوع الاشتراك</label>
         <select class="sf" id="signupPlan">
           <option value="standard">🥈 Standard — 79.99 $/شهر</option>
           <option value="vip">👑 VIP — 119.99 $/شهر</option>
         </select>
       </div>
       <div id="signupErr" style="display:none;color:var(--red2);font-size:.78rem;margin-bottom:.65rem;padding:7px;background:rgba(224,60,60,.08);border-radius:7px;border:1px solid rgba(224,60,60,.2)"></div>
-      <button class="btn btn-gold w100" onclick="doSignup()">✅ إنشاء الحساب</button>
+  <button class="btn btn-gold w100" onclick="doSignup()" data-key="signupBtn">✅ إنشاء الحساب</button>
     </div>
   </div>
 </div>
@@ -350,10 +350,10 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   <div class="modal-box" style="max-width:500px">
     <button class="modal-close" onclick="closeModal('settingsModal')">✕</button>
     <div class="modal-title">⚙️ إعدادات المساعد الافتراضي</div>
-    <div style="font-size:.78rem;color:var(--text2);margin-bottom:1rem;padding:8px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);">
-      🔄 <strong>نظام الشلال:</strong> Claude (الأساسي) ← ChatGPT ← Google Gemini ← Grok
+    <div class="ig"><label class="il" data-key="aiCoreBackendLabel">🟡 Al Hammadi AI — Core Backend URL</label><input type="text" class="if" id="cfgClaudeUrl" placeholder="/api/chat"></div>
+    <div style="font-size:.78rem;color:var(--text2);margin-bottom:1rem;padding:8px;background:var(--surface2);border-radius:8px;border:1px solid var(--border);" data-key="aiWaterfallNote">
+      🔄 <strong>نظام الاستمرارية:</strong> النظام الأساسي ← مزود احتياطي 1 ← مزود احتياطي 2 ← مزود احتياطي 3
     </div>
-    <div class="ig"><label class="il">🟡 Claude API — Backend URL (الأساسي)</label><input type="text" class="if" id="cfgClaudeUrl" placeholder="/api/chat"></div>
     <div class="ig"><label class="il">🟢 OpenAI API Key (GPT-4o)</label><input type="text" class="if" id="cfgOpenAI" placeholder="sk-..."></div>
     <div class="ig"><label class="il">🔵 Google Gemini API Key</label><input type="text" class="if" id="cfgGoogle" placeholder="AIza..."></div>
     <div class="ig"><label class="il">🔴 Grok API Key (xAI)</label><input type="text" class="if" id="cfgGrok" placeholder="xai-..."></div>
@@ -387,9 +387,9 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
       <button class="nav-tab" onclick="showPage('journal',this)" data-key="navJournal">📓 الجورنال</button>
       <button class="nav-tab" onclick="showPage('report',this)" data-key="navReport">📊 التقرير الأسبوعي</button>
       <button class="nav-tab" id="navChatBtn" onclick="showPage('chat',this)" data-key="navChat">💬 المساعد</button>
-      <button class="nav-tab" onclick="showPage('subscriptions',this)">👑 الاشتراكات</button>
-      <button class="nav-tab" onclick="showPage('about',this)">🏢 من نحن</button>
-      <button class="nav-tab" onclick="showPage('terms',this)">📋 الشروط</button>
+      <button class="nav-tab" onclick="showPage('subscriptions',this)" data-key="navSubs">👑 الاشتراكات</button>
+      <button class="nav-tab" onclick="showPage('about',this)" data-key="navAbout">🏢 من نحن</button>
+      <button class="nav-tab" onclick="showPage('terms',this)" data-key="navTerms">📋 الشروط</button>
     </div>
   </div>
   <div style="display:flex;gap:6px;flex-shrink:0;">
@@ -875,7 +875,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
   </div>
   <div class="about-section">
     <h2>🤖 المساعد الافتراضي</h2>
-    <p>يعمل المساعد الافتراضي بنظام الشلال (Waterfall Fallback) الذي يضمن الاستمرارية والموثوقية القصوى: يبدأ بـ Claude (Anthropic)، ثم GPT-4o (OpenAI)، ثم Gemini (Google)، وأخيراً Grok (xAI) كنظام احتياطي. هذا يضمن أن تحصل دائماً على إجابات دقيقة ومفيدة حتى في أوقات الضغط.</p>
+    <p data-key="assistantIdentityAbout">يعمل المساعد الافتراضي بهوية المنصة وبنظام استمرارية (Waterfall Fallback) يضمن أعلى موثوقية: يبدأ بالنظام الأساسي داخل المنصة، ثم ينتقل تلقائياً إلى مزودين احتياطيين عند الحاجة. الهدف هو استمرار الخدمة وتقديم إجابات عملية ومتسقة دون انقطاع.</p>
   </div>
   <div class="about-section">
     <h2>📡 مصادر البيانات</h2>
@@ -899,63 +899,89 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 
 <!-- ===== TERMS & CONDITIONS PAGE ===== -->
 <div id="page-terms" class="page">
-  <div class="st">📋 الشروط والأحكام وإخلاء المسؤولية</div>
+  <div class="st">📋 الشروط والأحكام — منصة توصيات وتحليلات تداول</div>
+
   <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1rem;">
-    <div style="padding:10px 14px;border-radius:10px;background:rgba(224,60,60,.06);border:1px solid rgba(224,60,60,.15);font-size:.8rem;color:var(--red2)">⚠️ <strong>تحذير المخاطر:</strong> ينطوي التداول على مخاطر عالية. اقرأ الشروط كاملة قبل الاستخدام.</div>
-    <div style="padding:10px 14px;border-radius:10px;background:var(--accent3);border:1px solid rgba(201,168,76,.2);font-size:.8rem;color:var(--accent2)">📍 <strong>القانون:</strong> تخضع هذه الشروط لقوانين دولة الإمارات العربية المتحدة.</div>
+    <div style="padding:10px 14px;border-radius:10px;background:rgba(224,60,60,.06);border:1px solid rgba(224,60,60,.15);font-size:.8rem;color:var(--red2)">
+      ⚠️ <strong>تحذير المخاطر:</strong> التداول ينطوي على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. هذه المنصة ليست وسيطاً ولا تقدم وعود أرباح.
+    </div>
+    <div style="padding:10px 14px;border-radius:10px;background:var(--accent3);border:1px solid rgba(201,168,76,.2);font-size:.8rem;color:var(--accent2)">
+      📍 <strong>القانون:</strong> تخضع هذه الشروط لقوانين دولة الإمارات العربية المتحدة (إلا إذا نصت قوانين بلدك على خلاف ذلك).
+    </div>
   </div>
+
   <div class="about-section">
-    <h2>1. قبول الشروط | Acceptance of Terms</h2>
-    <p><strong>AR:</strong> باستخدامك لهذا الموقع/التطبيق ("المنصة")، فإنك توافق على الالتزام بهذه الشروط والأحكام. في حال عدم الموافقة، يجب عليك التوقف عن الاستخدام فوراً.</p>
-    <p><strong>EN:</strong> By accessing or using this Platform, you agree to be bound by these Terms & Conditions. If you do not agree, you must not use the Platform.</p>
+    <h2>1) التعريفات | Definitions</h2>
+    <p><strong>AR:</strong> "المنصة" تعني موقع/تطبيق Al Hammadi Trading. "المحتوى" يشمل التحليلات، التوصيات، الجداول، الرسوم، النصائح التعليمية، وأي مخرجات من المساعد الذكي. "المستخدم" هو كل من يصل للمنصة.</p>
+    <p><strong>EN:</strong> “Platform” means the Al Hammadi Trading website/app. “Content” includes analysis, signals, tools, charts, educational guidance, and assistant outputs. “User” means anyone accessing the Platform.</p>
   </div>
+
   <div class="about-section">
-    <h2>2. طبيعة الخدمة | Nature of Service</h2>
-    <p>توفر المنصة أدوات وتحليلات ومعلومات عامة تتعلق بالتداول والأسواق المالية، ولا تقدم أي استشارات مالية أو استثمارية أو قانونية أو ضريبية. المنصة مزود تقني فقط ولا تُعد وسيطاً مالياً أو مستشاراً استثمارياً.</p>
+    <h2>2) طبيعة الخدمة | Nature of Service</h2>
+    <p><strong>AR:</strong> نقدم أدوات تحليل وإدارة مخاطر ومحتوى تعليمي وتوصيات إرشادية. لا نقدم تنفيذ صفقات، ولا ندير أموالاً، ولا نتحكم في حساباتك.</p>
+    <p><strong>EN:</strong> We provide analysis tools, risk management utilities, educational content, and indicative signals. We do not execute trades, manage funds, or access your brokerage accounts.</p>
   </div>
+
   <div class="about-section">
-    <h2>3. عدم تقديم استشارات مالية | No Financial Advice</h2>
-    <p>جميع المحتويات لأغراض تعليمية ومعلوماتية فقط، ولا تُعد استشارة مالية أو توصية أو دعوة للتداول. لا تعتمد على المعلومات المقدمة هنا كأساس وحيد لقراراتك الاستثمارية.</p>
+    <h2>3) عدم تقديم استشارات مالية | No Financial Advice</h2>
+    <p><strong>AR:</strong> المحتوى لأغراض معلوماتية/تعليمية فقط ولا يُعد توصية استثمارية أو استشارة مالية أو قانونية أو ضريبية. قراراتك مسؤوليتك.</p>
+    <p><strong>EN:</strong> Content is for informational/educational purposes only and is not financial, legal, or tax advice. Your decisions are your responsibility.</p>
   </div>
+
   <div class="about-section">
-    <h2>4. الإفصاح عن المخاطر | Risk Disclosure</h2>
-    <p>ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال بالكامل. الرافعة المالية تزيد من مستوى المخاطر بشكل كبير، والأداء السابق لا يضمن النتائج المستقبلية. تأكد من أنك تفهم المخاطر الكاملة قبل التداول.</p>
+    <h2>4) التوصيات وإدارة المخاطر | Signals & Risk</h2>
+    <p><strong>AR:</strong> التوصيات احتمالية وليست يقينية. قد تتغير ظروف السوق بسرعة. استخدم دائماً Stop Loss، وحدد مخاطرة ثابتة (مثل 0.5%–2% لكل صفقة)، وتجنب الإفراط في الرافعة.</p>
+    <p><strong>EN:</strong> Signals are probabilistic, not guaranteed. Market conditions change rapidly. Always use stop-loss, keep a consistent risk (e.g., 0.5%–2% per trade), and avoid excessive leverage.</p>
   </div>
+
   <div class="about-section">
-    <h2>5. مسؤولية المستخدم | User Responsibility</h2>
-    <p>أنت تتحمل المسؤولية الكاملة عن استخدامك للمنصة، بما في ذلك قرارات التداول والنتائج المالية الناتجة عنها. لا تتحمل المنصة أو مالكوها أي مسؤولية عن أي خسائر أو أضرار ناتجة عن استخدام هذه المنصة.</p>
+    <h2>5) حدود المسؤولية | Limitation of Liability</h2>
+    <p><strong>AR:</strong> باستخدامك للمنصة، تقر بأنك تتحمل كامل المسؤولية عن أي نتائج تداول أو خسائر أو أضرار مباشرة/غير مباشرة. لا نضمن دقة أو اكتمال أو توقيت البيانات (قد تكون متأخرة أو غير دقيقة).</p>
+    <p><strong>EN:</strong> By using the Platform, you accept full responsibility for outcomes, losses, and any direct/indirect damages. We do not guarantee accuracy, completeness, or timeliness of data (it may be delayed or incorrect).</p>
   </div>
+
   <div class="about-section">
-    <h2>6. دقة المعلومات | Accuracy of Information</h2>
-    <p>نسعى لتوفير معلومات دقيقة، ولكن لا نضمن خلو البيانات أو العمليات الحسابية من الأخطاء. قد تكون البيانات أو الأسعار غير دقيقة أو متأخرة، ويتم تقديمها "كما هي" دون أي ضمانات.</p>
+    <h2>6) الاشتراكات والدفع | Subscriptions & Billing</h2>
+    <p><strong>AR:</strong> قد تتطلب بعض المزايا اشتراكاً. تفاصيل الباقات والأسعار قابلة للتغيير. إن وُجدت سياسات استرجاع/إلغاء فهي موضحة عند الدفع أو عبر فريق الدعم.</p>
+    <p><strong>EN:</strong> Some features may require a subscription. Plans and pricing may change. Any refund/cancellation policy is communicated at checkout or via support.</p>
   </div>
+
   <div class="about-section">
-    <h2>7. تحديد المسؤولية | Limitation of Liability</h2>
-    <p>لا تتحمل المنصة أو مالكوها أي مسؤولية عن أي خسائر مباشرة أو غير مباشرة أو عرضية أو تبعية، بما في ذلك خسارة الأرباح أو البيانات أو رأس المال، ناتجة عن استخدام المنصة.</p>
+    <h2>7) الاستخدام المقبول | Acceptable Use</h2>
+    <p><strong>AR:</strong> يمنع إساءة استخدام المنصة، محاولة اختراقها، استخراج البيانات بشكل ضار، أو إعادة نشر المحتوى بشكل تجاري دون إذن. يمكن تعليق الحساب عند المخالفة.</p>
+    <p><strong>EN:</strong> Do not abuse the Platform, attempt to hack, scrape maliciously, or commercially redistribute content without permission. Accounts may be suspended for violations.</p>
   </div>
+
   <div class="about-section">
-    <h2>8. الملكية الفكرية | Intellectual Property</h2>
-    <p>جميع المحتويات والتصاميم والشعارات والأدوات والكود المصدري مملوكة للمنصة، ولا يجوز نسخها أو تعديلها أو توزيعها أو إعادة استخدامها دون إذن كتابي مسبق.</p>
+    <h2>8) الخصوصية والبيانات | Privacy & Data</h2>
+    <p><strong>AR:</strong> نخزن بيانات الحد الأدنى اللازمة للتشغيل (مثل تفضيلات الواجهة/الجورنال محلياً على جهازك). قد تتضمن خدمات طرف ثالث (مثل TradingView أو مزودي الذكاء الاصطناعي) سياسات خاصة بها.</p>
+    <p><strong>EN:</strong> We store minimal data needed for operation (e.g., UI preferences/journal locally on your device). Third-party services (TradingView / AI providers) may have their own policies.</p>
   </div>
+
   <div class="about-section">
-    <h2>— سياسة الخصوصية | Privacy Policy —</h2>
-    <p>قد نقوم بجمع معلومات الجهاز وبيانات الاستخدام لتحسين أداء المنصة وتجربة المستخدم. لا نقوم بتخزين بيانات حسابات التداول أو المعلومات المالية الحساسة. نطبق إجراءات أمان متطورة، ولكن لا يوجد نظام آمن بنسبة 100%. قد تقوم خدمات الطرف الثالث (مثل TradingView وواجهات برمجة الذكاء الاصطناعي) بجمع بياناتها الخاصة وفقاً لسياساتها.</p>
+    <h2>9) الملكية الفكرية | Intellectual Property</h2>
+    <p><strong>AR:</strong> جميع الحقوق محفوظة. لا يجوز نسخ أو إعادة بيع أو توزيع المحتوى أو التصميم أو الكود دون إذن كتابي.</p>
+    <p><strong>EN:</strong> All rights reserved. You may not copy, resell, or distribute content/design/code without written permission.</p>
   </div>
+
   <div class="about-section">
-    <h2>— الإفصاح التنظيمي | Compliance Disclaimer —</h2>
-    <p>هذه المنصة غير خاضعة لتنظيم أي جهة رقابية مالية مثل Financial Conduct Authority أو Securities and Commodities Authority أو أي هيئة مالية أخرى. يتحمل المستخدم مسؤولية الالتزام بالقوانين والأنظمة المحلية المعمول بها في دولته.</p>
+    <h2>10) التعديلات | Updates</h2>
+    <p><strong>AR:</strong> قد نقوم بتحديث هذه الشروط من وقت لآخر. استمرارك بالاستخدام بعد التحديث يعني موافقتك.</p>
+    <p><strong>EN:</strong> We may update these terms. Continued use after updates indicates acceptance.</p>
   </div>
+
   <div style="padding:1rem;border-radius:12px;background:rgba(224,60,60,.08);border:1px solid rgba(224,60,60,.2);text-align:center;margin-top:1rem;">
-    <div style="font-size:.85rem;font-weight:700;color:var(--red2);margin-bottom:.5rem">⚠️ تنبيه مختصر | Footer Disclaimer</div>
-    <div style="font-size:.8rem;color:var(--text2);line-height:1.7">ينطوي التداول على مخاطر عالية وقد يؤدي إلى خسارة رأس المال بالكامل. توفر هذه المنصة أدوات فقط ولا تُعد استشارة مالية، وجميع القرارات على مسؤوليتك الشخصية.</div>
+    <div style="font-size:.85rem;font-weight:700;color:var(--red2);margin-bottom:.5rem">⚠️ إخلاء مسؤولية مختصر | Short Disclaimer</div>
+    <div style="font-size:.8rem;color:var(--text2);line-height:1.7">Trading is risky. This platform provides tools and educational guidance only. You are solely responsible for your trading decisions.</div>
   </div>
-  <div style="text-align:center;margin-top:1.5rem;font-size:.72rem;color:var(--text3)">آخر تحديث: 2025 | Al Hammadi Trading | جميع الحقوق محفوظة</div>
+
+  <div style="text-align:center;margin-top:1.5rem;font-size:.72rem;color:var(--text3)">آخر تحديث: 2026 | Al Hammadi Trading | جميع الحقوق محفوظة</div>
 </div>
 
 </main>
 
 <footer class="site-footer">
-  <div data-key="footerDisclaimer">⚠️ ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة. <a href="#" onclick="showPage('terms',null)">الشروط والأحكام</a></div>
+  <div data-key="footerDisclaimer" data-i18n-html="1">⚠️ ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة. <a href="#" onclick="showPage('terms',null)">الشروط والأحكام</a></div>
   <div class="credit">design by Mohamed AlHammadi — Al Hammadi Trading v14</div>
 </footer>
 
@@ -968,7 +994,7 @@ body{font-family:'IBM Plex Sans Arabic','Tajawal',sans-serif;background:var(--bg
 // CONFIG & STATE
 // ============================================================
 const CFG = {
-  claudeUrl: localStorage.getItem('cfg_claude_url') || '/api/chat',
+  coreUrl:   localStorage.getItem('cfg_core_url') || localStorage.getItem('cfg_claude_url') || '/api/chat',
   openaiKey: localStorage.getItem('cfg_openai_key') || '',
   googleKey: localStorage.getItem('cfg_google_key') || '',
   grokKey:   localStorage.getItem('cfg_grok_key')   || ''
@@ -984,6 +1010,241 @@ const S = {
   currentSignals: [],
   lastActiveAPI: '—'
 };
+
+// ============================================================
+// i18n (AR/EN)
+// ============================================================
+const I18N = {
+  ar: {
+    appTitle: 'Al Hammadi Trading — نظام التداول الاحترافي',
+    logoSub: 'نظام التداول الاحترافي',
+    navMacro: '📡 ماكرو سكان',
+    navSignals: '🎯 التوصيات',
+    navPrecheck: '✅ ما قبل الصفقة',
+    navRisk: '💰 حاسبة الريسك',
+    navChart: '📸 تحليل الشارت',
+    navJournal: '📓 الجورنال',
+    navReport: '📊 التقرير الأسبوعي',
+    navChat: '💬 المساعد',
+    navSubs: '👑 الاشتراكات',
+    navAbout: '🏢 من نحن',
+    navTerms: '📋 الشروط',
+    themeDay: '☀️ نهاري',
+    themeNight: '🌙 ليلي',
+    macroBadge: 'أسبوعي / يومي',
+    liveNews: 'الأخبار الحية (Market Live)',
+    economicCalendar: 'التقويم الاقتصادي',
+    currencyHeatmap: 'خريطة قوة العملات',
+    techAnalysis: 'توقعات الأصول (التحليل الآلي)',
+    assetSelectLabel: 'اختر الأصل للتحليل:',
+    optGroupForexMajor: 'الفوركس — أزواج الدولار',
+    optGroupForexCross: 'الفوركس — التقاطعات',
+    optGroupMetals: 'المعادن والطاقة',
+    optGroupIndices: 'المؤشرات',
+    optGroupCrypto: 'الكريبتو',
+    liveScreener: 'رادار الأسواق المباشر',
+    signalsTitle: '🎯 التوصيات الحية',
+    acSaveBtn: '🔄 لإظهار التوصيات والتحديثات اضغط هنا',
+    preTradeTitle: '✅ ما قبل الصفقة',
+    preTradeBadge: 'Checklist كامل',
+    biasSection: 'الاتجاه — Directional Bias',
+    assetLabel: 'الأصل',
+    ma200Label: 'موقع السعر من 200 MA',
+    above200: 'فوق 200 MA ← BUY Bias',
+    below200: 'تحت 200 MA ← SELL Bias',
+    onMA: 'على المتوسط — لا تدخل',
+    biasWarning: '⚠️ تعارض بين الـ Bias والـ Structure! راجع تحليلك.',
+    setupModel: 'نموذج الدخول — Setup',
+    fullChecklist: 'Checklist الكامل',
+    tradeScore: 'Score الصفقة',
+    riskCalcTitle: '💰 حاسبة الريسك الاحترافية',
+    tradeInputs: 'مدخلات الصفقة',
+    capitalLabel: 'رأس المال الكلي ($)',
+    riskPctLabel: 'الريسك %',
+    riskDollarLabel: 'أو الريسك $',
+    assetTypeLabel: 'نوع الأصل',
+    tradeDirLabel: 'اتجاه الصفقة',
+    entryLabel: 'سعر الدخول',
+    slLabel: 'Stop Loss',
+    tpAutoInfo: '💡 الـ TP يُحسب أوتوماتيك بناءً على RR 2:1 و3:1 و4:1',
+    calcResults: 'نتائج الحساب',
+    riskAmtRes: 'مبلغ الريسك',
+    riskPctRes: 'نسبة الريسك',
+    slPipsRes: 'حجم الـ SL (نقاط)',
+    lotRes: 'اللوت الموصى',
+    tp1Label: '🎯 TP1 (2R) — اغلق 50%',
+    tp2Label: '🎯 TP2 (3R) — اغلق 25%',
+    profit1Label: 'ربح عند TP1',
+    profit2Label: 'ربح عند TP2',
+    profit3Label: 'ربح عند TP3',
+    tradeRulesTitle: 'قواعد إدارة الصفقة',
+    uploadTitle: 'رفع الشارت (حتى 6 صور)',
+    uploadClick: 'اضغط لاختيار صورة',
+    contextTitle: 'سياق الصفقة',
+    contextInputLabel: 'الأصل والـ Timeframe',
+    biasCurrentLabel: 'الـ Bias الحالي',
+    chartQLabel: 'سؤالك أو ملاحظاتك',
+    analyzeBtn: '🤖 تحليل الشارت بالمساعد الافتراضي',
+    aiAnalysisTitle: 'نتيجة التحليل',
+    footerDisclaimer: '⚠️ ينطوي التداول في الأسواق المالية على مخاطر عالية وقد يؤدي إلى خسارة رأس المال. جميع قرارات التداول تتم على مسؤوليتك الشخصية الكاملة. <a href="#" onclick="showPage(\'terms\',null)">الشروط والأحكام</a>',
+    aiAssistantBrand: 'Al Hammadi AI',
+    aiCoreLabel: 'Al Hammadi AI (أساسي)',
+    aiCoreBackendLabel: '🟡 Al Hammadi AI — Core Backend URL',
+    aiWaterfallNote: '🔄 نظام الاستمرارية: النظام الأساسي ← مزود احتياطي 1 ← مزود احتياطي 2 ← مزود احتياطي 3',
+    settingsSaved: '✅ تم حفظ الإعدادات بنجاح',
+    uploadChartFirst: 'ارفع شارت أولاً',
+    noTradesInJournal: 'لا يوجد صفقات في الجورنال',
+    loginEmailLabel: 'البريد الإلكتروني',
+    loginPassLabel: 'كلمة المرور',
+    loginEmailPh: 'example@email.com',
+    loginPassPh: '••••••••',
+    loginBtn: '🔑 تسجيل الدخول',
+    signupNameLabel: 'الاسم الكامل',
+    signupEmailLabel: 'البريد الإلكتروني',
+    signupPassLabel: 'كلمة المرور (6 أحرف على الأقل)',
+    signupPlanLabel: 'نوع الاشتراك',
+    signupNamePh: 'محمد الحمادي',
+    signupEmailPh: 'example@email.com',
+    signupPassPh: '••••••••',
+    signupBtn: '✅ إنشاء الحساب',
+    assistantIdentityAbout: 'يعمل المساعد الافتراضي بهوية المنصة وبنظام استمرارية (Waterfall Fallback) يضمن أعلى موثوقية: يبدأ بالنظام الأساسي داخل المنصة، ثم ينتقل تلقائياً إلى مزودين احتياطيين عند الحاجة. الهدف هو استمرار الخدمة وتقديم إجابات عملية ومتسقة دون انقطاع.',
+    authMissingLogin: 'يرجى إدخال البريد الإلكتروني وكلمة المرور',
+    authInvalidLogin: 'البريد الإلكتروني أو كلمة المرور غير صحيحة',
+    authMissingSignup: 'يرجى ملء جميع الحقول المطلوبة',
+    authPassShort: 'كلمة المرور يجب أن تكون 6 أحرف على الأقل',
+    authEmailExists: 'هذا البريد الإلكتروني مسجل مسبقاً',
+    planActivationNote: '✅ لتفعيل خطة {{plan}}، يرجى التواصل معنا لإتمام عملية الدفع.',
+    openTradeWarn: '⚠️ تنبيه: يوجد صفقة مفتوحة على {{asset}}. لا يُنصح بفتح صفقة جديدة على نفس الزوج.'
+  },
+  en: {
+    appTitle: 'Al Hammadi Trading — Professional Trading System',
+    logoSub: 'Professional Trading System',
+    navMacro: '📡 Macro Scan',
+    navSignals: '🎯 Signals',
+    navPrecheck: '✅ Pre-Trade',
+    navRisk: '💰 Risk Calculator',
+    navChart: '📸 Chart Analysis',
+    navJournal: '📓 Journal',
+    navReport: '📊 Weekly Report',
+    navChat: '💬 Assistant',
+    navSubs: '👑 Subscriptions',
+    navAbout: '🏢 About',
+    navTerms: '📋 Terms',
+    themeDay: '☀️ Day',
+    themeNight: '🌙 Night',
+    macroBadge: 'Weekly / Daily',
+    liveNews: 'Live News (Market Live)',
+    economicCalendar: 'Economic Calendar',
+    currencyHeatmap: 'Currency Heatmap',
+    techAnalysis: 'Asset Forecast (Auto TA)',
+    assetSelectLabel: 'Select asset for analysis:',
+    optGroupForexMajor: 'Forex — USD Majors',
+    optGroupForexCross: 'Forex — Crosses',
+    optGroupMetals: 'Metals & Energy',
+    optGroupIndices: 'Indices',
+    optGroupCrypto: 'Crypto',
+    liveScreener: 'Live Market Screener',
+    signalsTitle: '🎯 Live Signals',
+    acSaveBtn: '🔄 Click to load signals & updates',
+    preTradeTitle: '✅ Pre-Trade',
+    preTradeBadge: 'Full checklist',
+    biasSection: 'Directional Bias',
+    assetLabel: 'Asset',
+    ma200Label: 'Price vs 200 MA',
+    above200: 'Above 200 MA ← BUY Bias',
+    below200: 'Below 200 MA ← SELL Bias',
+    onMA: 'On MA — Do not trade',
+    biasWarning: '⚠️ Conflict between Bias and Structure. Review your analysis.',
+    setupModel: 'Entry Model — Setup',
+    fullChecklist: 'Full Checklist',
+    tradeScore: 'Trade Score',
+    riskCalcTitle: '💰 Professional Risk Calculator',
+    tradeInputs: 'Trade Inputs',
+    capitalLabel: 'Account Capital ($)',
+    riskPctLabel: 'Risk %',
+    riskDollarLabel: 'Or Risk $',
+    assetTypeLabel: 'Asset Type',
+    tradeDirLabel: 'Trade Direction',
+    entryLabel: 'Entry Price',
+    slLabel: 'Stop Loss',
+    tpAutoInfo: '💡 TP is calculated automatically based on RR 2:1, 3:1, 4:1',
+    calcResults: 'Results',
+    riskAmtRes: 'Risk Amount',
+    riskPctRes: 'Risk Percentage',
+    slPipsRes: 'SL size (points)',
+    lotRes: 'Suggested lot',
+    tp1Label: '🎯 TP1 (2R) — close 50%',
+    tp2Label: '🎯 TP2 (3R) — close 25%',
+    profit1Label: 'Profit at TP1',
+    profit2Label: 'Profit at TP2',
+    profit3Label: 'Profit at TP3',
+    tradeRulesTitle: 'Trade Management Rules',
+    uploadTitle: 'Upload chart (up to 6 images)',
+    uploadClick: 'Click to choose an image',
+    contextTitle: 'Trade Context',
+    contextInputLabel: 'Asset & Timeframe',
+    biasCurrentLabel: 'Current Bias',
+    chartQLabel: 'Your question / notes',
+    analyzeBtn: '🤖 Analyze with the Assistant',
+    aiAnalysisTitle: 'Analysis Result',
+    footerDisclaimer: '⚠️ Trading involves significant risk and may result in loss of capital. You are fully responsible for your decisions. <a href="#" onclick="showPage(\'terms\',null)">Terms &amp; Conditions</a>',
+    aiAssistantBrand: 'Al Hammadi AI',
+    aiCoreLabel: 'Al Hammadi AI (Core)',
+    aiCoreBackendLabel: '🟡 Al Hammadi AI — Core Backend URL',
+    aiWaterfallNote: '🔄 Continuity: Core ← Backup 1 ← Backup 2 ← Backup 3',
+    settingsSaved: '✅ Settings saved',
+    uploadChartFirst: 'Upload a chart first',
+    noTradesInJournal: 'No trades in journal',
+    loginEmailLabel: 'Email',
+    loginPassLabel: 'Password',
+    loginEmailPh: 'example@email.com',
+    loginPassPh: '••••••••',
+    loginBtn: '🔑 Login',
+    signupNameLabel: 'Full name',
+    signupEmailLabel: 'Email',
+    signupPassLabel: 'Password (min 6 characters)',
+    signupPlanLabel: 'Subscription plan',
+    signupNamePh: 'Mohamed Al Hammadi',
+    signupEmailPh: 'example@email.com',
+    signupPassPh: '••••••••',
+    signupBtn: '✅ Create account',
+    assistantIdentityAbout: 'The assistant uses the platform identity and a continuity (waterfall fallback) system: it starts with the platform core and automatically switches to backup providers when needed. The goal is consistent, practical answers without interruption.',
+    authMissingLogin: 'Please enter email and password',
+    authInvalidLogin: 'Invalid email or password',
+    authMissingSignup: 'Please fill in all required fields',
+    authPassShort: 'Password must be at least 6 characters',
+    authEmailExists: 'This email is already registered',
+    planActivationNote: '✅ To activate the {{plan}} plan, please contact us to complete payment.',
+    openTradeWarn: '⚠️ Warning: Open trade exists on {{asset}}. Avoid opening another trade on the same asset.'
+  }
+};
+
+function t(key, vars = {}) {
+  const lang = S.lang in I18N ? S.lang : 'ar';
+  let s = (I18N[lang] && I18N[lang][key]) || (I18N.ar && I18N.ar[key]) || key;
+  Object.keys(vars).forEach(k => { s = s.replaceAll(`{{${k}}}`, String(vars[k])); });
+  return s;
+}
+
+function applyI18n() {
+  document.title = t('appTitle');
+  document.querySelectorAll('[data-key]').forEach(el => {
+    const k = el.getAttribute('data-key');
+    if (!k) return;
+    if (el.getAttribute('data-i18n-html') === '1') el.innerHTML = t(k);
+    else el.textContent = t(k);
+  });
+  document.querySelectorAll('[data-label-key]').forEach(el => {
+    const k = el.getAttribute('data-label-key');
+    if (!k) return;
+    el.setAttribute('label', t(k));
+  });
+  document.querySelectorAll('[data-ph-key]').forEach(el => {
+    const k = el.getAttribute('data-ph-key');
+    if (!k) return;
+    el.setAttribute('placeholder', t(k));
+  });
+}
 
 // ============================================================
 // AUTH SYSTEM
@@ -1004,10 +1265,10 @@ function doLogin() {
   const email = document.getElementById('loginEmail').value.trim();
   const pass  = document.getElementById('loginPass').value;
   const err   = document.getElementById('loginErr');
-  if (!email || !pass) { showErr(err, 'يرجى إدخال البريد الإلكتروني وكلمة المرور'); return; }
+  if (!email || !pass) { showErr(err, t('authMissingLogin')); return; }
   const users = getUsers();
   const user  = users.find(u => u.email === email && u.password === btoa(pass));
-  if (!user) { showErr(err, 'البريد الإلكتروني أو كلمة المرور غير صحيحة'); return; }
+  if (!user) { showErr(err, t('authInvalidLogin')); return; }
   err.style.display = 'none';
   setCurrentUser(user);
   openApp(user);
@@ -1019,10 +1280,10 @@ function doSignup() {
   const pass  = document.getElementById('signupPass').value;
   const plan  = document.getElementById('signupPlan').value;
   const err   = document.getElementById('signupErr');
-  if (!name || !email || !pass) { showErr(err, 'يرجى ملء جميع الحقول المطلوبة'); return; }
-  if (pass.length < 6) { showErr(err, 'كلمة المرور يجب أن تكون 6 أحرف على الأقل'); return; }
+  if (!name || !email || !pass) { showErr(err, t('authMissingSignup')); return; }
+  if (pass.length < 6) { showErr(err, t('authPassShort')); return; }
   const users = getUsers();
-  if (users.find(u => u.email === email)) { showErr(err, 'هذا البريد الإلكتروني مسجل مسبقاً'); return; }
+  if (users.find(u => u.email === email)) { showErr(err, t('authEmailExists')); return; }
   const user = { id: Date.now(), name, email, password: btoa(pass), plan, createdAt: new Date().toISOString(), termsAccepted: false };
   users.push(user);
   saveUsers(users);
@@ -1073,21 +1334,21 @@ function showErr(el, msg) { el.textContent = msg; el.style.display = 'block'; }
 // SETTINGS MODAL
 // ============================================================
 function saveSettings() {
-  CFG.claudeUrl = document.getElementById('cfgClaudeUrl').value.trim() || '/api/chat';
+  CFG.coreUrl   = document.getElementById('cfgClaudeUrl').value.trim() || '/api/chat';
   CFG.openaiKey = document.getElementById('cfgOpenAI').value.trim();
   CFG.googleKey = document.getElementById('cfgGoogle').value.trim();
   CFG.grokKey   = document.getElementById('cfgGrok').value.trim();
-  localStorage.setItem('cfg_claude_url', CFG.claudeUrl);
+  localStorage.setItem('cfg_core_url', CFG.coreUrl);
   localStorage.setItem('cfg_openai_key', CFG.openaiKey);
   localStorage.setItem('cfg_google_key', CFG.googleKey);
   localStorage.setItem('cfg_grok_key',   CFG.grokKey);
   updateAPIStatusUI();
   closeModal('settingsModal');
-  alert(S.lang === 'ar' ? '✅ تم حفظ الإعدادات بنجاح' : '✅ Settings saved');
+  alert(t('settingsSaved'));
 }
 
 function loadSettings() {
-  document.getElementById('cfgClaudeUrl').value = CFG.claudeUrl;
+  document.getElementById('cfgClaudeUrl').value = CFG.coreUrl;
   document.getElementById('cfgOpenAI').value    = CFG.openaiKey;
   document.getElementById('cfgGoogle').value    = CFG.googleKey;
   document.getElementById('cfgGrok').value      = CFG.grokKey;
@@ -1098,7 +1359,7 @@ function updateAPIStatusUI() {
   const row = document.getElementById('apiStatusRow');
   if (!row) return;
   row.innerHTML = `
-    <div class="api-status"><div class="api-dot claude"></div>Claude (أساسي)</div>
+    <div class="api-status"><div class="api-dot core"></div>${t('aiCoreLabel')}</div>
     <div class="api-status"><div class="api-dot ${CFG.openaiKey ? 'gpt' : 'inactive'}"></div>GPT-4o</div>
     <div class="api-status"><div class="api-dot ${CFG.googleKey ? 'google' : 'inactive'}"></div>Gemini</div>
     <div class="api-status"><div class="api-dot ${CFG.grokKey ? 'grok' : 'inactive'}"></div>Grok</div>
@@ -1109,26 +1370,26 @@ function openModal(id)  { document.getElementById(id).classList.remove('hidden')
 function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
 
 // ============================================================
-// WATERFALL AI — Claude → GPT → Google → Grok
+// WATERFALL AI — Core → GPT → Google → Grok
 // ============================================================
 async function callAI(systemPrompt, userPrompt, history = [], images = [], maxTokens = 1000) {
   const errors = [];
 
-  // --- 1. Claude (via backend proxy) ---
+  // --- 1. Core (via backend proxy) ---
   try {
-    const messages = buildMessages(systemPrompt, userPrompt, history, images, 'claude');
-    const res = await fetch(CFG.claudeUrl, {
+    const messages = buildMessages(systemPrompt, userPrompt, history, images, 'core');
+    const res = await fetch(CFG.coreUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: 'claude-opus-4-5', max_tokens: maxTokens, messages, system: systemPrompt || undefined })
     });
-    if (!res.ok) throw new Error(`Claude HTTP ${res.status}`);
+    if (!res.ok) throw new Error(`Core HTTP ${res.status}`);
     const data = await res.json();
     const text = data.content?.map(c => c.text || '').join('') || data.choices?.[0]?.message?.content || '';
-    if (!text) throw new Error('Claude: empty response');
-    setAPIStatus('claude');
+    if (!text) throw new Error('Core: empty response');
+    setAPIStatus('core');
     return text;
-  } catch(e) { errors.push('Claude: ' + e.message); console.warn('Claude failed:', e.message); }
+  } catch(e) { errors.push('Core: ' + e.message); console.warn('Core failed:', e.message); }
 
   // --- 2. OpenAI GPT-4o ---
   if (CFG.openaiKey) {
@@ -1193,14 +1454,14 @@ async function callAI(systemPrompt, userPrompt, history = [], images = [], maxTo
 
 function buildMessages(systemPrompt, userPrompt, history, images, provider) {
   const msgs = [];
-  if (systemPrompt && provider !== 'claude') {
+  if (systemPrompt && provider !== 'core') {
     msgs.push({ role: 'system', content: systemPrompt });
   }
   history.forEach(h => msgs.push(h));
-  if (images && images.length > 0 && (provider === 'claude' || provider === 'openai')) {
+  if (images && images.length > 0 && (provider === 'core' || provider === 'openai')) {
     const content = [{ type: 'text', text: userPrompt }];
     images.forEach(img => {
-      if (provider === 'claude') {
+      if (provider === 'core') {
         content.push({ type: 'image', source: { type: 'base64', media_type: img.type, data: img.base64 } });
       } else {
         content.push({ type: 'image_url', image_url: { url: `data:${img.type};base64,${img.base64}` } });
@@ -1215,8 +1476,8 @@ function buildMessages(systemPrompt, userPrompt, history, images, provider) {
 
 function setAPIStatus(api) {
   S.lastActiveAPI = api;
-  const dotColors = { claude: '#e8c86e', gpt: '#10b981', google: '#5a9ae8', grok: '#f06060' };
-  const labels    = { claude: 'Claude', gpt: 'GPT-4o', google: 'Gemini', grok: 'Grok' };
+  const dotColors = { core: '#e8c86e', gpt: '#10b981', google: '#5a9ae8', grok: '#f06060' };
+  const labels    = { core: t('aiAssistantBrand'), gpt: 'GPT-4o', google: 'Gemini', grok: 'Grok' };
   const color = dotColors[api] || '#4a5f7a';
   const label = labels[api] || api;
   ['chatApiStatus', 'apiActiveStatus'].forEach(id => {
@@ -1346,7 +1607,7 @@ function applySignal(id) {
   // Check if duplicate open trade exists
   const openAssets = getOpenTradeAssets();
   if (openAssets.includes(signal.asset?.toUpperCase())) {
-    alert(S.lang === 'ar' ? `⚠️ تنبيه: يوجد صفقة مفتوحة على ${signal.asset}. لا يُنصح بفتح صفقة جديدة على نفس الزوج.` : `⚠️ Warning: Open trade exists on ${signal.asset}.`);
+    alert(t('openTradeWarn', { asset: signal.asset }));
   }
 
   // Set asset in Pre-Trade
@@ -1425,9 +1686,7 @@ function applySignal(id) {
 function selectPlan(plan) {
   const user = getCurrentUser();
   const planName = plan === 'vip' ? 'VIP ($119.99)' : 'Standard ($79.99)';
-  alert(S.lang === 'ar'
-    ? `✅ لتفعيل خطة ${planName}، يرجى التواصل معنا عبر البريد الإلكتروني أو تليجرام لإتمام عملية الدفع.`
-    : `✅ To activate the ${planName} plan, please contact us to complete payment.`);
+  alert(t('planActivationNote', { plan: planName }));
 }
 
 // ============================================================
@@ -1524,7 +1783,8 @@ function toggleTheme() {
   const html = document.documentElement;
   const t = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
   html.setAttribute('data-theme', t);
-  document.getElementById('themeBtn').textContent = t === 'dark' ? (S.lang==='ar'?'☀️ نهاري':'☀️ Day') : (S.lang==='ar'?'🌙 ليلي':'🌙 Night');
+  document.getElementById('themeBtn').setAttribute('data-key', t === 'dark' ? 'themeDay' : 'themeNight');
+  applyI18n();
   renderTVWidgets(); changeTVSymbol(); setTimeout(buildCharts, 150);
 }
 
@@ -1534,8 +1794,7 @@ function toggleLang() {
   html.setAttribute('lang', S.lang);
   html.setAttribute('dir', S.lang === 'ar' ? 'rtl' : 'ltr');
   document.getElementById('langBtn').textContent = S.lang === 'ar' ? 'EN' : 'عربي';
-  const t = html.getAttribute('data-theme');
-  document.getElementById('themeBtn').textContent = t === 'dark' ? (S.lang==='ar'?'☀️ نهاري':'☀️ Day') : (S.lang==='ar'?'🌙 ليلي':'🌙 Night');
+  applyI18n();
   renderTVWidgets(); changeTVSymbol(); fetchLiveRSSNews();
   if (S.currentSignals.length > 0) renderSignalsUI(S.currentSignals);
 }
@@ -1657,7 +1916,7 @@ function renderUploadGrid() {
 }
 
 async function analyzeChart() {
-  if (!S.uploadedImages.length) { alert(S.lang==='ar'?'ارفع شارت أولاً':'Upload chart first'); return; }
+  if (!S.uploadedImages.length) { alert(t('uploadChartFirst')); return; }
   const ctx  = document.getElementById('chartCtx').value;
   const bias = document.getElementById('chartBias').value;
   const q    = document.getElementById('chartQ').value;
@@ -1753,7 +2012,7 @@ function clearChat() {
 // ============================================================
 async function genReport() {
   const j = S.journal;
-  if (!j.length) { alert(S.lang==='ar'?'لا يوجد صفقات في الجورنال':'No trades in journal'); return; }
+  if (!j.length) { alert(t('noTradesInJournal')); return; }
   document.getElementById('reportLoading').style.display='flex';
   document.getElementById('reportBox').classList.remove('show');
   const summary = j.slice(0,15).map(e=>`${e.date}: ${e.asset} ${e.dir} [${e.setup}] → ${e.outcome} (${e.r>0?'+':''}${e.r}R) | ${e.notes}`).join('\n');
@@ -1890,12 +2149,13 @@ function updateReport() {
 // ============================================================
 function initApp() {
   document.getElementById('j-date').value = new Date().toISOString().split('T')[0];
+  applyI18n();
   renderTVWidgets();
   calcRisk();
   renderJournal();
   changeTVSymbol();
   fetchLiveRSSNews();
-  setAPIStatus('claude');
+  setAPIStatus('core');
 }
 
 // ============================================================
